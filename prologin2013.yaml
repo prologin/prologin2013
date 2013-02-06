@@ -4,37 +4,30 @@ conf:
     player_filename: prologin
 
 constant:
-
   -
     cst-name: REVENU
     cst-val: 100
     cst-comment: Revenu en or par île à chaque tour
-
   -
     cst-name: ILE_REDUCTION_FORET
     cst-val: 30
     cst-comment: Réduction en % du prix des bateaux sur les îles de type forêt
-
   -
     cst-name: ILE_BONUS_VOLCAN
     cst-val: 50
     cst-comment: Bonus en % du revenu en or sur les îles de type forêt
-
   -
     cst-name: CARGO_COUT
     cst-val: 25
     cst-comment: Coût de construction d'un Cargo
-
   -
     cst-name: GALION_COUT
     cst-val: 10
     cst-comment: Coût de construction d'un Galion
-
   -
     cst-name: CARGO_DEPLACEMENT
     cst-val: 3
     cst-comment: Déplacement du Cargo
-
   -
     cst-name: GALION_DEPLACEMENT
     cst-val: 5
@@ -42,45 +35,148 @@ constant:
 
 
 enum:
-
   -
     enum_name: ile_type
     enum_summary: "Type d'île"
     enum_field:
       - [ile_simple, "Île simple"]
-      - [ile_foret, "Île-forêt"]
-      - [ile_volcan, "Île-volcan"]
-
+      - [ile_foret, "Île forêt"]
+      - [ile_volcan, "Île volcan"]
+      - [ile_erreur, "Le terrain n'est pas une île"]
   -
     enum_name: bateau_type
     enum_summary: "Type de bateau"
     enum_field:
       - [bateau_cargo, "Cargo"]
       - [bateau_galion, "Galion"]
-
   -
-    enum_name: ile_status
-    enum_summary: "Statut de l'île"
+    enum_name: terrain
+    enum_summary: "Type de terrain"
     enum_field:
-      - [ile_occupee, "Île occupée"]
-      - [ile_libre, "Île libre"]
+      - [ile, "Île"]
+      - [mer, "Mer"]
+      - [recif, "Récif"]
 
 
 struct:
-
   -
     str_name: position
     str_summary: Représente la position sur la carte
     str_tuple: yes
     str_field:
-      - [x, int, "coordonnée en X"]
-      - [y, int, "coordonnée en Y"]
-
+      - [x, int, "Coordonnée en X"]
+      - [y, int, "Coordonnée en Y"]
   -
-    str_name: ile
-    str_summary: Représente une île
+    str_name: bateau
+    str_summary: Représente un bateau
     str_tuple: no
     str_field:
-      - [pos, position, "position de l'île"]
-      - [type, ile_type, "type de l'île"]
-      - [or, int, "or déposé sur l'île"]
+      - [pos, position, "Position"]
+      - [equipe, int, "Équipe"]
+      - [type, bateau_type, "Type"]
+
+function:
+
+# Observateurs
+  -
+    fct_name: carte_taille
+    fct_summary: Retourne la taille de la carte.
+    fct_ret_type: position
+    fct_arg: []
+  -
+    fct_name: carte_terrain
+    fct_summary:
+      Retourne la nature du terrain désigné par ``pos``.
+    fct_ret_type: terrain
+    fct_arg:
+      - [pos, position, "Position"]
+  -
+    fct_name: carte_ile_type
+    fct_summary:
+      Retourne le type d'île à l'emplacement ``pos``.
+    fct_ret_type: ile_type
+    fct_arg:
+      - [pos, position, "Position"]
+  -
+    fct_name: carte_ile_or
+    fct_summary:
+      "Retourne la quantité d'or sur l'île à l'emplacement ``pos``.
+       Retourne -1 si la position indiquée n'est pas une île"
+    fct_ret_type: int
+    fct_arg:
+      - [pos, position, "Position"]
+  -
+    fct_name: carte_ile_equipe
+    fct_summary:
+      "Retourne l'équipe qui possède l'île à l'emplacement ``pos``.
+       Retourne 0 si l'île est libre.
+       Retourne -1 si la position indiquée n'est pas une île"
+    fct_ret_type: int
+    fct_arg:
+      - [pos, position, "Position"]
+  -
+    fct_name: carte_bateaux
+    fct_summary:
+      "Retourne la liste de bateaux à la position ``pos``"
+    fct_ret_type: bateau array
+    fct_arg:
+      - [pos, position, "Position"]
+  -
+    fct_name: carte_iles
+    fct_summary:
+      "Retourne la liste des positions des îles"
+    :x
+    :x
+:x
+    fct_arg: []
+
+# Autre
+  -
+    fct_name: mon_equipe
+    fct_summary: Retourne le numéro de votre équipe
+    fct_ret_type: int
+    fct_arg: []
+  -
+    fct_name: scores
+    fct_summary: Retourne les scores de chaque équipe
+    fct_ret_type: int array
+    fct_arg: []
+  -
+    fct_name: nombre_equipes
+    fct_summary: "Retourne le nombre d'équipes sur le terrain"
+    fct_ret_type: int
+    fct_arg: []
+  -
+    fct_name: tour_actuel
+    fct_summary: Retourne le numéro du tour actuel
+    fct_ret_type: int
+    fct_arg: []
+  -
+    fct_name: nombre_tours
+    fct_summary:
+      Retourne le nombre total de tours
+    fct_ret_type: int
+    fct_arg: []
+
+
+user_function:
+  -
+    fct_name: partie_init
+    fct_summary: Fonction appellée au début de la partie
+    fct_ret_type: void
+    fct_arg: []
+  -
+    fct_name: jouer_action
+    fct_summary: Fonction appellée pendant la phase d'action
+    fct_ret_type: void
+    fct_arg: []
+  -
+    fct_name: jouer_deplacement
+    fct_summary: Fonction appellée pendant la phase de déplacement
+    fct_ret_type: void
+    fct_arg: []
+  -
+    fct_name: partie_fin
+    fct_summary: Fonction appellée à la fin de la partie
+    fct_ret_type: void
+    fct_arg: []
