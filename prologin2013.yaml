@@ -1,0 +1,41 @@
+conf:
+    package_name: prologin2013
+    player_lib: champion
+    player_filename: prologin
+
+constant:
+
+  -
+    cst-name: REVENU
+    cst-val: 100
+    cst-comment: Revenu en or par île à chaque tour
+
+  -
+    cst-name: ILE_REDUCTION_FORET
+    cst-val: 30
+    cst-comment: Réduction en % du prix des bateaux sur les îles de type forêt
+
+  -
+    cst-name: ILE_BONUS_VOLCAN
+    cst-val: 50
+    cst-comment: Bonus en % du revenu en or sur les îles de type forêt
+
+  -
+    cst-name: CARGO_COUT
+    cst-val: 25
+    cst-comment: Coût de construction d'un cargo
+
+  -
+    cst-name: GALION_COUT
+    cst-val: 10
+    cst-comment: Coût de construction d'un galion
+
+  -
+    cst-name: CARGO_DEPLACEMENT
+    cst-val: 3
+    cst-comment: Déplacement du cargo
+
+  -
+    cst-name: GALION_DEPLACEMENT
+    cst-val: 5
+    cst-comment: Déplacement du galion
