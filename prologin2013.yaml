@@ -23,19 +23,64 @@ constant:
   -
     cst-name: CARGO_COUT
     cst-val: 25
-    cst-comment: Coût de construction d'un cargo
+    cst-comment: Coût de construction d'un Cargo
 
   -
     cst-name: GALION_COUT
     cst-val: 10
-    cst-comment: Coût de construction d'un galion
+    cst-comment: Coût de construction d'un Galion
 
   -
     cst-name: CARGO_DEPLACEMENT
     cst-val: 3
-    cst-comment: Déplacement du cargo
+    cst-comment: Déplacement du Cargo
 
   -
     cst-name: GALION_DEPLACEMENT
     cst-val: 5
-    cst-comment: Déplacement du galion
+    cst-comment: Déplacement du Galion
+
+
+enum:
+
+  -
+    enum_name: ile_type
+    enum_summary: "Type d'île"
+    enum_field:
+      - [ile_simple, "Île simple"]
+      - [ile_foret, "Île-forêt"]
+      - [ile_volcan, "Île-volcan"]
+
+  -
+    enum_name: bateau_type
+    enum_summary: "Type de bateau"
+    enum_field:
+      - [bateau_cargo, "Cargo"]
+      - [bateau_galion, "Galion"]
+
+  -
+    enum_name: ile_status
+    enum_summary: "Statut de l'île"
+    enum_field:
+      - [ile_occupee, "Île occupée"]
+      - [ile_libre, "Île libre"]
+
+
+struct:
+
+  -
+    str_name: position
+    str_summary: Représente la position sur la carte
+    str_tuple: yes
+    str_field:
+      - [x, int, "coordonnée en X"]
+      - [y, int, "coordonnée en Y"]
+
+  -
+    str_name: ile
+    str_summary: Représente une île
+    str_tuple: no
+    str_field:
+      - [pos, position, "position de l'île"]
+      - [type, ile_type, "type de l'île"]
+      - [or, int, "or déposé sur l'île"]

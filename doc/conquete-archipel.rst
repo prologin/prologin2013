@@ -4,9 +4,9 @@ Carte
 La carte est une grille sur laquelle on trouve :
 
 - Îles
-  * Classiques : rien de particulier
-  * Forêt : diminue le coût de construction des bâteaux de 30%
-  * Volcan : Rapporte 30% d'or en plus par tour
+  - Classiques : rien de particulier
+  - Forêt : diminue le coût de construction des bâteaux de 30%
+  - Volcan : Rapporte 30% d'or en plus par tour
 - Récifs
 - Mer
 
