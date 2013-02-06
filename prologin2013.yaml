@@ -125,6 +125,7 @@ function:
     fct_name: carte_iles
     fct_summary:
       "Retourne la liste des positions des îles"
+    fct_ret_type: position array
     fct_arg: []
 
 # Autre
