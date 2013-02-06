@@ -15,7 +15,7 @@ constant:
   -
     cst-name: ILE_BONUS_VOLCAN
     cst-val: 50
-    cst-comment: Bonus en % du revenu en or sur les îles de type forêt
+    cst-comment: Bonus en % du revenu en or sur les îles de type volcan
   -
     cst-name: CARGO_COUT
     cst-val: 25
