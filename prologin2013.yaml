@@ -56,6 +56,13 @@ enum:
       - [ile, "Île"]
       - [mer, "Mer"]
       - [recif, "Récif"]
+      - [recif, "Épave"]
+  -
+    enum_name: erreur
+    enum_summary: "Erreurs possibles"
+    enum_field:
+      - [or_insuffisant, "Vous ne possédez pas assez d'or pour cette action"]
+      - [ile_invalide, "La position spécifiée n'est pas une île"]
 
 
 struct:
@@ -71,13 +78,14 @@ struct:
     str_summary: Représente un bateau
     str_tuple: no
     str_field:
+      - [id, entier, "Identifiant du bateau"]
       - [pos, position, "Position"]
       - [equipe, int, "Équipe"]
       - [type, bateau_type, "Type"]
 
 function:
 
-# Observateurs
+# Carte
   -
     fct_name: carte_taille
     fct_summary: Retourne la taille de la carte.
@@ -128,20 +136,32 @@ function:
     fct_ret_type: position array
     fct_arg: []
 
+
+# Actions
+  -
+    fct_name: bateau_construire
+    fct_summary:
+      "Construire un bateau de type ``btype`` sur l'île à la position ``pos``"
+    fct_ret_type: erreur
+    fct_arg:
+      - [btype, bateau_type, "Bâteau à construire"]
+      - [pos, position, "Position"]
+
+
 # Autre
   -
-    fct_name: mon_equipe
-    fct_summary: Retourne le numéro de votre équipe
+    fct_name: mon_joueur
+    fct_summary: Retourne le numéro de votre joueur
     fct_ret_type: int
     fct_arg: []
   -
     fct_name: scores
-    fct_summary: Retourne les scores de chaque équipe
+    fct_summary: Retourne les scores de chaque joueur
     fct_ret_type: int array
     fct_arg: []
   -
-    fct_name: nombre_equipes
-    fct_summary: "Retourne le nombre d'équipes sur le terrain"
+    fct_name: nombre_joueurs
+    fct_summary: Retourne le nombre de joueurs sur le terrain
     fct_ret_type: int
     fct_arg: []
   -
@@ -152,7 +172,7 @@ function:
   -
     fct_name: nombre_tours
     fct_summary:
-      Retourne le nombre total de tours
+      Retourne le nombre total de tours de toute la partie
     fct_ret_type: int
     fct_arg: []
 
@@ -164,13 +184,8 @@ user_function:
     fct_ret_type: void
     fct_arg: []
   -
-    fct_name: jouer_action
-    fct_summary: Fonction appellée pendant la phase d'action
-    fct_ret_type: void
-    fct_arg: []
-  -
-    fct_name: jouer_deplacement
-    fct_summary: Fonction appellée pendant la phase de déplacement
+    fct_name: partie_tour
+    fct_summary: Fonction appellée à chaque tour
     fct_ret_type: void
     fct_arg: []
   -
