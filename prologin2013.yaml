@@ -9,6 +9,10 @@ constant:
     cst-val: 100
     cst-comment: Revenu en or par île à chaque tour
   -
+    cst-name: REVENU_EPAVE
+    cst-val: 120
+    cst-comment: Revenu en or par épave à chaque tour
+  -
     cst-name: ILE_REDUCTION_FORET
     cst-val: 30
     cst-comment: Réduction en % du prix des bateaux sur les îles de type forêt
@@ -32,6 +36,10 @@ constant:
     cst-name: GALION_DEPLACEMENT
     cst-val: 5
     cst-comment: Déplacement du Galion
+  -
+    cst-name: PORT_CONTENANCE
+    cst-val: 4
+    cst-comment: Nombre maximum de bateaux constructibles par tour dans un port
 
 
 enum:
@@ -61,8 +69,13 @@ enum:
     enum_name: erreur
     enum_summary: "Erreurs possibles"
     enum_field:
-      - [or_insuffisant, "Vous ne possédez pas assez d'or pour cette action"]
-      - [ile_invalide, "La position spécifiée n'est pas une île"]
+      - [or_insuffisant, "Vous ne possédez pas assez d'or pour cette action."]
+      - [ile_invalide, "La position spécifiée n'est pas une île."]
+      - [chemin_invalide, "Le chemin spécifié n'est pas valide."]
+      - [bateaux_insuffisants,
+            "Il n'y a pas assez de bateaux de ce type sur la case spécifiée"]
+      - [ile_colonisee, "L'île est déjà colonisée"]
+      - [colonie_cargos, "Il n'y a aucun cargo susceptible de coloniser l'île"]
 
 
 struct:
@@ -135,17 +148,47 @@ function:
       "Retourne la liste des positions des îles"
     fct_ret_type: position array
     fct_arg: []
+  -
+    fct_name: carte_epaves
+    fct_summary:
+      "Retourne la liste des positions des épaves"
+    fct_ret_type: position array
+    fct_arg: []
+  -
+    fct_name: carte_chemin
+    fct_summary:
+      "Retourne une liste de positions correspondant au plus court chemin d'un
+      point à un autre en passant seulement par des cases accessibles"
+    fct_ret_type: position array
+    fct_arg: []
 
 
 # Actions
   -
-    fct_name: bateau_construire
+    fct_name: construire
     fct_summary:
       "Construire un bateau de type ``btype`` sur l'île à la position ``pos``"
     fct_ret_type: erreur
     fct_arg:
-      - [btype, bateau_type, "Bâteau à construire"]
+      - [btype, bateau_type, "Type de bateau à construire"]
       - [pos, position, "Position"]
+  -
+    fct_name: deplacer
+    fct_summary:
+      "Déplace ``nombre`` bateaux de type ``btype`` suivant une liste
+      ``liste_pos`` de positions"
+    fct_ret_type: erreur
+    fct_arg:
+      - [nombre, int, "Nombre de bateaux à déplacer"]
+      - [btype, bateau_type, "Type de bateau à déplacer"]
+      - [liste_pos, position array, "Liste de positions"]
+  -
+    fct_name: coloniser
+    fct_summary:
+      "Colonise l'île à la position ``pos``"
+    fct_ret_type: erreur
+    fct_arg:
+      - [pos, position, "Position de l'île à coloniser"]
 
 
 # Autre
