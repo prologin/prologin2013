@@ -127,14 +127,6 @@ function:
     fct_arg:
       - [pos, position, "Position"]
   -
-    fct_name: info_ile_or
-    fct_summary:
-      "Retourne la quantité d'or sur l'île à l'emplacement ``pos``.
-       Retourne -1 si la position indiquée n'est pas une île"
-    fct_ret_type: int
-    fct_arg:
-      - [pos, position, "Position"]
-  -
     fct_name: info_ile_equipe
     fct_summary:
       "Retourne l'équipe qui possède l'île à l'emplacement ``pos``.

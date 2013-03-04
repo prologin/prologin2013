@@ -18,12 +18,30 @@ un maximum d'or et de bâteaux.
 Règles
 ------
 
+Nombre de joueurs
+=================
+
+Une partie peut voir s'affronter entre 2 et ``n`` joueurs. Les cartes seront
+cependant en général plus équilibrées pour des combats entre 2 et 5 joueurs.
+
+Or
+==
+
+L'or est l'unité de base de monnaie du jeu. Vous pouvez gagner de l'or en
+possédant des îles, en explorant des épaves ou en affrontant des bateaux
+ennemis.
+L'or est une unité globale pour chaque joueur. Il n'est ni transportable ni
+entreposable.
+
+
 Bateaux
 =======
 
 Il est possible de construire des bateaux sur les îles colonisées.
 Chaque joueur peut construire un nombre limité (4) de bateaux par île et par
 tour.
+Au départ, vous n'avez aucun bateau, vous devez vous charger vous même de la
+construction.
 
 Il existe deux types de bateaux, qui ont chacun des spécificités différentes.
 
@@ -61,14 +79,24 @@ La carte est constituée de plusieurs éléments
 Les îles
 --------
 
+Vous possédez au départ une île, votre point de départ. Vous pouvez coloniser
+les autres îles de la carte.
+Chaque île rapporte chaque jour un montant fixe d'or.
+
 Il existe trois sortes d'îles :
 
 * Les îles classiques qui n'apportent aucun bonus ;
 * Les îles-forêt qui réduisent le coût de construction des navires ;
 * Les îles-volcan qui rapportent plus d'or à chaque tour.
 
+Deux îles peuvent être « collées » : elles sont toujours considérées comme deux
+îles différentes, mais sans bras de mer les séparant.
+
 Les épaves
 ----------
+
+Les épaves sont des entités déjà présentes sur la carte (elles n'apparaissent
+pas au fur et à mesure du jeu).
 
 À chaque tour, si vous avez des caravelles présentes sur une épave, vous pouvez
 les explorer et ainsi rapporter (le nombre de caravelles) × REVENU_EPAVE en or.
@@ -103,6 +131,9 @@ flotte présente.
 * Si le combat se déroulait sur une île appartenant à un des perdants, il la
   perd et elle devient vierge.
 * Le gagnant reçoit la moitié de chacun du prix des vaisseaux vaincus.
+
+Si il y a une égalité lors d'un combat entre les deux joueurs ayant la plus
+grande flotte, c'est l'*hécatombe* : tous les joueurs perdent leurs vaisseaux.
 
 -----
 Score
