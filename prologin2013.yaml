@@ -21,17 +21,17 @@ constant:
     cst-val: 50
     cst-comment: Bonus en % du revenu en or sur les îles de type volcan
   -
-    cst-name: CARGO_COUT
+    cst-name: CARAVELLE_COUT
     cst-val: 25
-    cst-comment: Coût de construction d'un Cargo
+    cst-comment: Coût de construction d'une Caravelle
   -
     cst-name: GALION_COUT
     cst-val: 10
     cst-comment: Coût de construction d'un Galion
   -
-    cst-name: CARGO_DEPLACEMENT
+    cst-name: CARAVELLE_DEPLACEMENT
     cst-val: 3
-    cst-comment: Déplacement du Cargo
+    cst-comment: Déplacement de la Caravelle
   -
     cst-name: GALION_DEPLACEMENT
     cst-val: 5
@@ -55,7 +55,7 @@ enum:
     enum_name: bateau_type
     enum_summary: "Type de bateau"
     enum_field:
-      - [bateau_cargo, "Cargo"]
+      - [bateau_caravelle, "Caravelle"]
       - [bateau_galion, "Galion"]
   -
     enum_name: terrain
@@ -75,7 +75,8 @@ enum:
       - [bateaux_insuffisants,
             "Il n'y a pas assez de bateaux de ce type sur la case spécifiée"]
       - [ile_colonisee, "L'île est déjà colonisée"]
-      - [colonie_cargos, "Il n'y a aucun cargo susceptible de coloniser l'île"]
+      - [colonie_caravelles,
+            "Il n'y a aucune caravelle susceptible de coloniser l'île"]
 
 
 struct:
