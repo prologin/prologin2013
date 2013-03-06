@@ -36,15 +36,6 @@ constant:
     cst-name: GALION_DEPLACEMENT
     cst-val: 6
     cst-comment: Déplacement du Galion
-  -
-    cst-name: PORT_CONTENANCE
-    cst-val: 4
-    cst-comment: Nombre maximum de bateaux constructibles par tour dans un port
-  -
-    cst-name: EPAVE_OR_MAX
-    cst-val: 500
-    cst-comment: Or maximum contenu dans une épave
-
 
 enum:
   -
@@ -80,10 +71,8 @@ enum:
       - [bateaux_insuffisants,
             "Il n'y a pas assez de bateaux de ce type sur la case spécifiée"]
       - [ile_colonisee, "L'île est déjà colonisée"]
-      - [colonie_caravelles,
+      - [aucune_caravelle,
             "Il n'y a aucune caravelle susceptible de coloniser l'île"]
-      - [colonie_caravelles,
-            "Il n'y a aucune caravelle susceptible d'explorer l'épave"]
 
 
 struct:
@@ -99,9 +88,11 @@ struct:
     str_summary: Représente un bateau
     str_tuple: no
     str_field:
+      - [id, int, "Identifiant unique du bateau"]
       - [pos, position, "Position"]
       - [equipe, int, "Équipe"]
       - [type, bateau_type, "Type"]
+      - [or, bool, "Or contenu dans le bateau"]
       - [deplacable, bool, "Le bateau n'a pas encore été déplacé"]
 
 function:
@@ -136,6 +127,14 @@ function:
     fct_arg:
       - [pos, position, "Position"]
   -
+    fct_name: info_ile_or
+    fct_summary:
+      "Retourne l'or contenu sur l'île à l'emplacement ``pos``.
+       Retourne 0 si la case spécifiée n'est pas une île."
+    fct_ret_type: int
+    fct_arg:
+      - [pos, position, "Position"]
+  -
     fct_name: liste_bateaux_position
     fct_summary:
       "Retourne la liste de bateaux à la position ``pos``"
@@ -149,27 +148,12 @@ function:
     fct_ret_type: position array
     fct_arg: []
   -
-    fct_name: liste_epaves
-    fct_summary:
-      "Retourne la liste des positions des épaves"
-    fct_ret_type: position array
-    fct_arg: []
-  -
     fct_name: chemin
     fct_summary:
       "Retourne une liste de positions correspondant au plus court chemin d'un
       point à un autre en passant seulement par des cases accessibles"
     fct_ret_type: position array
     fct_arg: []
-  -
-    fct_name: epave_or
-    fct_summary:
-      "Retourne la quantité d'or sur l'épave à l'emplacement ``pos``.
-       Retourne -1 si la position indiquée n'est pas une épave"
-    fct_ret_type: int
-    fct_arg:
-      - [pos, position, "Position"]
-
 
 # Actions
   -
@@ -198,12 +182,21 @@ function:
     fct_arg:
       - [pos, position, "Position de l'île à coloniser"]
   -
-    fct_name: explorer
+    fct_name: charger
     fct_summary:
-      "Explore l'épave à la position ``pos``"
+      "Charge la caravelle identifiée par ``id`` de ``nb_or`` d'or."
     fct_ret_type: erreur
     fct_arg:
-      - [pos, position, "Position de l'épave à explorer"]
+      - [id, int, "Identifiant de la caravelle"]
+      - [nb_or, int, "Quantité d'or à charger"]
+  -
+    fct_name: decharger
+    fct_summary:
+      "Décharge la caravelle identifiée par ``id`` de ``nb_or`` d'or."
+    fct_ret_type: erreur
+    fct_arg:
+      - [id, int, "Identifiant de la caravelle"]
+      - [nb_or, int, "Quantité d'or à décharger"]
 
 
 # Autre
@@ -216,11 +209,6 @@ function:
     fct_name: scores
     fct_summary: Retourne les scores de chaque joueur
     fct_ret_type: int array
-    fct_arg: []
-  -
-    fct_name: nombre_joueurs
-    fct_summary: Retourne le nombre de joueurs sur le terrain
-    fct_ret_type: int
     fct_arg: []
   -
     fct_name: tour_actuel
