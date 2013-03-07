@@ -30,8 +30,8 @@ Or
 L'or est l'unité de base de monnaie du jeu. Vous pouvez gagner de l'or en
 possédant des îles, en explorant des épaves ou en affrontant des bateaux
 ennemis.
-L'or est une unité globale pour chaque joueur. Il n'est ni transportable ni
-entreposable.
+L'or est une ressource locale : il est contenu dans des îles et peut être
+déplacé d'une île à une autre.
 
 
 Bateaux
@@ -48,7 +48,7 @@ Il existe deux types de bateaux, qui ont chacun des spécificités différentes.
 La Caravelle
 ------------
 
-La Caravelle peut coloniser des îles et explorer des épaves. Elle doit être
+La Caravelle peut coloniser des îles et déplacer de l'or. Elle doit être
 utilisée sur chaque île vierge pour la coloniser.
 
 * Coût : 25 or
@@ -71,7 +71,9 @@ La carte est constituée de plusieurs éléments
 * La mer : de grandes étendues d'eau sur lesquelles les vaisseaux peuvent se
   déplacer.
 * Les îles : des morceaux de terre sur lesquels vous pouvez construire une
-  colonie.
+  colonie et construire des navires.
+* Les volcans : des îles qui rapportent plus d'or que les îles classiques, mais
+  qui sont trop dangereux pour y construire des bateaux.
 * Les récifs : des zones dangereuses où il est impossible de se déplacer.
 * Les épaves : des navires coulés dont vous possédez l'emplacement, qui
   contiennent souvent de l'or.
@@ -82,33 +84,14 @@ Les îles
 Vous possédez au départ une île, votre point de départ. Vous pouvez coloniser
 les autres îles de la carte.
 Chaque île rapporte chaque jour un montant fixe d'or.
-
-Il existe trois sortes d'îles :
-
-* Les îles classiques qui n'apportent aucun bonus ;
-* Les îles-forêt qui réduisent le coût de construction des navires ;
-* Les îles-volcan qui rapportent plus d'or à chaque tour.
-
 Deux îles peuvent être « collées » : elles sont toujours considérées comme deux
 îles différentes, mais sans bras de mer les séparant.
-
-Les épaves
-----------
-
-Les épaves sont des entités déjà présentes sur la carte (elles n'apparaissent
-pas au fur et à mesure du jeu).
-
-À chaque tour, si vous avez des caravelles présentes sur une épave, vous pouvez
-les explorer et ainsi rapporter (le nombre de caravelles) × REVENU_EPAVE en or.
-
-Chaque épave a un nombre d'or limité EPAVE_OR_MAX.
 
 Construction
 ============
 
-Vous pouvez construire sur chaque île des bateaux (un nombre limité de 4 par
-île et par tour) si vous possédez assez d'or. Vous ne pouvez les déplacer
-qu'au tour suivant.
+Vous pouvez construire sur chaque île des bateaux si vous possédez assez d'or
+sur l'île en question. Vous ne pouvez les déplacer qu'au tour suivant.
 
 Déplacement
 ===========
@@ -120,28 +103,20 @@ cases qu'il a dans sa portée.
 Attaque
 =======
 
-Si deux ou plusieurs flottes sont sur la même case, à la fin de chaque tour,
-une attaque se déclenche automatiquement. Chaque flotte perd autant de gallions
-que possède la plus grande flotte ennemie, si bien qu'il ne reste plus qu'une
-flotte présente.
-
-À la fin du combat :
-
-* Les perdants perdent également toutes leurs caravelles.
-* Si le combat se déroulait sur une île appartenant à un des perdants, il la
-  perd et elle devient vierge.
-* Le gagnant reçoit la moitié de chacun du prix des vaisseaux vaincus.
-
-Si il y a une égalité lors d'un combat entre les deux joueurs ayant la plus
-grande flotte, c'est l'*hécatombe* : tous les joueurs perdent leurs vaisseaux.
+Le vainqueur est celui qui a le plus de galions. En cas d'égalité, c'est
+l'attaquant qui gagne si on est en mer, et le défenseur si on est sur une
+île. Le vainqueur perd autant de galions que le perdant en avait, moins
+un. Le perdant perd tout (galions, caravelles et contrôle de l'île).
+Si le combat se déroule sur une île, l'île redevient vierge et il faut la
+recoloniser.
 
 -----
 Score
 -----
 
 Le score de chaque joueur est déterminé à la fin de la partie comme étant la
-totalité de l'or qu'il possède, plus le nombre de bateaux qu'il possède fois la
-moitié de leur coûts respectifs.
+totalité de l'or qu'il possède, plus le nombre de bateaux fois leurs coûts
+respectifs, plus l'or que ses caravelles transportent.
 
 -----------
 Carte ASCII
@@ -155,11 +130,7 @@ suivante :
 +-------+------------+
 | ``o`` | Île        |
 +-------+------------+
-| ``^`` | Île-volcan |
-+-------+------------+
-| ``*`` | Île-forêt  |
-+-------+------------+
-| ``x`` | Épave      |
+| ``^`` | Volcan     |
 +-------+------------+
 
 
@@ -170,8 +141,6 @@ Le fichier doit suivre le format suivant : ::
   ASCII map representation
   depart_joueur1.x depart_joueur1.y
   depart_joueur2.x depart_joueur2.y
-  ...
-  depart_joueurN.x depart_joueurN.y
 
 Voici un exemple : ::
 
