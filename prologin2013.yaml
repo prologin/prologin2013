@@ -5,21 +5,13 @@ conf:
 
 constant:
   -
-    cst-name: REVENU
+    cst-name: REVENU_ILE
     cst-val: 100
     cst-comment: Revenu en or par île à chaque tour
   -
-    cst-name: REVENU_EPAVE
-    cst-val: 50
-    cst-comment: Revenu en or par épave et par caravelle à chaque tour
-  -
-    cst-name: ILE_REDUCTION_FORET
-    cst-val: 30
-    cst-comment: Réduction en % du prix des bateaux sur les îles de type forêt
-  -
-    cst-name: ILE_BONUS_VOLCAN
-    cst-val: 50
-    cst-comment: Bonus en % du revenu en or sur les îles de type volcan
+    cst-name: REVENU_VOLCAN
+    cst-val: 200
+    cst-comment: Revenu en or par volcan à chaque tour
   -
     cst-name: CARAVELLE_COUT
     cst-val: 25
@@ -37,36 +29,30 @@ constant:
     cst-val: 6
     cst-comment: Déplacement du Galion
 
+
 enum:
-  -
-    enum_name: ile_type
-    enum_summary: "Type d'île"
-    enum_field:
-      - [ile_simple, "Île simple"]
-      - [ile_foret, "Île forêt"]
-      - [ile_volcan, "Île volcan"]
-      - [ile_erreur, "Le terrain n'est pas une île"]
   -
     enum_name: bateau_type
     enum_summary: "Type de bateau"
     enum_field:
       - [bateau_caravelle, "Caravelle"]
       - [bateau_galion, "Galion"]
+      - [bateau_erreur, "Bateau inexistant"]
   -
     enum_name: terrain
     enum_summary: "Type de terrain"
     enum_field:
-      - [ile, "Île"]
-      - [mer, "Mer"]
-      - [recif, "Récif"]
-      - [epave, "Épave"]
+      - [terrain_ile, "Île"]
+      - [terrain_volcan, "Volcan"]
+      - [terrain_mer, "Mer"]
+      - [terrain_recif, "Récif"]
+      - [terrain_erreur, "Erreur, case impossible"]
   -
     enum_name: erreur
     enum_summary: "Erreurs possibles"
     enum_field:
       - [or_insuffisant, "Vous ne possédez pas assez d'or pour cette action."]
       - [ile_invalide, "La position spécifiée n'est pas une île."]
-      - [epave_invalide, "La position spécifiée n'est pas une épave."]
       - [chemin_invalide, "Le chemin spécifié n'est pas valide."]
       - [bateaux_insuffisants,
             "Il n'y a pas assez de bateaux de ce type sur la case spécifiée"]
@@ -92,8 +78,9 @@ struct:
       - [pos, position, "Position"]
       - [equipe, int, "Équipe"]
       - [type, bateau_type, "Type"]
-      - [or, bool, "Or contenu dans le bateau"]
-      - [deplacable, bool, "Le bateau n'a pas encore été déplacé"]
+      - [or, int, "Or contenu dans le bateau"]
+      - [deplacable, bool, "Le bateau n'a pas encore été déplacé ce tour-ci"]
+      - [vivant, bool, "Le bateau est encore à flots"]
 
 function:
 
@@ -135,10 +122,24 @@ function:
     fct_arg:
       - [pos, position, "Position"]
   -
+    fct_name: info_bateau
+    fct_summary:
+      "Retourne le bateau ayant pour identifiant ``id``"
+    fct_ret_type: bateau
+    fct_arg:
+      - [id, int, "Identifiant"]
+  -
     fct_name: liste_bateaux_position
     fct_summary:
       "Retourne la liste de bateaux à la position ``pos``"
     fct_ret_type: bateau array
+    fct_arg:
+      - [pos, position, "Position"]
+  -
+    fct_name: liste_id_bateaux_position
+    fct_summary:
+      "Retourne la liste des ID des bateaux à la position ``pos``"
+    fct_ret_type: int array
     fct_arg:
       - [pos, position, "Position"]
   -
@@ -167,12 +168,11 @@ function:
   -
     fct_name: deplacer
     fct_summary:
-      "Déplace ``nombre`` bateaux de type ``btype`` suivant une liste
+      "Déplace le bateau représenté par l'identifiant ``id`` suivant une liste
       ``liste_pos`` de positions"
     fct_ret_type: erreur
     fct_arg:
-      - [nombre, int, "Nombre de bateaux à déplacer"]
-      - [btype, bateau_type, "Type de bateau à déplacer"]
+      - [id, int, "Identifiant du bateau"]
       - [liste_pos, position array, "Liste de positions"]
   -
     fct_name: coloniser
