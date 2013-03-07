@@ -28,8 +28,7 @@ Or
 ==
 
 L'or est l'unité de base de monnaie du jeu. Vous pouvez gagner de l'or en
-possédant des îles, en explorant des épaves ou en affrontant des bateaux
-ennemis.
+possédant des îles ou en attaquant des îles ennemies.
 L'or est une ressource locale : il est contenu dans des îles et peut être
 déplacé d'une île à une autre.
 
@@ -38,8 +37,6 @@ Bateaux
 =======
 
 Il est possible de construire des bateaux sur les îles colonisées.
-Chaque joueur peut construire un nombre limité (4) de bateaux par île et par
-tour.
 Au départ, vous n'avez aucun bateau, vous devez vous charger vous même de la
 construction.
 
@@ -75,11 +72,6 @@ La carte est constituée de plusieurs éléments
 * Les volcans : des îles qui rapportent plus d'or que les îles classiques, mais
   qui sont trop dangereux pour y construire des bateaux.
 * Les récifs : des zones dangereuses où il est impossible de se déplacer.
-* Les épaves : des navires coulés dont vous possédez l'emplacement, qui
-  contiennent souvent de l'or.
-
-Les îles
---------
 
 Vous possédez au départ une île, votre point de départ. Vous pouvez coloniser
 les autres îles de la carte.
@@ -96,7 +88,7 @@ sur l'île en question. Vous ne pouvez les déplacer qu'au tour suivant.
 Déplacement
 ===========
 
-Vous pouvez vous déplacer sur la mer, les îles et les épaves. Un bateau ne peut
+Vous pouvez vous déplacer sur la mer et les îles. Un bateau ne peut
 pas être déplacé plusieurs fois par tour, mais il peut être déplacé d'autant de
 cases qu'il a dans sa portée.
 
@@ -107,8 +99,9 @@ Le vainqueur est celui qui a le plus de galions. En cas d'égalité, c'est
 l'attaquant qui gagne si on est en mer, et le défenseur si on est sur une
 île. Le vainqueur perd autant de galions que le perdant en avait, moins
 un. Le perdant perd tout (galions, caravelles et contrôle de l'île).
-Si le combat se déroule sur une île, l'île redevient vierge et il faut la
-recoloniser.
+
+Si le combat se déroule sur une île, l'île est attribuée au vainqueur et il
+récupère l'or qui s'y trouvait.
 
 -----
 Score
@@ -132,6 +125,8 @@ suivante :
 +-------+------------+
 | ``^`` | Volcan     |
 +-------+------------+
+| ``#`` | Récifs     |
++-------+------------+
 
 
 Le fichier doit suivre le format suivant : ::
@@ -147,13 +142,13 @@ Voici un exemple : ::
   8 10
   200
   ~~o~~~~~~~~~~~~~~~~~
-  ~~~~~~~~~~~~*~~~~~x~
+  ~~~~~~~~~~~~*~~~~~#~
   ~~o~~~~o~~~~~~~~~~~~
   ~~~~~~~~~~~~o~~~~~~~
-  ~~~^~~x~~x~~x~~^~~~~
+  ~~~^~~#~~#~~#~~^~~~~
   ~~~~~~~~~~o~~~~~~~~~
   ~~~*~~~~~~~~~o~~~~~~
-  ~x~~~~~~~~o~~~~~~~~~
+  ~#~~~~~~~~o~~~~~~~~~
   ~~~~~~~~~~~~~~~~~o~~
   2 0
   7 7
