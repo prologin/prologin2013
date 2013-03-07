@@ -88,9 +88,18 @@ std::vector<int> Api::liste_id_bateaux_position(position pos)
 }
 
 ///
-// Retourne la liste des positions des îles
+// Retourne la liste des positions des îles de la carte
 //
 std::vector<position> Api::liste_iles()
+{
+  // TODO
+  abort();
+}
+
+///
+// Retourne la liste des positions des îles qui vous appartiennent
+//
+std::vector<position> Api::mes_iles()
 {
   // TODO
   abort();

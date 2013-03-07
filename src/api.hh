@@ -64,9 +64,13 @@ public:
 //
    std::vector<int> liste_id_bateaux_position(position pos);
 ///
-// Retourne la liste des positions des îles
+// Retourne la liste des positions des îles de la carte
 //
    std::vector<position> liste_iles();
+///
+// Retourne la liste des positions des îles qui vous appartiennent
+//
+   std::vector<position> mes_iles();
 ///
 // Retourne une liste de positions correspondant au plus court chemin d'un point à un autre en passant seulement par des cases accessibles
 //

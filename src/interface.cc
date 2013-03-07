@@ -239,11 +239,19 @@ extern "C" std::vector<int> api_liste_id_bateaux_position(position pos)
 }
 
 ///
-// Retourne la liste des positions des îles
+// Retourne la liste des positions des îles de la carte
 //
 extern "C" std::vector<position> api_liste_iles()
 {
   return api->liste_iles();
+}
+
+///
+// Retourne la liste des positions des îles qui vous appartiennent
+//
+extern "C" std::vector<position> api_mes_iles()
+{
+  return api->mes_iles();
 }
 
 ///
