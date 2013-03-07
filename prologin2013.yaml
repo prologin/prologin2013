@@ -140,7 +140,13 @@ function:
   -
     fct_name: liste_iles
     fct_summary:
-      "Retourne la liste des positions des îles"
+      "Retourne la liste des positions des îles de la carte"
+    fct_ret_type: position array
+    fct_arg: []
+  -
+    fct_name: mes_iles
+    fct_summary:
+      "Retourne la liste des positions des îles qui vous appartiennent"
     fct_ret_type: position array
     fct_arg: []
   -
