@@ -7,29 +7,29 @@ conf:
 
 constant:
   -
-    cst-name: REVENU_ILE
-    cst-val: 100
-    cst-comment: Revenu en or par île à chaque tour
+    cst_name: REVENU_ILE
+    cst_val: 100
+    cst_comment: Revenu en or par île à chaque tour
   -
-    cst-name: REVENU_VOLCAN
-    cst-val: 200
-    cst-comment: Revenu en or par volcan à chaque tour
+    cst_name: REVENU_VOLCAN
+    cst_val: 200
+    cst_comment: Revenu en or par volcan à chaque tour
   -
-    cst-name: CARAVELLE_COUT
-    cst-val: 25
-    cst-comment: Coût de construction d'une Caravelle
+    cst_name: CARAVELLE_COUT
+    cst_val: 25
+    cst_comment: Coût de construction d'une Caravelle
   -
-    cst-name: GALION_COUT
-    cst-val: 10
-    cst-comment: Coût de construction d'un Galion
+    cst_name: GALION_COUT
+    cst_val: 10
+    cst_comment: Coût de construction d'un Galion
   -
-    cst-name: CARAVELLE_DEPLACEMENT
-    cst-val: 4
-    cst-comment: Déplacement de la Caravelle
+    cst_name: CARAVELLE_DEPLACEMENT
+    cst_val: 4
+    cst_comment: Déplacement de la Caravelle
   -
-    cst-name: GALION_DEPLACEMENT
-    cst-val: 6
-    cst-comment: Déplacement du Galion
+    cst_name: GALION_DEPLACEMENT
+    cst_val: 6
+    cst_comment: Déplacement du Galion
 
 
 enum:
@@ -112,7 +112,7 @@ function:
     fct_name: info_ile_or
     fct_summary:
       "Retourne l'or contenu sur l'île à l'emplacement ``pos``.
-       Retourne 0 si la case spécifiée n'est pas une île."
+       Retourne -1 si la case spécifiée n'est pas une île."
     fct_ret_type: int
     fct_arg:
       - [pos, position, "Position"]

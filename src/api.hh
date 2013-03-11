@@ -48,7 +48,7 @@ public:
 //
    int info_ile_equipe(position pos);
 ///
-// Retourne l'or contenu sur l'île à l'emplacement ``pos``. Retourne 0 si la case spécifiée n'est pas une île.
+// Retourne l'or contenu sur l'île à l'emplacement ``pos``. Retourne -1 si la case spécifiée n'est pas une île.
 //
    int info_ile_or(position pos);
 ///

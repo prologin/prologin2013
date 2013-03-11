@@ -13,17 +13,35 @@
 #ifndef CONSTANT_HH_
 # define CONSTANT_HH_
 
-# define                           
+///
+// Revenu en or par île à chaque tour
+//
+# define REVENU_ILE                100
 
-# define                           
+///
+// Revenu en or par volcan à chaque tour
+//
+# define REVENU_VOLCAN             200
 
-# define                           
+///
+// Coût de construction d'une Caravelle
+//
+# define CARAVELLE_COUT            25
 
-# define                           
+///
+// Coût de construction d'un Galion
+//
+# define GALION_COUT               10
 
-# define                           
+///
+// Déplacement de la Caravelle
+//
+# define CARAVELLE_DEPLACEMENT     4
 
-# define                           
+///
+// Déplacement du Galion
+//
+# define GALION_DEPLACEMENT        6
 
 ///
 // Type de bateau
