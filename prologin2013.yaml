@@ -87,7 +87,7 @@ struct:
       - [pos, position, "Position"]
       - [equipe, int, "Équipe"]
       - [type, bateau_type, "Type"]
-      - [or, int, "Or contenu dans le bateau"]
+      - [nb_or, int, "Or contenu dans le bateau"]
       - [deplacable, bool, "Le bateau n'a pas encore été déplacé ce tour-ci"]
       - [vivant, bool, "Le bateau est encore à flots"]
 

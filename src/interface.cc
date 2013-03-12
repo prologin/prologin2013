@@ -150,7 +150,7 @@ std::string convert_to_string(bateau in){
   std::string pos = convert_to_string(in.pos);
   std::string equipe = convert_to_string(in.equipe);
   std::string type = convert_to_string(in.type);
-  std::string or = convert_to_string(in.or);
+  std::string nb_or = convert_to_string(in.nb_or);
   std::string deplacable = convert_to_string(in.deplacable);
   std::string vivant = convert_to_string(in.vivant);
   std::string out = "{";
@@ -162,7 +162,7 @@ std::string convert_to_string(bateau in){
   out += ", ";
   out += "type:" + type;
   out += ", ";
-  out += "or:" + or;
+  out += "nb_or:" + nb_or;
   out += ", ";
   out += "deplacable:" + deplacable;
   out += ", ";
@@ -403,7 +403,7 @@ std::ostream& operator<<(std::ostream& os, bateau v)
   os << ", ";
   os << "type" << "=" << v.type;
   os << ", ";
-  os << "or" << "=" << v.or;
+  os << "nb_or" << "=" << v.nb_or;
   os << ", ";
   os << "deplacable" << "=" << v.deplacable;
   os << ", ";
