@@ -11,6 +11,10 @@ constant:
     cst_val: 32
     cst_comment: Taille du terrain (longueur et largeur)
   -
+    cst_name: MAX_JOUEURS
+    cst_val: 2
+    cst_comment: Nombre maximum de joueurs dans la partie
+  -
     cst_name: REVENU_ILE
     cst_val: 100
     cst_comment: Revenu en or par île à chaque tour
