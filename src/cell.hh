@@ -1,7 +1,7 @@
 #ifndef CELL_HH_
 #define CELL_HH_
 
-#include <vector>
+#include <set>
 #include "constant.hh"
 
 class Cell
@@ -9,21 +9,21 @@ class Cell
     public:
         Cell(int y, int x, terrain type);
 
-        terrain get_terrain() const;
-        int get_or() const;
-        int get_player() const;
+        terrain getType() const;
+        int getGold() const;
+        int getPlayer() const;
 
-        void bateau_add(int id);
-        bool bateau_remove(int id);
-        bool bateau_exists(int id);
+        void addBoat(int boatId);
+        bool removeBoat(int boatId);
+        bool existsBoat(int boatId);
 
     private:
         int x_;
         int y_;
         terrain type_;
-        int or_;
+        int gold_;
         int player_;
-        std::vector<int> id_bateaux_;
+        std::set<int> boatIds_;
 };
 
 #endif // !CELL_HH_

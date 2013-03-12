@@ -1,5 +1,3 @@
-#include <algorithm>
-
 #include "constant.hh"
 #include "cell.hh"
 
@@ -7,46 +5,37 @@ Cell::Cell(int y, int x, terrain type)
     : x_(x),
       y_(y),
       type_(type),
-      or_(-1),
+      gold_(-1),
       player_(-1)
 {
 }
 
-terrain Cell::get_terrain() const
+terrain Cell::getType() const
 {
     return type_;
 }
 
-int Cell::get_or() const
+int Cell::getGold() const
 {
-    return or_;
+    return gold_;
 }
 
-int Cell::get_player() const
+int Cell::getPlayer() const
 {
     return player_;
 }
 
-void Cell::bateau_add(int b)
+void Cell::addBoat(int boatId)
 {
-    id_bateaux_.push_back(b);
+    boatIds_.insert(boatId);
 }
 
-bool Cell::bateau_remove(int id)
+bool Cell::removeBoat(int boatId)
 {
-    for (int i = 0; i < id_bateaux_.size(); i++)
-    {
-        if (id_bateaux_[i] == id)
-        {
-            id_bateaux_.erase(id_bateaux_.begin() + i);
-            return true;
-        }
-    }
-    return false;
+    return boatIds_.erase(boatId) != 0;
 }
 
-bool Cell::bateau_exists(int id)
+bool Cell::existsBoat(int boatId)
 {
-    return std::find(id_bateaux_.begin(), id_bateaux_.end(), id) !=
-        id_bateaux_.end();
+    return boatIds_.find(boatId) != boatIds_.end();
 }
