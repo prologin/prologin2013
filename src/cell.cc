@@ -10,32 +10,32 @@ Cell::Cell(int y, int x, terrain type)
 {
 }
 
-terrain Cell::getType() const
+terrain Cell::get_type() const
 {
     return type_;
 }
 
-int Cell::getGold() const
+int Cell::get_gold() const
 {
     return gold_;
 }
 
-int Cell::getPlayer() const
+int Cell::get_player() const
 {
     return player_;
 }
 
-void Cell::addBoat(int boatId)
+void Cell::add_boat(int boat_id)
 {
-    boatIds_.insert(boatId);
+    boat_ids_.insert(boat_id);
 }
 
-bool Cell::removeBoat(int boatId)
+bool Cell::remove_boat(int boat_id)
 {
-    return boatIds_.erase(boatId) != 0;
+    return boat_ids_.erase(boat_id) != 0;
 }
 
-bool Cell::existsBoat(int boatId)
+bool Cell::exists_boat(int boat_id)
 {
-    return boatIds_.find(boatId) != boatIds_.end();
+    return boat_ids_.find(boat_id) != boat_ids_.end();
 }

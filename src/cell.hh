@@ -9,13 +9,13 @@ class Cell
     public:
         Cell(int y, int x, terrain type);
 
-        terrain getType() const;
-        int getGold() const;
-        int getPlayer() const;
+        terrain get_type() const;
+        int get_gold() const;
+        int get_player() const;
 
-        void addBoat(int boatId);
-        bool removeBoat(int boatId);
-        bool existsBoat(int boatId);
+        void add_boat(int boatId);
+        bool remove_boat(int boatId);
+        bool exists_boat(int boatId);
 
     private:
         int x_;
@@ -23,7 +23,7 @@ class Cell
         terrain type_;
         int gold_;
         int player_;
-        std::set<int> boatIds_;
+        std::set<int> boat_ids_;
 };
 
 #endif // !CELL_HH_
