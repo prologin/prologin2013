@@ -1,7 +1,7 @@
 #ifndef MAP_HH_
 # define MAP_HH_
 
-# include <vector>
+# include <array>
 
 # include "constant.hh"
 # include "cell.hh"

@@ -1,9 +1,11 @@
+#include <string>
+
 #include "rules.hh"
 
-Rules::Rules(const std::string& champion)
+Rules::Rules(const rules::Options opt)
 {
-    if (!champion.empty())
-        champion_dll_ = new utils::DLL(champion);
+    if (!opt.champion_lib.empty())
+        champion_dll_ = new utils::DLL(opt.champion_lib);
 
     // FIXME
 }

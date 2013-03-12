@@ -14,6 +14,7 @@ def build(bld):
             src/api.cc
             src/interface.cc
             src/cell.cc
+            src/map.cc
         ''',
         target = 'prologin2013',
         use = ['net', 'rules', 'utils'],

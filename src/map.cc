@@ -23,11 +23,9 @@ int Map::load(std::istream& s)
 {
     INFO("Loading map");
     std::string line;
-    int pos_x;
-    int pos_y;
 
     for (int i = 0; i < MAX_JOUEURS; i++)
-        s >> start_positions_[i].pos_x >> start_positions_[i].pos_y;
+        s >> start_positions_[i].x >> start_positions_[i].y;
 
     for (int y = 0; y < TAILLE_TERRAIN; ++y)
     {
@@ -38,9 +36,9 @@ int Map::load(std::istream& s)
                   "(is %d long, should be %d)",
                     y + MAX_JOUEURS, line.length(), TAILLE_TERRAIN);
 
-        for (int x = 0; x < width_; ++x)
+        for (int x = 0; x < TAILLE_TERRAIN; ++x)
         {
-            static std::map<char, zone_type> type_chars = {
+            static std::map<char, terrain> type_chars = {
                 { '~', TERRAIN_MER },
                 { 'o', TERRAIN_ILE },
                 { '^', TERRAIN_VOLCAN },
