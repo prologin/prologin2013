@@ -7,6 +7,10 @@ conf:
 
 constant:
   -
+    cst_name: TAILLE_TERRAIN
+    cst_val: 32
+    cst_comment: Taille du terrain (longueur et largeur)
+  -
     cst_name: REVENU_ILE
     cst_val: 100
     cst_comment: Revenu en or par île à chaque tour
@@ -47,7 +51,6 @@ enum:
       - [terrain_ile, "Île"]
       - [terrain_volcan, "Volcan"]
       - [terrain_mer, "Mer"]
-      - [terrain_recif, "Récif"]
       - [terrain_erreur, "Erreur, case impossible"]
   -
     enum_name: erreur
@@ -87,11 +90,6 @@ struct:
 function:
 
 # Carte
-  -
-    fct_name: taille_carte
-    fct_summary: Retourne la taille de la carte.
-    fct_ret_type: position
-    fct_arg: []
   -
     fct_name: info_terrain
     fct_summary:
@@ -147,13 +145,6 @@ function:
     fct_name: mes_iles
     fct_summary:
       "Retourne la liste des positions des îles qui vous appartiennent"
-    fct_ret_type: position array
-    fct_arg: []
-  -
-    fct_name: chemin
-    fct_summary:
-      "Retourne une liste de positions correspondant au plus court chemin d'un
-      point à un autre en passant seulement par des cases accessibles"
     fct_ret_type: position array
     fct_arg: []
 

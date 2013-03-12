@@ -25,15 +25,6 @@ Api::Api(rules::GameState* game_state, rules::Player* player)
 }
 
 ///
-// Retourne la taille de la carte.
-//
-position Api::taille_carte()
-{
-  // TODO
-  abort();
-}
-
-///
 // Retourne la nature du terrain désigné par ``pos``.
 //
 terrain Api::info_terrain(position pos)
@@ -100,15 +91,6 @@ std::vector<position> Api::liste_iles()
 // Retourne la liste des positions des îles qui vous appartiennent
 //
 std::vector<position> Api::mes_iles()
-{
-  // TODO
-  abort();
-}
-
-///
-// Retourne une liste de positions correspondant au plus court chemin d'un point à un autre en passant seulement par des cases accessibles
-//
-std::vector<position> Api::chemin()
 {
   // TODO
   abort();

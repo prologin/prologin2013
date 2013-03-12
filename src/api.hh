@@ -36,10 +36,6 @@ private:
 public:
 
 ///
-// Retourne la taille de la carte.
-//
-   position taille_carte();
-///
 // Retourne la nature du terrain désigné par ``pos``.
 //
    terrain info_terrain(position pos);
@@ -71,10 +67,6 @@ public:
 // Retourne la liste des positions des îles qui vous appartiennent
 //
    std::vector<position> mes_iles();
-///
-// Retourne une liste de positions correspondant au plus court chemin d'un point à un autre en passant seulement par des cases accessibles
-//
-   std::vector<position> chemin();
 ///
 // Construire un bateau de type ``btype`` sur l'île à la position ``pos``
 //

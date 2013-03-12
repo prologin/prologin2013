@@ -86,7 +86,6 @@ std::string convert_to_string(terrain in){
     case TERRAIN_ILE: return "\"terrain_ile\"";
     case TERRAIN_VOLCAN: return "\"terrain_volcan\"";
     case TERRAIN_MER: return "\"terrain_mer\"";
-    case TERRAIN_RECIF: return "\"terrain_recif\"";
     case TERRAIN_ERREUR: return "\"terrain_erreur\"";
   }
   return "bad value";
@@ -183,14 +182,6 @@ std::string convert_to_string(std::vector<bateau> in){
   }
 }
 ///
-// Retourne la taille de la carte.
-//
-extern "C" position api_taille_carte()
-{
-  return api->taille_carte();
-}
-
-///
 // Retourne la nature du terrain désigné par ``pos``.
 //
 extern "C" terrain api_info_terrain(position pos)
@@ -252,14 +243,6 @@ extern "C" std::vector<position> api_liste_iles()
 extern "C" std::vector<position> api_mes_iles()
 {
   return api->mes_iles();
-}
-
-///
-// Retourne une liste de positions correspondant au plus court chemin d'un point à un autre en passant seulement par des cases accessibles
-//
-extern "C" std::vector<position> api_chemin()
-{
-  return api->chemin();
 }
 
 ///
@@ -360,7 +343,6 @@ std::ostream& operator<<(std::ostream& os, terrain v)
   case TERRAIN_ILE: os << "TERRAIN_ILE"; break;
   case TERRAIN_VOLCAN: os << "TERRAIN_VOLCAN"; break;
   case TERRAIN_MER: os << "TERRAIN_MER"; break;
-  case TERRAIN_RECIF: os << "TERRAIN_RECIF"; break;
   case TERRAIN_ERREUR: os << "TERRAIN_ERREUR"; break;
   }
   return os;

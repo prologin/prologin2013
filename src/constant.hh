@@ -14,6 +14,11 @@
 # define CONSTANT_HH_
 
 ///
+// Taille du terrain (longueur et largeur)
+//
+# define TAILLE_TERRAIN            32
+
+///
 // Revenu en or par île à chaque tour
 //
 # define REVENU_ILE                100
@@ -60,7 +65,6 @@ typedef enum terrain {
   TERRAIN_ILE, /* <- Île */
   TERRAIN_VOLCAN, /* <- Volcan */
   TERRAIN_MER, /* <- Mer */
-  TERRAIN_RECIF, /* <- Récif */
   TERRAIN_ERREUR, /* <- Erreur, case impossible */
 } terrain;
 
