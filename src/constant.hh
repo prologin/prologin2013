@@ -19,6 +19,11 @@
 # define TAILLE_TERRAIN            32
 
 ///
+// Nombre de tours par partie
+//
+# define FIN_PARTIE                200
+
+///
 // Nombre maximum de joueurs dans la partie
 //
 # define MAX_JOUEURS               2

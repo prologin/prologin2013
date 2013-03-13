@@ -17,6 +17,8 @@ class Cell
         bool remove_boat(int boatId);
         bool exists_boat(int boatId);
 
+        void resolve_fight();
+
     private:
         int x_;
         int y_;

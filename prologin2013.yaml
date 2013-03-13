@@ -11,6 +11,10 @@ constant:
     cst_val: 32
     cst_comment: Taille du terrain (longueur et largeur)
   -
+    cst_name: FIN_PARTIE
+    cst_val: 200
+    cst_comment: Nombre de tours par partie
+  -
     cst_name: MAX_JOUEURS
     cst_val: 2
     cst_comment: Nombre maximum de joueurs dans la partie

@@ -39,3 +39,7 @@ bool Cell::exists_boat(int boat_id)
 {
     return boat_ids_.find(boat_id) != boat_ids_.end();
 }
+
+void Cell::resolve_fight()
+{
+}
