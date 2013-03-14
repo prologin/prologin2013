@@ -1,4 +1,7 @@
+#include <map>
+
 #include "constant.hh"
+#include "tools.hh"
 #include "cell.hh"
 
 Cell::Cell(int y, int x, terrain type)
@@ -40,6 +43,109 @@ bool Cell::exists_boat(int boat_id)
     return boat_ids_.find(boat_id) != boat_ids_.end();
 }
 
-void Cell::resolve_fight()
+void Cell::resolve_fight(std::map<int, bateau>& boats)
 {
+    int id_p1 = -1;
+    int id_p2 = -1;
+
+    int galions_p1 = 0;
+    int galions_p2 = 0;
+
+    int caravelle_p1 = -1;
+    int caravelle_p2 = -1;
+
+    int winner = -1;
+    int id_winner = -1;
+
+    int i;
+
+    for (std::set<int>::iterator it = boat_ids_.begin(); it != boat_ids_.end();
+            it++)
+    {
+        i = *it;
+        if (id_p1 = -1)
+            id_p1 = boats[i].joueur;
+        else if (id_p2 = -1 && boats[i].joueur != id_p1)
+            id_p2 = boats[i].joueur;
+
+        if (boats[i].btype == BATEAU_GALION)
+        {
+            if (boats[i].joueur == id_p1)
+                galions_p1++;
+            if (boats[i].joueur == id_p2)
+                galions_p2++;
+        }
+        else
+        {
+            if (boats[i].joueur == id_p1 && caravelle_p1 == -1)
+                caravelle_p1 = boats[i].id;
+            if (boats[i].joueur == id_p2 && caravelle_p2 == -1)
+                caravelle_p2 = boats[i].id;
+        }
+    }
+
+    if (!galions_p1 || !galions_p2)
+        return;
+
+    if (galions_p1 > galions_p2)
+    {
+        id_winner = id_p1;
+        winner = 1;
+        galions_p2--; /* The winner loses galions_enemy - 1 */
+    }
+    else if (galions_p2 > galions_p1)
+    {
+        id_winner = id_p2;
+        winner = 2;
+        galions_p1--;
+    }
+    else
+    {
+        if (id_p1 == player_)
+        {
+            id_winner = id_p1;
+            winner = 1;
+        }
+        else if (id_p2 == player_)
+        {
+            id_winner = id_p2;
+            winner = 2;
+        }
+        else
+            winner = 0;
+    }
+
+
+    int gold_move;
+    for (std::set<int>::iterator it = boat_ids_.begin(); it != boat_ids_.end();
+            it++)
+    {
+        i = *it;
+        if (boats[i].btype == BATEAU_CARAVELLE)
+        {
+            if (boats[i].joueur != id_winner)
+            {
+                gold_move = boats[i].nb_or;
+                boat_kill(boats[i]);
+                if (winner == 1 && caravelle_p1 != -1)
+                    boats[caravelle_p1].nb_or += gold_move;
+                else if (winner == 2 && caravelle_p2 != -1)
+                    boats[caravelle_p2].nb_or += gold_move;
+            }
+        }
+        else
+        {
+            if (boats[i].joueur == id_p1 && galions_p2)
+            {
+                boat_kill(boats[i]);
+                galions_p2--;
+            }
+
+            if (boats[i].joueur == id_p2 && galions_p1)
+            {
+                boat_kill(boats[i]);
+                galions_p1--;
+            }
+        }
+    }
 }

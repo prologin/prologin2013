@@ -2,6 +2,8 @@
 #define CELL_HH_
 
 #include <set>
+#include <map>
+
 #include "constant.hh"
 
 class Cell
@@ -13,11 +15,11 @@ class Cell
         int get_gold() const;
         int get_player() const;
 
-        void add_boat(int boatId);
-        bool remove_boat(int boatId);
-        bool exists_boat(int boatId);
+        void add_boat(int boat_id);
+        bool remove_boat(int boat_id);
+        bool exists_boat(int boat_id);
 
-        void resolve_fight();
+        void resolve_fight(std::map<int, bateau>& boats);
 
     private:
         int x_;
