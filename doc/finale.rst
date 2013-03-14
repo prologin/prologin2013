@@ -12,7 +12,7 @@ conquérir les îles de la carte.
 
 Les joueurs vont pour cela coloniser des îles vierges et attaquer les îles des
 autres joueurs, afin d'affirmer sa domination sur l'archipel et ainsi récolter
-un maximum d'or et de bâteaux.
+un maximum d'or et s'armer d'une gigantesque flotte.
 
 ------
 Règles
@@ -70,8 +70,7 @@ La carte est constituée de plusieurs éléments
 * Les îles : des morceaux de terre sur lesquels vous pouvez construire une
   colonie et construire des navires.
 * Les volcans : des îles qui rapportent plus d'or que les îles classiques, mais
-  qui sont trop dangereux pour y construire des bateaux.
-* Les récifs : des zones dangereuses où il est impossible de se déplacer.
+  ils sont trop dangereux pour y construire des bateaux.
 
 Vous possédez au départ une île, votre point de départ. Vous pouvez coloniser
 les autres îles de la carte.
@@ -91,6 +90,8 @@ Déplacement
 Vous pouvez vous déplacer sur la mer et les îles. Un bateau ne peut
 pas être déplacé plusieurs fois par tour, mais il peut être déplacé d'autant de
 cases qu'il a dans sa portée.
+
+Se déplacer en diagonale compte comme deux cases de déplacement.
 
 Attaque
 =======
@@ -125,30 +126,47 @@ suivante :
 +-------+------------+
 | ``^`` | Volcan     |
 +-------+------------+
-| ``#`` | Récifs     |
-+-------+------------+
 
 
 Le fichier doit suivre le format suivant : ::
 
-  height width
-  maximum number of turns
-  ASCII map representation
   depart_joueur1.x depart_joueur1.y
   depart_joueur2.x depart_joueur2.y
+  ASCII map representation
 
 Voici un exemple : ::
 
-  8 10
-  200
-  ~~o~~~~~~~~~~~~~~~~~
-  ~~~~~~~~~~~~*~~~~~#~
-  ~~o~~~~o~~~~~~~~~~~~
-  ~~~~~~~~~~~~o~~~~~~~
-  ~~~^~~#~~#~~#~~^~~~~
-  ~~~~~~~~~~o~~~~~~~~~
-  ~~~*~~~~~~~~~o~~~~~~
-  ~#~~~~~~~~o~~~~~~~~~
-  ~~~~~~~~~~~~~~~~~o~~
-  2 0
-  7 7
+  1 1
+  31 31
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~o~~~~~~~~~~~~~~o~~~~~~~~~~~~~~~
+  ~~~~~~o~~~~o~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~o~~~o~~~~~~~~~~~~~~~~~~~~
+  ~~o~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+  ~~~~~~o~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~^~~~~~~~~^~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~^~~~~~~~~o~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~o~~~~~~~~~o~~~~~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~o~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~~~~~o~~~~o~~~~~~
+  ~~~~~~~~~~~~~~~~o~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~o~~~~o~~~~~~o~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~o~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
