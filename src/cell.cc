@@ -33,6 +33,11 @@ int Cell::get_player() const
     return player_;
 }
 
+void Cell::set_player(int player)
+{
+    player_ = player;
+}
+
 void Cell::add_boat(int boat_id)
 {
     boat_ids_.insert(boat_id);
@@ -46,6 +51,11 @@ bool Cell::remove_boat(int boat_id)
 bool Cell::exists_boat(int boat_id)
 {
     return boat_ids_.find(boat_id) != boat_ids_.end();
+}
+
+std::set<int> Cell::get_id_boats()
+{
+    return boat_ids_;
 }
 
 void Cell::resolve_fight(std::map<int, bateau>& boats, int id_attacker)

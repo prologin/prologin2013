@@ -1,5 +1,5 @@
-#ifndef ACTION_MOVE_HH_
-#define ACTION_MOVE_HH_
+#ifndef ACTION_CONSTRUCT_HH_
+#define ACTION_CONSTRUCT_HH_
 
 #include <rules/action.hh>
 
