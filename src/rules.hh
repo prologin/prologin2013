@@ -30,6 +30,7 @@ class Rules
         f_champion_partie_init champion_partie_init;
         f_champion_jouer_tour champion_jouer_tour;
         f_champion_partie_fin champion_partie_fin;
+
     private:
         rules::Options opt_;
 

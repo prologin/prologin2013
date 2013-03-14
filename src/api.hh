@@ -27,13 +27,13 @@ class Api
 {
 
 public:
-    Api(GameState* game_state, rules::Player_sptr player, int equipe);
+    Api(GameState* game_state, rules::Player_sptr player, int player_index_);
     virtual ~Api() { }
 
 private:
     GameState* game_state_;
     rules::Player_sptr player_;
-    int equipe_;
+    int player_index_;
 
 public:
 

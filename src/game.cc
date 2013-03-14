@@ -107,3 +107,8 @@ bool GameState::kill_boat(int id)
     boats_[id].vivant = false;
     return true;
 }
+
+std::map<int, bateau> GameState::get_boats()
+{
+    return boats_;
+}

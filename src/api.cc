@@ -17,10 +17,10 @@
 // global used in interface.cc
 Api* api;
 
-Api::Api(GameState* game_state, rules::Player_sptr player, int equipe)
+Api::Api(GameState* game_state, rules::Player_sptr player, int player_index)
     : game_state_(game_state),
       player_(player),
-      equipe_(equipe)
+      player_index_(player_index_)
 {
   api = this;
 }

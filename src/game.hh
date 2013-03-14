@@ -34,6 +34,7 @@ class GameState : public rules::GameState
 
         bool add_boat(position origin, int player, bateau_type btype);
         bool kill_boat(int id);
+        std::map<int, bateau> get_boats();
 
     private:
         Map* map_;

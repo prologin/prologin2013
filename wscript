@@ -17,6 +17,7 @@ def build(bld):
             src/map.cc
             src/game.cc
             src/tools.cc
+            src/action-move.cc
         ''',
         target = 'prologin2013',
         use = ['net', 'rules', 'utils'],
