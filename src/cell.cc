@@ -23,6 +23,11 @@ int Cell::get_gold() const
     return gold_;
 }
 
+void Cell::set_gold(int gold)
+{
+    gold_ = gold;
+}
+
 int Cell::get_player() const
 {
     return player_;

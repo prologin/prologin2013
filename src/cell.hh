@@ -13,6 +13,7 @@ class Cell
 
         terrain get_type() const;
         int get_gold() const;
+        void set_gold(int gold);
         int get_player() const;
 
         void add_boat(int boat_id);
