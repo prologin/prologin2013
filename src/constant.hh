@@ -85,7 +85,7 @@ typedef enum terrain {
 typedef enum erreur {
   OR_INSUFFISANT, /* <- Vous ne possédez pas assez d'or pour cette action. */
   ILE_INVALIDE, /* <- La position spécifiée n'est pas une île. */
-  POSITION_INVALIDE, /* <- La position spécifié n'est pas valide. */
+  POSITION_INVALIDE, /* <- La position spécifiée n'est pas valide. */
   HORS_DE_PORTEE, /* <- La position spécifié n'est pas valide. */
   ILE_COLONISEE, /* <- L'île est déjà colonisée */
   ILE_ENNEMIE, /* <- L'île ne vous appartient pas */
