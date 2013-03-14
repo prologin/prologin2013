@@ -1,10 +1,10 @@
 #ifndef MAP_HH_
 # define MAP_HH_
 
-# include <array>
+#include <array>
 
-# include "constant.hh"
-# include "cell.hh"
+#include "constant.hh"
+#include "cell.hh"
 
 inline bool operator==(const position& a, const position& b)
 {

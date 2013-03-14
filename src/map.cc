@@ -1,6 +1,7 @@
 #include <istream>
 #include <string>
 #include <map>
+#include <array>
 
 #include <utils/log.hh>
 
