@@ -1,14 +1,14 @@
 #ifndef GAME_HH_
-# define GAME_HH_
+#define GAME_HH_
 
-# include <vector>
-# include <map>
+#include <vector>
+#include <map>
 
-# include <rules/game-state.hh>
-# include <rules/player.hh>
+#include <rules/game-state.hh>
+#include <rules/player.hh>
 
-# include "constant.hh"
-# include "map.hh"
+#include "constant.hh"
+#include "map.hh"
 
 class GameState : public rules::GameState
 {
