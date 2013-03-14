@@ -19,7 +19,7 @@ class Cell
         bool remove_boat(int boat_id);
         bool exists_boat(int boat_id);
 
-        void resolve_fight(std::map<int, bateau>& boats);
+        void resolve_fight(std::map<int, bateau>& boats, int id_attacker);
 
     private:
         int x_;

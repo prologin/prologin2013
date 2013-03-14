@@ -43,7 +43,7 @@ bool Cell::exists_boat(int boat_id)
     return boat_ids_.find(boat_id) != boat_ids_.end();
 }
 
-void Cell::resolve_fight(std::map<int, bateau>& boats)
+void Cell::resolve_fight(std::map<int, bateau>& boats, int id_attacker)
 {
     int id_p1 = -1;
     int id_p2 = -1;
@@ -107,6 +107,16 @@ void Cell::resolve_fight(std::map<int, bateau>& boats)
             winner = 1;
         }
         else if (id_p2 == player_)
+        {
+            id_winner = id_p2;
+            winner = 2;
+        }
+        else if (id_p1 == id_attacker)
+        {
+            id_winner = id_p1;
+            winner = 1;
+        }
+        else if (id_p2 == id_attacker)
         {
             id_winner = id_p2;
             winner = 2;
