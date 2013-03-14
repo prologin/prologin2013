@@ -24,6 +24,7 @@ class Map
 
         int load(std::istream& s);
 
+        bool valid_position(position p) const;
         Cell* get_cell(position p) const;
 
     private:

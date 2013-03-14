@@ -54,7 +54,15 @@ int Map::load(std::istream& s)
     return 0;
 }
 
+bool Map::valid_position(position p) const
+{
+    return 0 <= p.x && p.x < TAILLE_TERRAIN &&
+           0 <= p.y && p.y < TAILLE_TERRAIN;
+}
+
 Cell* Map::get_cell(position p) const
 {
+    if (!valid_position(p))
+        return NULL;
     return map_[p.y][p.x];
 }
