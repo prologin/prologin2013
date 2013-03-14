@@ -11,13 +11,14 @@
 */
 
 #ifndef API_HH_
-# define API_HH_
+#define API_HH_
 
-# include <vector>
-# include <rules/game-state.hh>
-# include <rules/player.hh>
+#include <vector>
+#include <rules/game-state.hh>
+#include <rules/player.hh>
 
-# include "constant.hh"
+#include "constant.hh"
+#include "game.hh"
 
 /*!
 ** Method of this call are called by the candidat, throught 'interface.cc'
@@ -26,12 +27,13 @@ class Api
 {
 
 public:
-    Api(rules::GameState* game_state, rules::Player* player);
+    Api(GameState* game_state, rules::Player_sptr player, int equipe);
     virtual ~Api() { }
 
 private:
-    rules::GameState* game_state_;
-    rules::Player* player_;
+    GameState* game_state_;
+    rules::Player_sptr player_;
+    int equipe_;
 
 public:
 

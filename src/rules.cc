@@ -12,7 +12,7 @@ Rules::Rules(const rules::Options opt)
     : opt_(opt)
 {
     if (!opt.champion_lib.empty())
-        champion_dll_ = new utils::DLL(opt.champion_lib);
+        champion_ = new utils::DLL(opt.champion_lib);
 
     std::ifstream ifs(opt.map_file);
     Map* map = new Map;
@@ -35,11 +35,12 @@ Rules::Rules(const rules::Options opt)
     if (!opt.champion_lib.empty())
     {
         champion_ = new utils::DLL(opt.champion_lib);
-        champion_partie_init = champion_->get<f_champion_partie_init>("partie_init");
-        champion_jouer_placement = champion_->get<f_champion_jouer_placement>("jouer_placement");
-        champion_jouer_deplacement = champion_->get<f_champion_jouer_deplacement>("jouer_deplacement");
-        champion_jouer_attaque = champion_->get<f_champion_jouer_attaque>("jouer_attaque");
-        champion_partie_fin = champion_->get<f_champion_partie_fin>("partie_fin");
+        champion_partie_init =
+            champion_->get<f_champion_partie_init>("partie_init");
+        champion_jouer_tour =
+            champion_->get<f_champion_jouer_tour>("jouer_tour");
+        champion_partie_fin =
+            champion_->get<f_champion_partie_fin>("partie_fin");
 
         if (opt.player->type == rules::SPECTATOR)
             champion_partie_init();
@@ -54,9 +55,7 @@ Rules::Rules(const rules::Options opt)
 
 Rules::~Rules()
 {
-    // FIXME
-
-    delete champion_dll_;
+    delete champion_;
 }
 
 void Rules::client_loop(rules::ClientMessenger_sptr msgr)
