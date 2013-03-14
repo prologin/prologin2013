@@ -12,7 +12,8 @@ GameState::GameState(Map* map, rules::Players_sptr players)
     : rules::GameState(),
       map_(map),
       players_(players),
-      current_turn_(0)
+      current_turn_(0),
+      boat_next_id_(0)
 {
 }
 
@@ -22,6 +23,7 @@ GameState::GameState(const GameState& st)
       players_(st.players_),
       current_turn_(st.current_turn_)
 {
+    boats_.insert(st.boats_.begin(), st.boats_.end());
 }
 
 rules::GameState* GameState::copy() const
@@ -52,7 +54,8 @@ size_t GameState::get_player_count() const
 std::vector<int> GameState::get_scores() const
 {
     std::vector<int> scores;
-    for (auto it = players_->players.begin(); it != players_->players.end(); ++it)
+    for (auto it = players_->players.begin(); it != players_->players.end();
+            ++it)
     {
         scores.push_back((*it)->score);
     }
@@ -73,4 +76,34 @@ void GameState::increment_turn()
 bool GameState::is_finished()
 {
     return current_turn_ == FIN_PARTIE;
+}
+
+
+bool GameState::add_boat(position origin, int player, bateau_type btype)
+{
+    int id = boat_next_id_++;
+    if (!boats_.count(id))
+        return false;
+
+    bateau boat;
+    boat.id = id;
+    boat.pos = origin;
+    boat.joueur = player;
+    boat.btype = btype;
+    boat.nb_or = 0;
+    boat.deplacable = false;
+    boat.vivant = true;
+
+    boats_[id] = boat;
+    return true;
+}
+
+
+bool GameState::kill_boat(int id)
+{
+    if (!boats_.count(id))
+        return false;
+
+    boats_[id].vivant = false;
+    return true;
 }

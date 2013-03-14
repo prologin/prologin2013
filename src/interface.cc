@@ -148,8 +148,8 @@ std::string convert_to_string(std::vector<position> in){
 std::string convert_to_string(bateau in){
   std::string id = convert_to_string(in.id);
   std::string pos = convert_to_string(in.pos);
-  std::string equipe = convert_to_string(in.equipe);
-  std::string type = convert_to_string(in.type);
+  std::string joueur = convert_to_string(in.joueur);
+  std::string btype = convert_to_string(in.btype);
   std::string nb_or = convert_to_string(in.nb_or);
   std::string deplacable = convert_to_string(in.deplacable);
   std::string vivant = convert_to_string(in.vivant);
@@ -158,9 +158,9 @@ std::string convert_to_string(bateau in){
   out += ", ";
   out += "pos:" + pos;
   out += ", ";
-  out += "equipe:" + equipe;
+  out += "joueur:" + joueur;
   out += ", ";
-  out += "type:" + type;
+  out += "btype:" + btype;
   out += ", ";
   out += "nb_or:" + nb_or;
   out += ", ";
@@ -399,9 +399,9 @@ std::ostream& operator<<(std::ostream& os, bateau v)
   os << ", ";
   os << "pos" << "=" << v.pos;
   os << ", ";
-  os << "equipe" << "=" << v.equipe;
+  os << "joueur" << "=" << v.joueur;
   os << ", ";
-  os << "type" << "=" << v.type;
+  os << "btype" << "=" << v.btype;
   os << ", ";
   os << "nb_or" << "=" << v.nb_or;
   os << ", ";

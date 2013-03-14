@@ -2,10 +2,12 @@
 # define GAME_HH_
 
 # include <vector>
+# include <map>
 
 # include <rules/game-state.hh>
 # include <rules/player.hh>
 
+# include "constant.hh"
 # include "map.hh"
 
 class GameState : public rules::GameState
@@ -29,10 +31,17 @@ class GameState : public rules::GameState
 
         bool is_finished();
 
+
+        bool add_boat(position origin, int player, bateau_type btype);
+        bool kill_boat(int id);
+
     private:
         Map* map_;
         rules::Players_sptr players_;
         int current_turn_;
+
+        int boat_next_id_;
+        std::map<int, bateau> boats_;
 };
 
 #endif // !GAME_HH_

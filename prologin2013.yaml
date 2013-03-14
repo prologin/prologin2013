@@ -89,8 +89,8 @@ struct:
     str_field:
       - [id, int, "Identifiant unique du bateau"]
       - [pos, position, "Position"]
-      - [equipe, int, "Équipe"]
-      - [type, bateau_type, "Type"]
+      - [joueur, int, "Joueur"]
+      - [btype, bateau_type, "Type"]
       - [nb_or, int, "Or contenu dans le bateau"]
       - [deplacable, bool, "Le bateau n'a pas encore été déplacé ce tour-ci"]
       - [vivant, bool, "Le bateau est encore à flots"]

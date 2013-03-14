@@ -107,8 +107,8 @@ typedef struct position {
 typedef struct bateau {
   int id;  /* <- Identifiant unique du bateau */
   position pos;  /* <- Position */
-  int equipe;  /* <- Équipe */
-  bateau_type type;  /* <- Type */
+  int joueur;  /* <- Joueur */
+  bateau_type btype;  /* <- Type */
   int nb_or;  /* <- Or contenu dans le bateau */
   bool deplacable;  /* <- Le bateau n'a pas encore été déplacé ce tour-ci */
   bool vivant;  /* <- Le bateau est encore à flots */
