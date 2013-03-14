@@ -19,6 +19,7 @@ public:
     void client_loop(rules::ClientMessenger_sptr msgr);
     void spectator_loop(rules::ClientMessenger_sptr msgr);
     void server_loop(rules::ServerMessenger_sptr msgr);
+
 private:
     utils::DLL* champion_dll_;
 

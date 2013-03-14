@@ -66,13 +66,12 @@ enum:
     enum_field:
       - [or_insuffisant, "Vous ne possédez pas assez d'or pour cette action."]
       - [ile_invalide, "La position spécifiée n'est pas une île."]
-      - [chemin_invalide, "Le chemin spécifié n'est pas valide."]
-      - [bateaux_insuffisants,
-            "Il n'y a pas assez de bateaux de ce type sur la case spécifiée"]
+      - [position_invalide, "La position spécifié n'est pas valide."]
+      - [hors_de_portee, "La position spécifié n'est pas valide."]
       - [ile_colonisee, "L'île est déjà colonisée"]
+      - [ile_ennemie, "L'île ne vous appartient pas"]
       - [aucune_caravelle,
             "Il n'y a aucune caravelle susceptible de coloniser l'île"]
-
 
 struct:
   -
@@ -168,12 +167,12 @@ function:
   -
     fct_name: deplacer
     fct_summary:
-      "Déplace le bateau représenté par l'identifiant ``id`` suivant une liste
-      ``liste_pos`` de positions"
+      "Déplace le bateau représenté par l'identifiant ``id`` jusqu'à la
+      position `pos`` (si elle est dans la portée du bateau)"
     fct_ret_type: erreur
     fct_arg:
       - [id, int, "Identifiant du bateau"]
-      - [liste_pos, position array, "Liste de positions"]
+      - [pos, position, "Position sur laquelle déplacer le bateau"]
   -
     fct_name: coloniser
     fct_summary:

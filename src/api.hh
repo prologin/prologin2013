@@ -72,9 +72,9 @@ public:
 //
    erreur construire(bateau_type btype, position pos);
 ///
-// Déplace le bateau représenté par l'identifiant ``id`` suivant une liste ``liste_pos`` de positions
+// Déplace le bateau représenté par l'identifiant ``id`` jusqu'à la position `pos`` (si elle est dans la portée du bateau)
 //
-   erreur deplacer(int id, std::vector<position> liste_pos);
+   erreur deplacer(int id, position pos);
 ///
 // Colonise l'île à la position ``pos``
 //

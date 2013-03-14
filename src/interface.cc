@@ -106,9 +106,10 @@ std::string convert_to_string(erreur in){
   {
     case OR_INSUFFISANT: return "\"or_insuffisant\"";
     case ILE_INVALIDE: return "\"ile_invalide\"";
-    case CHEMIN_INVALIDE: return "\"chemin_invalide\"";
-    case BATEAUX_INSUFFISANTS: return "\"bateaux_insuffisants\"";
+    case POSITION_INVALIDE: return "\"position_invalide\"";
+    case HORS_DE_PORTEE: return "\"hors_de_portee\"";
     case ILE_COLONISEE: return "\"ile_colonisee\"";
+    case ILE_ENNEMIE: return "\"ile_ennemie\"";
     case AUCUNE_CARAVELLE: return "\"aucune_caravelle\"";
   }
   return "bad value";
@@ -254,11 +255,11 @@ extern "C" erreur api_construire(bateau_type btype, position pos)
 }
 
 ///
-// Déplace le bateau représenté par l'identifiant ``id`` suivant une liste ``liste_pos`` de positions
+// Déplace le bateau représenté par l'identifiant ``id`` jusqu'à la position `pos`` (si elle est dans la portée du bateau)
 //
-extern "C" erreur api_deplacer(int id, std::vector<position> liste_pos)
+extern "C" erreur api_deplacer(int id, position pos)
 {
-  return api->deplacer(id, liste_pos);
+  return api->deplacer(id, pos);
 }
 
 ///
@@ -360,9 +361,10 @@ std::ostream& operator<<(std::ostream& os, erreur v)
   switch (v) {
   case OR_INSUFFISANT: os << "OR_INSUFFISANT"; break;
   case ILE_INVALIDE: os << "ILE_INVALIDE"; break;
-  case CHEMIN_INVALIDE: os << "CHEMIN_INVALIDE"; break;
-  case BATEAUX_INSUFFISANTS: os << "BATEAUX_INSUFFISANTS"; break;
+  case POSITION_INVALIDE: os << "POSITION_INVALIDE"; break;
+  case HORS_DE_PORTEE: os << "HORS_DE_PORTEE"; break;
   case ILE_COLONISEE: os << "ILE_COLONISEE"; break;
+  case ILE_ENNEMIE: os << "ILE_ENNEMIE"; break;
   case AUCUNE_CARAVELLE: os << "AUCUNE_CARAVELLE"; break;
   }
   return os;

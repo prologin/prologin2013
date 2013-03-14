@@ -1,5 +1,3 @@
-#include <string>
-
 #include "rules.hh"
 
 Rules::Rules(const rules::Options opt)
