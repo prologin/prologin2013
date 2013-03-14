@@ -106,9 +106,9 @@ function:
     fct_arg:
       - [pos, position, "Position"]
   -
-    fct_name: info_ile_equipe
+    fct_name: info_ile_joueur
     fct_summary:
-      "Retourne l'équipe qui possède l'île à l'emplacement ``pos``.
+      "Retourne le joueur qui possède l'île à l'emplacement ``pos``.
        Retourne 0 si l'île est libre.
        Retourne -1 si la position indiquée n'est pas une île"
     fct_ret_type: int
@@ -155,6 +155,14 @@ function:
       "Retourne la liste des positions des îles qui vous appartiennent"
     fct_ret_type: position array
     fct_arg: []
+  -
+    fct_name: distance
+    fct_summary:
+      "Retourne la distance entre deux positions"
+    fct_ret_type: int
+    fct_arg:
+      - [depart, position, "Départ"]
+      - [arrivee, position, "Arrivée"]
 
 # Actions
   -

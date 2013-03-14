@@ -40,9 +40,9 @@ public:
 //
    terrain info_terrain(position pos);
 ///
-// Retourne l'équipe qui possède l'île à l'emplacement ``pos``. Retourne 0 si l'île est libre. Retourne -1 si la position indiquée n'est pas une île
+// Retourne le joueur qui possède l'île à l'emplacement ``pos``. Retourne 0 si l'île est libre. Retourne -1 si la position indiquée n'est pas une île
 //
-   int info_ile_equipe(position pos);
+   int info_ile_joueur(position pos);
 ///
 // Retourne l'or contenu sur l'île à l'emplacement ``pos``. Retourne -1 si la case spécifiée n'est pas une île.
 //
@@ -67,6 +67,10 @@ public:
 // Retourne la liste des positions des îles qui vous appartiennent
 //
    std::vector<position> mes_iles();
+///
+// Retourne la distance entre deux positions
+//
+   int distance(position depart, position arrivee);
 ///
 // Construire un bateau de type ``btype`` sur l'île à la position ``pos``
 //

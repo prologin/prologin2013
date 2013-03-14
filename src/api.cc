@@ -34,9 +34,9 @@ terrain Api::info_terrain(position pos)
 }
 
 ///
-// Retourne l'équipe qui possède l'île à l'emplacement ``pos``. Retourne 0 si l'île est libre. Retourne -1 si la position indiquée n'est pas une île
+// Retourne le joueur qui possède l'île à l'emplacement ``pos``. Retourne 0 si l'île est libre. Retourne -1 si la position indiquée n'est pas une île
 //
-int Api::info_ile_equipe(position pos)
+int Api::info_ile_joueur(position pos)
 {
   // TODO
   abort();
@@ -91,6 +91,15 @@ std::vector<position> Api::liste_iles()
 // Retourne la liste des positions des îles qui vous appartiennent
 //
 std::vector<position> Api::mes_iles()
+{
+  // TODO
+  abort();
+}
+
+///
+// Retourne la distance entre deux positions
+//
+int Api::distance(position depart, position arrivee)
 {
   // TODO
   abort();

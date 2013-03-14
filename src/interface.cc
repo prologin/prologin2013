@@ -192,11 +192,11 @@ extern "C" terrain api_info_terrain(position pos)
 }
 
 ///
-// Retourne l'équipe qui possède l'île à l'emplacement ``pos``. Retourne 0 si l'île est libre. Retourne -1 si la position indiquée n'est pas une île
+// Retourne le joueur qui possède l'île à l'emplacement ``pos``. Retourne 0 si l'île est libre. Retourne -1 si la position indiquée n'est pas une île
 //
-extern "C" int api_info_ile_equipe(position pos)
+extern "C" int api_info_ile_joueur(position pos)
 {
-  return api->info_ile_equipe(pos);
+  return api->info_ile_joueur(pos);
 }
 
 ///
@@ -245,6 +245,14 @@ extern "C" std::vector<position> api_liste_iles()
 extern "C" std::vector<position> api_mes_iles()
 {
   return api->mes_iles();
+}
+
+///
+// Retourne la distance entre deux positions
+//
+extern "C" int api_distance(position depart, position arrivee)
+{
+  return api->distance(depart, arrivee);
 }
 
 ///
