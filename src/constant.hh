@@ -84,13 +84,12 @@ typedef enum terrain {
 //
 typedef enum erreur {
   OK, /* <- L'action a été exécutée avec succès */
-  OR_INSUFFISANT, /* <- Vous ne possédez pas assez d'or pour cette action. */
-  ILE_INVALIDE, /* <- La position spécifiée n'est pas une île. */
-  POSITION_INVALIDE, /* <- La position spécifiée n'est pas valide. */
-  HORS_DE_PORTEE, /* <- La position spécifié n'est pas valide. */
+  OR_INSUFFISANT, /* <- Vous ne possédez pas assez d'or pour cette action */
+  ILE_INVALIDE, /* <- La position spécifiée n'est pas une île */
+  POSITION_INVALIDE, /* <- La position spécifiée n'est pas valide */
+  TROP_LOIN, /* <- La destination est trop éloignée */
   ILE_COLONISEE, /* <- L'île est déjà colonisée */
   ILE_ENNEMIE, /* <- L'île ne vous appartient pas */
-  BATEAU_COULE, /* <- Le bateau spécifié a coulé */
   ID_INVALIDE, /* <- L'ID spécifiée n'est pas valide */
   AUCUNE_CARAVELLE, /* <- Il n'y a aucune caravelle susceptible de coloniser l'île */
 } erreur;
@@ -115,7 +114,6 @@ typedef struct bateau {
   bateau_type btype;  /* <- Type */
   int nb_or;  /* <- Or contenu dans le bateau */
   bool deplacable;  /* <- Le bateau n'a pas encore été déplacé ce tour-ci */
-  bool vivant;  /* <- Le bateau est encore à flots */
 } bateau;
 
 

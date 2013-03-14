@@ -26,6 +26,11 @@ int ActionMove::check(GameState* st) const
     else if (boat.btype == BATEAU_GALION)
         max_move = GALION_DEPLACEMENT;
 
-    if (distance(boat.pos, dest_) <= max_move)
-        return OK;
+    if (distance(boat.pos, dest_) > max_move)
+        return TROP_LOIN;
+    return OK;
+}
+
+void ActionMove::handle_buffer(utils::Buffer& buf)
+{
 }

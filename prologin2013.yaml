@@ -65,13 +65,12 @@ enum:
     enum_summary: "Erreurs possibles"
     enum_field:
       - [ok, "L'action a été exécutée avec succès"]
-      - [or_insuffisant, "Vous ne possédez pas assez d'or pour cette action."]
-      - [ile_invalide, "La position spécifiée n'est pas une île."]
-      - [position_invalide, "La position spécifiée n'est pas valide."]
-      - [hors_de_portee, "La position spécifié n'est pas valide."]
+      - [or_insuffisant, "Vous ne possédez pas assez d'or pour cette action"]
+      - [ile_invalide, "La position spécifiée n'est pas une île"]
+      - [position_invalide, "La position spécifiée n'est pas valide"]
+      - [trop_loin, "La destination est trop éloignée"]
       - [ile_colonisee, "L'île est déjà colonisée"]
       - [ile_ennemie, "L'île ne vous appartient pas"]
-      - [bateau_coule, "Le bateau spécifié a coulé"]
       - [id_invalide, "L'ID spécifiée n'est pas valide"]
       - [aucune_caravelle,
             "Il n'y a aucune caravelle susceptible de coloniser l'île"]
@@ -95,7 +94,6 @@ struct:
       - [btype, bateau_type, "Type"]
       - [nb_or, int, "Or contenu dans le bateau"]
       - [deplacable, bool, "Le bateau n'a pas encore été déplacé ce tour-ci"]
-      - [vivant, bool, "Le bateau est encore à flots"]
 
 function:
 

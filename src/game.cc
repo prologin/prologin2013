@@ -92,19 +92,7 @@ bool GameState::add_boat(position origin, int player, bateau_type btype)
     boat.btype = btype;
     boat.nb_or = 0;
     boat.deplacable = false;
-    boat.vivant = true;
-
     boats_[id] = boat;
-    return true;
-}
-
-
-bool GameState::kill_boat(int id)
-{
-    if (!boats_.count(id))
-        return false;
-
-    boats_[id].vivant = false;
     return true;
 }
 

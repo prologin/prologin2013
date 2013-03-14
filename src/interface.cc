@@ -104,13 +104,14 @@ std::string convert_to_string(std::vector<terrain> in){
 std::string convert_to_string(erreur in){
   switch (in)
   {
+    case OK: return "\"ok\"";
     case OR_INSUFFISANT: return "\"or_insuffisant\"";
     case ILE_INVALIDE: return "\"ile_invalide\"";
     case POSITION_INVALIDE: return "\"position_invalide\"";
-    case HORS_DE_PORTEE: return "\"hors_de_portee\"";
+    case TROP_LOIN: return "\"trop_loin\"";
     case ILE_COLONISEE: return "\"ile_colonisee\"";
     case ILE_ENNEMIE: return "\"ile_ennemie\"";
-    case BATEAU_COULE: return "\"bateau_coule\"";
+    case ID_INVALIDE: return "\"id_invalide\"";
     case AUCUNE_CARAVELLE: return "\"aucune_caravelle\"";
   }
   return "bad value";
@@ -154,7 +155,6 @@ std::string convert_to_string(bateau in){
   std::string btype = convert_to_string(in.btype);
   std::string nb_or = convert_to_string(in.nb_or);
   std::string deplacable = convert_to_string(in.deplacable);
-  std::string vivant = convert_to_string(in.vivant);
   std::string out = "{";
   out += "id:" + id;
   out += ", ";
@@ -167,8 +167,6 @@ std::string convert_to_string(bateau in){
   out += "nb_or:" + nb_or;
   out += ", ";
   out += "deplacable:" + deplacable;
-  out += ", ";
-  out += "vivant:" + vivant;
   return out + "}";
 }
 
@@ -368,13 +366,14 @@ extern "C" void api_afficher_terrain(terrain v)
 std::ostream& operator<<(std::ostream& os, erreur v)
 {
   switch (v) {
+  case OK: os << "OK"; break;
   case OR_INSUFFISANT: os << "OR_INSUFFISANT"; break;
   case ILE_INVALIDE: os << "ILE_INVALIDE"; break;
   case POSITION_INVALIDE: os << "POSITION_INVALIDE"; break;
-  case HORS_DE_PORTEE: os << "HORS_DE_PORTEE"; break;
+  case TROP_LOIN: os << "TROP_LOIN"; break;
   case ILE_COLONISEE: os << "ILE_COLONISEE"; break;
   case ILE_ENNEMIE: os << "ILE_ENNEMIE"; break;
-  case BATEAU_COULE: os << "BATEAU_COULE"; break;
+  case ID_INVALIDE: os << "ID_INVALIDE"; break;
   case AUCUNE_CARAVELLE: os << "AUCUNE_CARAVELLE"; break;
   }
   return os;
@@ -418,8 +417,6 @@ std::ostream& operator<<(std::ostream& os, bateau v)
   os << "nb_or" << "=" << v.nb_or;
   os << ", ";
   os << "deplacable" << "=" << v.deplacable;
-  os << ", ";
-  os << "vivant" << "=" << v.vivant;
   os << " }";
   return os;
 }

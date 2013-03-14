@@ -136,7 +136,8 @@ void Cell::resolve_fight(std::map<int, bateau>& boats, int id_attacker)
             if (boats[i].joueur != id_winner)
             {
                 gold_move = boats[i].nb_or;
-                boat_kill(boats[i]);
+                boats.erase(i);
+                boat_ids_.erase(i);
                 if (winner == 1 && caravelle_p1 != -1)
                     boats[caravelle_p1].nb_or += gold_move;
                 else if (winner == 2 && caravelle_p2 != -1)
@@ -147,13 +148,15 @@ void Cell::resolve_fight(std::map<int, bateau>& boats, int id_attacker)
         {
             if (boats[i].joueur == id_p1 && galions_p2)
             {
-                boat_kill(boats[i]);
+                boats.erase(i);
+                boat_ids_.erase(i);
                 galions_p2--;
             }
 
             if (boats[i].joueur == id_p2 && galions_p1)
             {
-                boat_kill(boats[i]);
+                boats.erase(i);
+                boat_ids_.erase(i);
                 galions_p1--;
             }
         }
