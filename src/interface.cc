@@ -110,6 +110,7 @@ std::string convert_to_string(erreur in){
     case HORS_DE_PORTEE: return "\"hors_de_portee\"";
     case ILE_COLONISEE: return "\"ile_colonisee\"";
     case ILE_ENNEMIE: return "\"ile_ennemie\"";
+    case BATEAU_COULE: return "\"bateau_coule\"";
     case AUCUNE_CARAVELLE: return "\"aucune_caravelle\"";
   }
   return "bad value";
@@ -365,6 +366,7 @@ std::ostream& operator<<(std::ostream& os, erreur v)
   case HORS_DE_PORTEE: os << "HORS_DE_PORTEE"; break;
   case ILE_COLONISEE: os << "ILE_COLONISEE"; break;
   case ILE_ENNEMIE: os << "ILE_ENNEMIE"; break;
+  case BATEAU_COULE: os << "BATEAU_COULE"; break;
   case AUCUNE_CARAVELLE: os << "AUCUNE_CARAVELLE"; break;
   }
   return os;

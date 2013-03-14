@@ -89,6 +89,7 @@ typedef enum erreur {
   HORS_DE_PORTEE, /* <- La position spécifié n'est pas valide. */
   ILE_COLONISEE, /* <- L'île est déjà colonisée */
   ILE_ENNEMIE, /* <- L'île ne vous appartient pas */
+  BATEAU_COULE, /* <- Le bateau spécifié a coulé */
   AUCUNE_CARAVELLE, /* <- Il n'y a aucune caravelle susceptible de coloniser l'île */
 } erreur;
 

@@ -70,6 +70,7 @@ enum:
       - [hors_de_portee, "La position spécifié n'est pas valide."]
       - [ile_colonisee, "L'île est déjà colonisée"]
       - [ile_ennemie, "L'île ne vous appartient pas"]
+      - [bateau_coule, "Le bateau spécifié a coulé"]
       - [aucune_caravelle,
             "Il n'y a aucune caravelle susceptible de coloniser l'île"]
 
