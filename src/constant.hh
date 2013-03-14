@@ -91,6 +91,7 @@ typedef enum erreur {
   ILE_COLONISEE, /* <- L'île est déjà colonisée */
   ILE_ENNEMIE, /* <- L'île ne vous appartient pas */
   ID_INVALIDE, /* <- L'ID spécifiée n'est pas valide */
+  NON_DEPLACABLE, /* <- Le bateau n'est pas déplaçable */
   AUCUNE_CARAVELLE, /* <- Il n'y a aucune caravelle susceptible de coloniser l'île */
 } erreur;
 

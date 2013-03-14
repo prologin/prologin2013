@@ -3,10 +3,9 @@
 #include "game.hh"
 #include "tools.hh"
 
-ActionMove::ActionMove(int id_boat, position dest, int player_id)
+ActionMove::ActionMove(int id_boat, position dest)
     : dest_(dest),
-      id_boat_(id_boat),
-      player_id_(player_id)
+      id_boat_(id_boat)
 {
 }
 
@@ -16,8 +15,15 @@ int ActionMove::check(GameState* st) const
         return ID_INVALIDE;
     bateau boat = st->get_boats()[id_boat_];
 
+    if (!boat.deplacable)
+        return NON_DEPLACABLE;
+
     Cell* cell_o;
     if (!(cell_o = st->get_map()->get_cell(boat.pos)))
+        return POSITION_INVALIDE;
+
+    Cell* cell_d;
+    if (!(cell_d = st->get_map()->get_cell(dest_)))
         return POSITION_INVALIDE;
 
     int max_move;
@@ -33,4 +39,16 @@ int ActionMove::check(GameState* st) const
 
 void ActionMove::handle_buffer(utils::Buffer& buf)
 {
+    buf.handle(dest_);
+    buf.handle(id_boat_);
+}
+
+void ActionMove::apply_on(GameState* st) const
+{
+    bateau boat = st->get_boats()[id_boat_];
+    Cell* cell_d = st->get_map()->get_cell(dest_);
+    Cell* cell_o = st->get_map()->get_cell(boat.pos);
+    cell_o->remove_boat(id_boat_);
+    cell_d->add_boat(id_boat_);
+    boat.pos = dest_;
 }

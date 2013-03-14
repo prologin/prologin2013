@@ -72,6 +72,7 @@ enum:
       - [ile_colonisee, "L'île est déjà colonisée"]
       - [ile_ennemie, "L'île ne vous appartient pas"]
       - [id_invalide, "L'ID spécifiée n'est pas valide"]
+      - [non_deplacable, "Le bateau n'est pas déplaçable"]
       - [aucune_caravelle,
             "Il n'y a aucune caravelle susceptible de coloniser l'île"]
 

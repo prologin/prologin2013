@@ -9,15 +9,15 @@
 class ActionMove : public rules::Action<GameState>
 {
     public:
-        ActionMove(int id, position dest, int player_id);
+        ActionMove(int id, position dest);
 
         virtual int check(GameState* st) const;
         virtual void handle_buffer(utils::Buffer& buf);
+        virtual void apply_on(GameState* gameState) const;
 
     private:
         position dest_;
         int id_boat_;
-        int player_id_;
 };
 
 #endif
