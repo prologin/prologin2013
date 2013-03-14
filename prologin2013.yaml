@@ -238,7 +238,7 @@ user_function:
     fct_ret_type: void
     fct_arg: []
   -
-    fct_name: partie_tour
+    fct_name: jouer_tour
     fct_summary: Fonction appellée à chaque tour
     fct_ret_type: void
     fct_arg: []
