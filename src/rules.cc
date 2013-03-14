@@ -53,6 +53,14 @@ Rules::Rules(const rules::Options opt)
     timeout_ = opt.time;
 }
 
+Rules::Rules(rules::Players_sptr players, Api* api)
+    : champion_(nullptr),
+      api_(api),
+      players_(players),
+      sandbox_()
+{
+}
+
 Rules::~Rules()
 {
     delete champion_;

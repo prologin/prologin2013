@@ -18,6 +18,7 @@ class Rules
 {
     public:
         explicit Rules(const rules::Options opt);
+        Rules(rules::Players_sptr players, Api* api);
         virtual ~Rules();
 
         // FIXME
@@ -30,7 +31,7 @@ class Rules
         f_champion_jouer_tour champion_jouer_tour;
         f_champion_partie_fin champion_partie_fin;
     private:
-        const rules::Options opt_;
+        rules::Options opt_;
 
         utils::DLL* champion_;
         Api* api_;
