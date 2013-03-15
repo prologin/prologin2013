@@ -51,9 +51,9 @@ void ActionMove::handle_buffer(utils::Buffer& buf)
 
 void ActionMove::apply_on(GameState* st) const
 {
-    st->get_boat(id_boat_)->pos = dest_;
-
     bateau boat = st->get_boats()[id_boat_];
     st->get_map()->get_cell(dest_)->add_boat(id_boat_);
     st->get_map()->get_cell(boat.pos)->remove_boat(id_boat_);
+
+    st->get_boat(id_boat_)->pos = dest_;
 }

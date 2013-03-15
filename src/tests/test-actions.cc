@@ -81,17 +81,11 @@ class ActionsTest : public ::testing::Test
             gamestate_->add_boat({5, 8}, 0, BATEAU_GALION); // 2
             gamestate_->get_boat(2)->deplacable = false;
 
-            gamestate_->add_boat({-1, 0}, 0, BATEAU_GALION); // 3
+            gamestate_->add_boat({31, 31}, 0, BATEAU_GALION); // 3
             gamestate_->get_boat(3)->deplacable = true;
 
-            gamestate_->add_boat({6, TAILLE_TERRAIN}, 0, BATEAU_GALION); // 4
+            gamestate_->add_boat({3, 3}, 0, BATEAU_CARAVELLE); // 4
             gamestate_->get_boat(4)->deplacable = true;
-
-            gamestate_->add_boat({31, 31}, 0, BATEAU_GALION); // 5
-            gamestate_->get_boat(5)->deplacable = true;
-
-            gamestate_->add_boat({3, 3}, 0, BATEAU_CARAVELLE); // 6
-            gamestate_->get_boat(6)->deplacable = true;
 
         }
 
@@ -112,15 +106,7 @@ TEST_F(ActionsTest, MoveCheckTest)
     EXPECT_EQ(NON_DEPLACABLE, a3.check(gamestate_))
         << "Boat shouldn't be movable";
 
-    ActionMove a4(3, { 0, 0 }, 0);
-    EXPECT_EQ(POSITION_INVALIDE, a4.check(gamestate_))
-        << "Origin position should be invalid";
-
-    ActionMove a5(4, { 6, 31 }, 0);
-    EXPECT_EQ(POSITION_INVALIDE, a5.check(gamestate_))
-        << "Origin position should be invalid";
-
-    ActionMove a6(5, { TAILLE_TERRAIN, 31 }, 0);
+    ActionMove a6(3, { TAILLE_TERRAIN, 31 }, 0);
     EXPECT_EQ(POSITION_INVALIDE, a6.check(gamestate_))
         << "Destination position should be invalid";
 
@@ -144,23 +130,23 @@ TEST_F(ActionsTest, MoveCheckTest)
     EXPECT_EQ(TROP_LOIN, a11.check(gamestate_))
         << "Destination should be too far";
 
-    ActionMove a12(6, {3 + CARAVELLE_DEPLACEMENT, 3}, 0);
+    ActionMove a12(4, {3 + CARAVELLE_DEPLACEMENT, 3}, 0);
     EXPECT_EQ(OK, a7.check(gamestate_))
         << "Should be OK";
 
-    ActionMove a13(6, {3, 3 + CARAVELLE_DEPLACEMENT}, 0);
+    ActionMove a13(4, {3, 3 + CARAVELLE_DEPLACEMENT}, 0);
     EXPECT_EQ(OK, a8.check(gamestate_))
         << "Should be OK";
 
-    ActionMove a14(6, {3 + 2, 3 + 2}, 0);
+    ActionMove a14(4, {3 + 2, 3 + 2}, 0);
     EXPECT_EQ(OK, a9.check(gamestate_))
         << "Should be OK";
 
-    ActionMove a15(6, {3+CARAVELLE_DEPLACEMENT, 3+CARAVELLE_DEPLACEMENT}, 0);
+    ActionMove a15(4, {3+CARAVELLE_DEPLACEMENT, 3+CARAVELLE_DEPLACEMENT}, 0);
     EXPECT_EQ(TROP_LOIN, a10.check(gamestate_))
         << "Destination should be too far";
 
-    ActionMove a16(6, {3 + CARAVELLE_DEPLACEMENT + 1, 3}, 0);
+    ActionMove a16(4, {3 + CARAVELLE_DEPLACEMENT + 1, 3}, 0);
     EXPECT_EQ(TROP_LOIN, a11.check(gamestate_))
         << "Destination should be too far";
 }
@@ -183,4 +169,7 @@ TEST_F(ActionsTest, MoveTest)
 
     c = gamestate_->get_map()->get_cell({4, 3});
     EXPECT_TRUE(c->exists_boat(0)) << "Not in the destination position";
+
+    bateau boat = gamestate_->get_boats()[0];
+    EXPECT_EQ(boat.pos, (position {4, 3})) << "bateau.pos hasn't been updated";
 }

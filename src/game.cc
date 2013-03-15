@@ -93,6 +93,9 @@ bool GameState::add_boat(position origin, int player, bateau_type btype)
     boat.nb_or = 0;
     boat.deplacable = false;
     boats_[id] = boat;
+
+    map_->get_cell(origin)->add_boat(id);
+
     return true;
 }
 
