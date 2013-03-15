@@ -10,7 +10,7 @@ ActionConstruct::ActionConstruct(bateau_type btype, position pos, int player)
 {
 }
 
-int ActionConstruct::check(GameState* st) const
+int ActionConstruct::check(const GameState* st) const
 {
     Cell* island;
     if (!(island = st->get_map()->get_cell(pos_)))

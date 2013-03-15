@@ -11,6 +11,7 @@
 
 #include "../action-move.hh"
 #include "../action-colonize.hh"
+#include "../action-construct.hh"
 
 class ActionsTest : public ::testing::Test
 {
@@ -95,6 +96,75 @@ class ActionsTest : public ::testing::Test
         Map* map_;
         GameState* gamestate_;
 };
+
+TEST_F(ActionsTest, ConstructCheckTest)
+{
+    ActionConstruct a1(BATEAU_GALION, {-1, 0}, 0);
+    EXPECT_EQ(POSITION_INVALIDE, a1.check(gamestate_))
+        << "Position should be invalid";
+
+    ActionConstruct a2(BATEAU_GALION, {1, TAILLE_TERRAIN}, 0);
+    EXPECT_EQ(POSITION_INVALIDE, a2.check(gamestate_))
+        << "Position should be invalid";
+
+    ActionConstruct a3(BATEAU_GALION, {0, 0}, 0);
+    EXPECT_EQ(ILE_INVALIDE, a3.check(gamestate_))
+        << "Island should be invalid";
+
+    gamestate_->get_map()->get_cell({2, 0})->set_player(1);
+    ActionConstruct a4(BATEAU_GALION, {2, 0}, 0);
+    EXPECT_EQ(ILE_ENNEMIE, a4.check(gamestate_))
+        << "Island should be enemy";
+
+    gamestate_->get_map()->get_cell({2, 0})->set_player(0);
+    gamestate_->get_map()->get_cell({2, 0})->set_gold(0);
+    ActionConstruct a5(BATEAU_GALION, {2, 0}, 0);
+    EXPECT_EQ(OR_INSUFFISANT, a5.check(gamestate_))
+        << "There shouldn't be enough gold";
+
+    gamestate_->get_map()->get_cell({2, 0})->set_gold(GALION_COUT - 1);
+    ActionConstruct a6(BATEAU_GALION, {2, 0}, 0);
+    EXPECT_EQ(OR_INSUFFISANT, a5.check(gamestate_))
+        << "There shouldn't be enough gold";
+
+    gamestate_->get_map()->get_cell({2, 0})->set_gold(GALION_COUT);
+    ActionConstruct a7(BATEAU_GALION, {2, 0}, 0);
+    EXPECT_EQ(OK, a5.check(gamestate_))
+        << "Should be OK";
+
+    gamestate_->get_map()->get_cell({2, 0})->set_gold(0);
+    ActionConstruct a8(BATEAU_CARAVELLE, {2, 0}, 0);
+    EXPECT_EQ(OR_INSUFFISANT, a8.check(gamestate_))
+        << "There shouldn't be enough gold";
+
+    gamestate_->get_map()->get_cell({2, 0})->set_gold(CARAVELLE_COUT - 1);
+    ActionConstruct a9(BATEAU_CARAVELLE, {2, 0}, 0);
+    EXPECT_EQ(OR_INSUFFISANT, a9.check(gamestate_))
+        << "There shouldn't be enough gold"; 
+
+    gamestate_->get_map()->get_cell({2, 0})->set_gold(CARAVELLE_COUT);
+    ActionConstruct a10(BATEAU_CARAVELLE, {2, 0}, 0);
+    EXPECT_EQ(OK, a10.check(gamestate_))
+        << "Should be OK";
+}
+
+TEST_F(ActionsTest, ConstructTest)
+{
+    Cell* c = gamestate_->get_map()->get_cell({2, 2});
+    c->set_player(0);
+    int o = c->get_id_boats().size();
+    int p = gamestate_->get_boats().size();
+
+    c->set_gold(CARAVELLE_COUT + 3);
+    ActionConstruct a1(BATEAU_CARAVELLE, {2, 2}, 0);
+    a1.apply_on(gamestate_);
+    EXPECT_EQ(3, c->get_gold())
+        << "Only 3 gold should remain";
+    EXPECT_EQ(o + 1, c->get_id_boats().size())
+        << "No boat created";
+    EXPECT_EQ(p + 1, gamestate_->get_boats().size())
+        << "No boat created";
+}
 
 TEST_F(ActionsTest, ColonizeCheckTest)
 {
