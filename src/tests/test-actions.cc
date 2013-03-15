@@ -131,6 +131,16 @@ TEST_F(ActionsTest, ColonizeCheckTest)
         << "Should be OK";
 }
 
+TEST_F(ActionsTest, ColonizeTest)
+{
+    gamestate_->get_map()->get_cell({2, 0})->set_player(-1);
+    gamestate_->add_boat({2, 0}, 0, BATEAU_CARAVELLE);
+    ActionColonize a({2, 0}, 0);
+    a.apply_on(gamestate_);
+    EXPECT_EQ(0, gamestate_->get_map()->get_cell({2, 0})->get_player())
+        << "Island has not beed colonized";
+}
+
 TEST_F(ActionsTest, MoveCheckTest)
 {
     ActionMove a1(672324, { 3, 4 }, 0);
