@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include <map>
 #include <utils/log.hh>
 #include "../constant.hh"
 #include "../cell.hh"
@@ -54,6 +55,16 @@ class CellTest : public ::testing::Test
         return boats_;
     }
 
+    int count_boats(std::map<int, bateau> boats, Cell* cell, int player_id)
+    {
+        std::set<int> boats_ids = cell->get_id_boats();
+
+        int count;
+        for (auto id : boats_ids)
+            if (boats.find(id)->second.joueur == player_id)
+                count++;
+    }
+
     position pos_;
 
     Cell* sea_cell;
@@ -91,6 +102,27 @@ TEST_F(CellTest, AddRemoveBoats)
 
 TEST_F(CellTest, SeaFight1)
 {
+    // One versus one, player 1 attacking
+    std::map<int, bateau> boats_ = make_boats(1, 0, 1, 0, sea_cell);
+
+    INFO("get_player");
+    EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should belong to nobody before first fight";
+
+    EXPECT_EQ(2, boats_.size());
+
+    sea_cell-> resolve_fight(boats_, 1);
+
+    INFO("resolve_fight");
+    EXPECT_EQ(1, boats_.size());
+    EXPECT_EQ(0, count_boats(boats_, sea_cell, 1)) << "Winner's boat must be remaining";
+    EXPECT_EQ(0, count_boats(boats_, sea_cell, 2)) << "Loser's boat must be destroyed";
+
+    EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should still belong to nobody after the fight";
+}
+
+TEST_F(CellTest, SeaFight2)
+{
+    // One versus one, player 1 attacking
     std::map<int, bateau> boats_ = make_boats(1, 0, 1, 0, sea_cell);
 
     INFO("get_player");
@@ -102,13 +134,13 @@ TEST_F(CellTest, SeaFight1)
 
     INFO("resolve_fight");
     EXPECT_EQ(1, boats_.size());
-    EXPECT_TRUE(sea_cell->exists_boat(1)) << "Winner's boat must be remaining";
-    EXPECT_FALSE(sea_cell->exists_boat(0)) << "Loser's boat must be destroyed";
+    EXPECT_EQ(0, count_boats(boats_, sea_cell, 1)) << "Loser's boat must be destroyed";
+    EXPECT_EQ(1, count_boats(boats_, sea_cell, 2)) << "Winner's boat must be remaining";
 
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should still belong to nobody after the fight";
 }
 
-TEST_F(CellTest, SeaFight2)
+TEST_F(CellTest, SeaFight3)
 {
     // Player 1 win
     std::map<int, bateau> boats_ = make_boats(10, 0, 5, 0, sea_cell);
@@ -117,18 +149,13 @@ TEST_F(CellTest, SeaFight2)
 
     sea_cell->resolve_fight(boats_, 1);
 
-    for(int i=0; i <=3; i++)
-        EXPECT_FALSE(sea_cell->exists_boat(i)) << "Winner's boat number " << i << " must be destroyed";
-    for(int i=3; i <=9; i++)
-        EXPECT_TRUE(sea_cell->exists_boat(i)) << "Winner's boat number " << i << " must still be here";
-    for(int i=10; i <=14; i++)
-        EXPECT_FALSE(sea_cell->exists_boat(i)) << "Loser's boat number " << i << " must be destroyed";
-
+    EXPECT_EQ(6, count_boats(boats_, sea_cell, 1)) << "6 boats should remain for the winner";
+    EXPECT_EQ(0, count_boats(boats_, sea_cell, 2)) << "No boat should remain for the loser";
 
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should still belong to nobody after the fight";
 }
 
-TEST_F(CellTest, SeaFight3)
+TEST_F(CellTest, SeaFight4)
 {
     // Player 2 win
     std::map<int, bateau> boats_ = make_boats(8, 0, 9, 0, sea_cell);
@@ -137,18 +164,13 @@ TEST_F(CellTest, SeaFight3)
 
     sea_cell->resolve_fight(boats_, 1);
 
-    for(int i=9; i <=14; i++)
-        EXPECT_FALSE(sea_cell->exists_boat(i)) << "Winner's boat number " << i << " must be destroyed";
-    for(int i=15; i <=16; i++)
-        EXPECT_TRUE(sea_cell->exists_boat(i)) << "Winner's boat number " << i << " must still be here";
-    for(int i=0; i <=7; i++)
-        EXPECT_FALSE(sea_cell->exists_boat(i)) << "Loser's boat number " << i << " must be destroyed";
-
+    EXPECT_EQ(2, count_boats(boats_, sea_cell, 2)) << "2 boats should remain for the winner";
+    EXPECT_EQ(0, count_boats(boats_, sea_cell, 1)) << "No boat should remain for the loser";
 
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should still belong to nobody after the fight";
 }
 
-TEST_F(CellTest, SeaFight4)
+TEST_F(CellTest, SeaFight5)
 {
     // Exaequo, player 2 wins
     std::map<int, bateau> boats_ = make_boats(20, 0, 20, 0, sea_cell);
@@ -156,24 +178,20 @@ TEST_F(CellTest, SeaFight4)
     INFO("get_player");
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should belong to nobody before first fight";
 
-    EXPECT_EQ(2, boats_.size());
+    EXPECT_EQ(20, boats_.size());
 
     sea_cell-> resolve_fight(boats_, 2);
 
     INFO("resolve_fight");
     EXPECT_EQ(1, boats_.size());
 
-    for(int i=0; i<=19; i++)
-        EXPECT_FALSE(sea_cell->exists_boat(i)) << "Boat n" << i << " (loser) must be destroyed";
-
-    for(int i=20; i<=38; i++)
-        EXPECT_FALSE(sea_cell->exists_boat(i)) << "Boat n" << i << " (winner) must be destroyed";
-    EXPECT_TRUE(sea_cell->exists_boat(39)) << "One winner's boat must be remaining";
+    EXPECT_EQ(1, count_boats(boats_, sea_cell, 2)) << "1 boat should remain for the winner";
+    EXPECT_EQ(0, count_boats(boats_, sea_cell, 1)) << "No boat should remain for the loser";
 
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should still belong to nobody after the fight";
 }
 
-TEST_F(CellTest, SeaFight5)
+TEST_F(CellTest, SeaFight6)
 {
     // Exaequo, player 1 wins
     std::map<int, bateau> boats_ = make_boats(20, 0, 20, 0, sea_cell);
@@ -188,12 +206,8 @@ TEST_F(CellTest, SeaFight5)
     INFO("resolve_fight");
     EXPECT_EQ(1, boats_.size());
 
-    for(int i=0; i<=18; i++)
-        EXPECT_FALSE(sea_cell->exists_boat(i)) << "Boat n" << i << " (winner) must be destroyed";
-    EXPECT_TRUE(sea_cell->exists_boat(19)) << "One winner's boat must be remaining";
-
-    for(int i=20; i<=39; i++)
-        EXPECT_FALSE(sea_cell->exists_boat(i)) << "Boat n" << i << " (loser) must be destroyed";
+    EXPECT_EQ(1, count_boats(boats_, sea_cell, 1)) << "1 boat should remain for the winner";
+    EXPECT_EQ(0, count_boats(boats_, sea_cell, 2)) << "No boat should remain for the loser";
 
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should still belong to nobody after the fight";
 }
