@@ -10,6 +10,7 @@
 #include "../game.hh"
 
 #include "../action-move.hh"
+#include "../action-colonize.hh"
 
 class ActionsTest : public ::testing::Test
 {
@@ -72,6 +73,7 @@ class ActionsTest : public ::testing::Test
             gamestate_ = new GameState(map_, players);
             gamestate_->init();
 
+
             gamestate_->add_boat({3, 3}, 0, BATEAU_GALION); // 0
             gamestate_->get_boat(0)->deplacable = true;
 
@@ -93,6 +95,41 @@ class ActionsTest : public ::testing::Test
         Map* map_;
         GameState* gamestate_;
 };
+
+TEST_F(ActionsTest, ColonizeCheckTest)
+{
+    ActionColonize a1({-1, 0}, 0);
+    EXPECT_EQ(POSITION_INVALIDE, a1.check(gamestate_))
+        << "Position should be invalid";
+
+    ActionColonize a2({1, TAILLE_TERRAIN}, 0);
+    EXPECT_EQ(POSITION_INVALIDE, a2.check(gamestate_))
+        << "Position should be invalid";
+
+    ActionColonize a3({0, 0}, 0);
+    EXPECT_EQ(ILE_INVALIDE, a3.check(gamestate_))
+        << "Island should be invalid";
+
+    gamestate_->get_map()->get_cell({2, 0})->set_player(0);
+    ActionColonize a4({2, 0}, 0);
+    EXPECT_EQ(ILE_COLONISEE, a4.check(gamestate_))
+        << "Island should be colonized";
+
+    gamestate_->get_map()->get_cell({2, 0})->set_player(-1);
+    ActionColonize a5({2, 0}, 0);
+    EXPECT_EQ(AUCUNE_CARAVELLE, a5.check(gamestate_))
+        << "There shouldn't be any caravelles";
+
+    gamestate_->add_boat({2, 0}, 1, BATEAU_CARAVELLE);
+    ActionColonize a6({2, 0}, 0);
+    EXPECT_EQ(AUCUNE_CARAVELLE, a6.check(gamestate_))
+        << "There shouldn't be any caravelles";
+
+    gamestate_->add_boat({2, 0}, 0, BATEAU_CARAVELLE);
+    ActionColonize a7({2, 0}, 0);
+    EXPECT_EQ(OK, a7.check(gamestate_))
+        << "Should be OK";
+}
 
 TEST_F(ActionsTest, MoveCheckTest)
 {
