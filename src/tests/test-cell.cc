@@ -63,6 +63,7 @@ class CellTest : public ::testing::Test
 
 };
 
+
 TEST_F(CellTest, AddRemoveBoats)
 {
     std::map<int, bateau> boats_ = make_boats(1, 0, 0, 0, decoy_cell);
@@ -109,6 +110,7 @@ TEST_F(CellTest, SeaFight1)
 
 TEST_F(CellTest, SeaFight2)
 {
+    // Player 1 win
     std::map<int, bateau> boats_ = make_boats(10, 0, 5, 0, sea_cell);
 
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should belong to nobody before first fight";
@@ -118,7 +120,7 @@ TEST_F(CellTest, SeaFight2)
     for(int i=0; i <=3; i++)
         EXPECT_FALSE(sea_cell->exists_boat(i)) << "Winner's boat number " << i << " must be destroyed";
     for(int i=3; i <=9; i++)
-        EXPECT_TRUE(sea_cell->exists_boat(i)) << "Winner's boat number " << i << " must be destroyed";
+        EXPECT_TRUE(sea_cell->exists_boat(i)) << "Winner's boat number " << i << " must still be here";
     for(int i=10; i <=14; i++)
         EXPECT_FALSE(sea_cell->exists_boat(i)) << "Loser's boat number " << i << " must be destroyed";
 
@@ -127,6 +129,26 @@ TEST_F(CellTest, SeaFight2)
 }
 
 TEST_F(CellTest, SeaFight3)
+{
+    // Player 2 win
+    std::map<int, bateau> boats_ = make_boats(8, 0, 9, 0, sea_cell);
+
+    EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should belong to nobody before first fight";
+
+    sea_cell->resolve_fight(boats_, 1);
+
+    for(int i=9; i <=14; i++)
+        EXPECT_FALSE(sea_cell->exists_boat(i)) << "Winner's boat number " << i << " must be destroyed";
+    for(int i=15; i <=16; i++)
+        EXPECT_TRUE(sea_cell->exists_boat(i)) << "Winner's boat number " << i << " must still be here";
+    for(int i=0; i <=7; i++)
+        EXPECT_FALSE(sea_cell->exists_boat(i)) << "Loser's boat number " << i << " must be destroyed";
+
+
+    EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should still belong to nobody after the fight";
+}
+
+TEST_F(CellTest, SeaFight4)
 {
     // Exaequo, player 2 wins
     std::map<int, bateau> boats_ = make_boats(20, 0, 20, 0, sea_cell);
@@ -151,7 +173,7 @@ TEST_F(CellTest, SeaFight3)
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should still belong to nobody after the fight";
 }
 
-TEST_F(CellTest, SeaFight4)
+TEST_F(CellTest, SeaFight5)
 {
     // Exaequo, player 1 wins
     std::map<int, bateau> boats_ = make_boats(20, 0, 20, 0, sea_cell);
@@ -174,4 +196,48 @@ TEST_F(CellTest, SeaFight4)
         EXPECT_FALSE(sea_cell->exists_boat(i)) << "Boat n" << i << " (loser) must be destroyed";
 
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should still belong to nobody after the fight";
+}
+
+TEST_F(CellTest, IslandFight1)
+{
+    // Winning island attack
+    std::map<int, bateau> boats_ = make_boats(20, 0, 15, 0, island_cell);
+    island_cell->set_player(2);
+
+    EXPECT_EQ(2, island_cell->get_player()) << "Before the fight, island belongs to 2";
+    island_cell->resolve_fight(boats_, 1);
+    EXPECT_EQ(1, island_cell->get_player()) << "After the fight, island belongs to 1";
+}
+
+TEST_F(CellTest, IslandFight2)
+{
+    // Losed island attack
+    std::map<int, bateau> boats_ = make_boats(10, 0, 15, 0, island_cell);
+    island_cell->set_player(2);
+
+    EXPECT_EQ(2, island_cell->get_player()) << "Before the fight, island belongs to 2";
+    island_cell->resolve_fight(boats_, 1);
+    EXPECT_EQ(2, island_cell->get_player()) << "After the fight, island still belongs to 2";
+}
+
+TEST_F(CellTest, IslandFight3)
+{
+    // Winning island attack
+    std::map<int, bateau> boats_ = make_boats(15, 0, 20, 0, island_cell);
+    island_cell->set_player(1);
+
+    EXPECT_EQ(1, island_cell->get_player()) << "Before the fight, island belongs to 1";
+    island_cell->resolve_fight(boats_, 2);
+    EXPECT_EQ(2, island_cell->get_player()) << "After the fight, island belongs to 2";
+}
+
+TEST_F(CellTest, IslandFight4)
+{
+    // Losed island attack
+    std::map<int, bateau> boats_ = make_boats(15, 0, 10, 0, island_cell);
+    island_cell->set_player(1);
+
+    EXPECT_EQ(1, island_cell->get_player()) << "Before the fight, island belongs to 2";
+    island_cell->resolve_fight(boats_, 2);
+    EXPECT_EQ(1, island_cell->get_player()) << "After the fight, island still belongs to 2";
 }
