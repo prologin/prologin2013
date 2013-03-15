@@ -1,23 +1,24 @@
-#ifndef ACTION_MOVE_HH_
-#define ACTION_MOVE_HH_
+#ifndef ACTION_DISCHARGE_HH_
+#define ACTION_DISCHARGE_HH_
 
 #include <rules/action.hh>
 
 #include "game.hh"
 #include "constant.hh"
 
-class ActionMove : public rules::Action<GameState>
+class ActionDischarge : public rules::Action<GameState>
 {
     public:
-        ActionMove(int id, position dest, int player);
+        ActionDischarge(int id_boat, position pos, int amount, int player);
 
         virtual int check(GameState* st) const;
         virtual void handle_buffer(utils::Buffer& buf);
         virtual void apply_on(GameState* gameState) const;
 
     private:
-        position dest_;
         int id_boat_;
+        position pos_;
+        int amount_;
         int player_id_;
 };
 

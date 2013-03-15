@@ -3,9 +3,10 @@
 #include "game.hh"
 #include "tools.hh"
 
-ActionMove::ActionMove(int id_boat, position dest)
+ActionMove::ActionMove(int id_boat, position dest, int player)
     : dest_(dest),
-      id_boat_(id_boat)
+      id_boat_(id_boat),
+      player_id_(player)
 {
 }
 
@@ -14,6 +15,9 @@ int ActionMove::check(GameState* st) const
     if (!st->get_boats().count(id_boat_))
         return ID_INVALIDE;
     bateau boat = st->get_boats()[id_boat_];
+
+    if (boat.joueur != player_id_)
+        return BATEAU_ENNEMI;
 
     if (!boat.deplacable)
         return NON_DEPLACABLE;
@@ -41,6 +45,7 @@ void ActionMove::handle_buffer(utils::Buffer& buf)
 {
     buf.handle(dest_);
     buf.handle(id_boat_);
+    buf.handle(player_id_);
 }
 
 void ActionMove::apply_on(GameState* st) const

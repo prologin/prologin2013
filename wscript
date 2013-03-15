@@ -20,6 +20,8 @@ def build(bld):
             src/action-move.cc
             src/action-construct.cc
             src/action-colonize.cc
+            src/action-charge.cc
+            src/action-discharge.cc
         ''',
         target = 'prologin2013',
         use = ['net', 'rules', 'utils'],

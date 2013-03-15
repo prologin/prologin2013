@@ -111,7 +111,9 @@ std::string convert_to_string(erreur in){
     case TROP_LOIN: return "\"trop_loin\"";
     case ILE_COLONISEE: return "\"ile_colonisee\"";
     case ILE_ENNEMIE: return "\"ile_ennemie\"";
+    case BATEAU_ENNEMI: return "\"bateau_ennemi\"";
     case ID_INVALIDE: return "\"id_invalide\"";
+    case NON_DEPLACABLE: return "\"non_deplacable\"";
     case AUCUNE_CARAVELLE: return "\"aucune_caravelle\"";
   }
   return "bad value";
@@ -373,7 +375,9 @@ std::ostream& operator<<(std::ostream& os, erreur v)
   case TROP_LOIN: os << "TROP_LOIN"; break;
   case ILE_COLONISEE: os << "ILE_COLONISEE"; break;
   case ILE_ENNEMIE: os << "ILE_ENNEMIE"; break;
+  case BATEAU_ENNEMI: os << "BATEAU_ENNEMI"; break;
   case ID_INVALIDE: os << "ID_INVALIDE"; break;
+  case NON_DEPLACABLE: os << "NON_DEPLACABLE"; break;
   case AUCUNE_CARAVELLE: os << "AUCUNE_CARAVELLE"; break;
   }
   return os;
