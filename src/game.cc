@@ -70,7 +70,7 @@ int GameState::get_current_turn() const
 
 void GameState::increment_turn()
 {
-    current_turn_ += 1;
+    current_turn_++;
 }
 
 bool GameState::is_finished()
@@ -82,7 +82,7 @@ bool GameState::is_finished()
 bool GameState::add_boat(position origin, int player, bateau_type btype)
 {
     int id = boat_next_id_++;
-    if (!boats_.count(id))
+    if (boats_.count(id))
         return false;
 
     bateau boat;
@@ -99,4 +99,9 @@ bool GameState::add_boat(position origin, int player, bateau_type btype)
 std::map<int, bateau> GameState::get_boats() const
 {
     return boats_;
+}
+
+bateau* GameState::get_boat(int id)
+{
+    return &boats_[id];
 }

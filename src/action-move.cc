@@ -12,7 +12,8 @@ ActionMove::ActionMove(int id_boat, position dest, int player)
 
 int ActionMove::check(const GameState* st) const
 {
-    if (!st->get_boats().count(id_boat_))
+    std::map<int, bateau> boats = st->get_boats();
+    if (boats.find(id_boat_) == boats.end())
         return ID_INVALIDE;
     bateau boat = st->get_boats()[id_boat_];
 
@@ -50,7 +51,7 @@ void ActionMove::handle_buffer(utils::Buffer& buf)
 
 void ActionMove::apply_on(GameState* st) const
 {
-    st->get_boats()[id_boat_].pos = dest_;
+    st->get_boat(id_boat_)->pos = dest_;
 
     bateau boat = st->get_boats()[id_boat_];
     st->get_map()->get_cell(dest_)->add_boat(id_boat_);

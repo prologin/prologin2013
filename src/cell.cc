@@ -50,7 +50,7 @@ bool Cell::remove_boat(int boat_id)
 
 bool Cell::exists_boat(int boat_id)
 {
-    return boat_ids_.find(boat_id) != boat_ids_.end();
+    return boat_ids_.count(boat_id);
 }
 
 std::set<int> Cell::get_id_boats()
