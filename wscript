@@ -30,7 +30,7 @@ def build(bld):
         lib = ['dl'],
     )
 
-    for test in ['map']:
+    for test in ['cell', 'map']:
         bld.program(
             features = 'gtest',
             source = 'src/tests/test-%s.cc' % test,
