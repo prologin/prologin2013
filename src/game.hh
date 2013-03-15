@@ -10,6 +10,16 @@
 #include "constant.hh"
 #include "map.hh"
 
+enum action_id
+{
+    ID_ACTION_MOVE,
+    ID_ACTION_CONSTRUCT,
+    ID_ACTION_COLONIZE,
+    ID_ACTION_CHARGE,
+    ID_ACTION_DISCHARGE,
+};
+
+
 class GameState : public rules::GameState
 {
     public:
