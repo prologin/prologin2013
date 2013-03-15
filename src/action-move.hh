@@ -11,7 +11,7 @@ class ActionMove : public rules::Action<GameState>
     public:
         ActionMove(int id, position dest, int player);
 
-        virtual int check(GameState* st) const;
+        virtual int check(const GameState* st) const;
         virtual void handle_buffer(utils::Buffer& buf);
 
         uint32_t player_id() const { return player_id_; }

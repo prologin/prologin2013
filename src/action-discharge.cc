@@ -11,7 +11,7 @@ ActionDischarge::ActionDischarge(int id_boat, position pos, int amount,
 {
 }
 
-int ActionDischarge::check(GameState* st) const
+int ActionDischarge::check(const GameState* st) const
 {
     Cell* island;
     if (!(island = st->get_map()->get_cell(pos_)))

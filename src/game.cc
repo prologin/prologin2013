@@ -96,7 +96,7 @@ bool GameState::add_boat(position origin, int player, bateau_type btype)
     return true;
 }
 
-std::map<int, bateau> GameState::get_boats()
+std::map<int, bateau> GameState::get_boats() const
 {
     return boats_;
 }

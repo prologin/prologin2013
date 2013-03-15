@@ -10,7 +10,7 @@ ActionMove::ActionMove(int id_boat, position dest, int player)
 {
 }
 
-int ActionMove::check(GameState* st) const
+int ActionMove::check(const GameState* st) const
 {
     if (!st->get_boats().count(id_boat_))
         return ID_INVALIDE;

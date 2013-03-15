@@ -11,8 +11,13 @@ class ActionDischarge : public rules::Action<GameState>
     public:
         ActionDischarge(int id_boat, position pos, int amount, int player);
 
-        virtual int check(GameState* st) const;
+        virtual int check(const GameState* st) const;
         virtual void handle_buffer(utils::Buffer& buf);
+
+        uint32_t player_id() const { return player_id_; }
+        uint32_t id() const { return ID_ACTION_DISCHARGE; }
+
+    protected:
         virtual void apply_on(GameState* gameState) const;
 
     private:

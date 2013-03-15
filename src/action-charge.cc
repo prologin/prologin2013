@@ -11,7 +11,7 @@ ActionCharge::ActionCharge(int id_boat, position pos, int amount,
 {
 }
 
-int ActionCharge::check(GameState* st) const
+int ActionCharge::check(const GameState* st) const
 {
     Cell* island;
     if (!(island = st->get_map()->get_cell(pos_)))

@@ -9,7 +9,7 @@ ActionColonize::ActionColonize(position pos, int player)
 {
 }
 
-int ActionColonize::check(GameState* st) const
+int ActionColonize::check(const GameState* st) const
 {
     Cell* island;
     if (!(island = st->get_map()->get_cell(pos_)))
