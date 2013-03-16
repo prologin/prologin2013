@@ -35,7 +35,7 @@ class CellTest : public ::testing::Test
         }
         while (i < j1_galions + j1_caravelles)
         {
-            boats_[i] = {i, pos_, 1, BATEAU_CARAVELLE, 0, false};
+            boats_[i] = {i, pos_, 1, BATEAU_CARAVELLE, 10, false};
             cell_->add_boat(i);
             i++;
         }
@@ -47,7 +47,7 @@ class CellTest : public ::testing::Test
         }
         while (i < j1_galions + j1_caravelles + j2_galions + j2_caravelles)
         {
-            boats_[i] = {i, pos_, 2, BATEAU_CARAVELLE, 0, false};
+            boats_[i] = {i, pos_, 2, BATEAU_CARAVELLE, 10, false};
             cell_->add_boat(i);
             i++;
         }
@@ -59,10 +59,27 @@ class CellTest : public ::testing::Test
     {
         std::set<int> boats_ids = cell->get_id_boats();
 
-        int count;
+        int count = 0;
         for (auto id : boats_ids)
             if (boats.find(id)->second.joueur == player_id)
                 count++;
+
+        return(count);
+    }
+
+    int count_gold(std::map<int, bateau> boats, Cell* cell, int player_id)
+    {
+        std::set<int> boats_ids = cell->get_id_boats();
+
+        int count = 0;
+        for (auto id : boats_ids)
+        {
+            bateau boat = boats.find(id)->second;
+            if (boat.btype == BATEAU_CARAVELLE && boat.joueur == player_id)
+                count += boat.nb_or;
+        }
+
+        return(count);
     }
 
     position pos_;
@@ -254,4 +271,37 @@ TEST_F(CellTest, IslandFight4)
     EXPECT_EQ(1, island_cell->get_player()) << "Before the fight, island belongs to 2";
     island_cell->resolve_fight(boats_, 2);
     EXPECT_EQ(1, island_cell->get_player()) << "After the fight, island still belongs to 2";
+}
+
+TEST_F(CellTest, GoldSea)
+{
+    std::map<int, bateau> boats_ = make_boats(15, 3, 10, 2, sea_cell);
+
+    EXPECT_EQ(30, count_gold(boats_, sea_cell, 1)) << "Player 1 should start with 30 gold";
+    EXPECT_EQ(20, count_gold(boats_, sea_cell, 2)) << "Player 2 should start with 20 gold";
+    sea_cell->resolve_fight(boats_, 1);
+    EXPECT_EQ(50, count_gold(boats_, sea_cell, 1)) << "Player 1 should end up with 50 gold";
+    EXPECT_EQ(0, count_gold(boats_, sea_cell, 2)) << "Player 2 should end up with no gold";
+}
+
+TEST_F(CellTest, GoldIsland)
+{
+    std::map<int, bateau> boats_ = make_boats(15, 3, 10, 2, island_cell);
+
+    EXPECT_EQ(30, count_gold(boats_, island_cell, 1)) << "Player 1 should start with 30 gold";
+    EXPECT_EQ(20, count_gold(boats_, island_cell, 2)) << "Player 2 should start with 20 gold";
+    island_cell->resolve_fight(boats_, 1);
+    EXPECT_EQ(50, count_gold(boats_, island_cell, 1)) << "Player 1 should end up with 50 gold";
+    EXPECT_EQ(0, count_gold(boats_, island_cell, 2)) << "Player 2 should end up with no gold";
+}
+
+TEST_F(CellTest, GoldVolcano)
+{
+    std::map<int, bateau> boats_ = make_boats(15, 3, 10, 2, volcano_cell);
+
+    EXPECT_EQ(30, count_gold(boats_, volcano_cell, 1)) << "Player 1 should start with 30 gold";
+    EXPECT_EQ(20, count_gold(boats_, volcano_cell, 2)) << "Player 2 should start with 20 gold";
+    volcano_cell->resolve_fight(boats_, 1);
+    EXPECT_EQ(50, count_gold(boats_, volcano_cell, 1)) << "Player 1 should end up with 50 gold";
+    EXPECT_EQ(0, count_gold(boats_, volcano_cell, 2)) << "Player 2 should end up with no gold";
 }
