@@ -61,8 +61,12 @@ class CellTest : public ::testing::Test
 
         int count = 0;
         for (auto id : boats_ids)
-            if (boats.find(id)->second.joueur == player_id)
+        {
+            if (boats.find(id) == boats.end())
+                return( -1);
+            else if (boats.find(id)->second.joueur == player_id)
                 count++;
+        }
 
         return(count);
     }
@@ -131,7 +135,11 @@ TEST_F(CellTest, SeaFight1)
 
     INFO("resolve_fight");
     EXPECT_EQ(1, boats_.size());
+
+    EXPECT_NE(-1, count_boats(boats_, sea_cell, 1)) << "Some boats was not deleted from boats std::map<int, bateau>";
     EXPECT_EQ(1, count_boats(boats_, sea_cell, 1)) << "Winner's boat must be remaining";
+
+    EXPECT_NE(-1, count_boats(boats_, sea_cell, 2)) << "Some boats was not deleted from boats std::map<int, bateau>";
     EXPECT_EQ(0, count_boats(boats_, sea_cell, 2)) << "Loser's boat must be destroyed";
 
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should still belong to nobody after the fight";
@@ -151,7 +159,11 @@ TEST_F(CellTest, SeaFight2)
 
     INFO("resolve_fight");
     EXPECT_EQ(1, boats_.size());
+
+    EXPECT_NE(-1, count_boats(boats_, sea_cell, 1)) << "Some boats was not deleted from boats std::map<int, bateau>";
     EXPECT_EQ(0, count_boats(boats_, sea_cell, 1)) << "Loser's boat must be destroyed";
+
+    EXPECT_NE(-1, count_boats(boats_, sea_cell, 2)) << "Some boats was not deleted from boats std::map<int, bateau>";
     EXPECT_EQ(1, count_boats(boats_, sea_cell, 2)) << "Winner's boat must be remaining";
 
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should still belong to nobody after the fight";
@@ -166,7 +178,10 @@ TEST_F(CellTest, SeaFight3)
 
     sea_cell->resolve_fight(boats_, 1);
 
+    EXPECT_NE(-1, count_boats(boats_, sea_cell, 1)) << "Some boats was not deleted from boats std::map<int, bateau>";
     EXPECT_EQ(6, count_boats(boats_, sea_cell, 1)) << "6 boats should remain for the winner";
+
+    EXPECT_NE(-1, count_boats(boats_, sea_cell, 2)) << "Some boats was not deleted from boats std::map<int, bateau>";
     EXPECT_EQ(0, count_boats(boats_, sea_cell, 2)) << "No boat should remain for the loser";
 
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should still belong to nobody after the fight";
@@ -181,7 +196,10 @@ TEST_F(CellTest, SeaFight4)
 
     sea_cell->resolve_fight(boats_, 1);
 
+    EXPECT_NE(-1, count_boats(boats_, sea_cell, 2)) << "Some boats was not deleted from boats std::map<int, bateau>";
     EXPECT_EQ(2, count_boats(boats_, sea_cell, 2)) << "2 boats should remain for the winner";
+
+    EXPECT_NE(-1, count_boats(boats_, sea_cell, 1)) << "Some boats was not deleted from boats std::map<int, bateau>";
     EXPECT_EQ(0, count_boats(boats_, sea_cell, 1)) << "No boat should remain for the loser";
 
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should still belong to nobody after the fight";
@@ -202,7 +220,10 @@ TEST_F(CellTest, SeaFight5)
     INFO("resolve_fight");
     EXPECT_EQ(1, boats_.size());
 
+    EXPECT_NE(-1, count_boats(boats_, sea_cell, 2)) << "Some boats was not deleted from boats std::map<int, bateau>";
     EXPECT_EQ(1, count_boats(boats_, sea_cell, 2)) << "1 boat should remain for the winner";
+
+    EXPECT_NE(-1, count_boats(boats_, sea_cell, 1)) << "Some boats was not deleted from boats std::map<int, bateau>";
     EXPECT_EQ(0, count_boats(boats_, sea_cell, 1)) << "No boat should remain for the loser";
 
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should still belong to nobody after the fight";
@@ -223,7 +244,10 @@ TEST_F(CellTest, SeaFight6)
     INFO("resolve_fight");
     EXPECT_EQ(1, boats_.size());
 
+    EXPECT_NE(-1, count_boats(boats_, sea_cell, 1)) << "Some boats was not deleted from boats std::map<int, bateau>";
     EXPECT_EQ(1, count_boats(boats_, sea_cell, 1)) << "1 boat should remain for the winner";
+
+    EXPECT_NE(-1, count_boats(boats_, sea_cell, 2)) << "Some boats was not deleted from boats std::map<int, bateau>";
     EXPECT_EQ(0, count_boats(boats_, sea_cell, 2)) << "No boat should remain for the loser";
 
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should still belong to nobody after the fight";
@@ -286,13 +310,13 @@ TEST_F(CellTest, GoldSea)
 
 TEST_F(CellTest, GoldIsland)
 {
-    std::map<int, bateau> boats_ = make_boats(15, 3, 10, 2, island_cell);
+    std::map<int, bateau> boats_ = make_boats(15, 3, 20, 2, island_cell);
 
     EXPECT_EQ(30, count_gold(boats_, island_cell, 1)) << "Player 1 should start with 30 gold";
     EXPECT_EQ(20, count_gold(boats_, island_cell, 2)) << "Player 2 should start with 20 gold";
-    island_cell->resolve_fight(boats_, 1);
-    EXPECT_EQ(50, count_gold(boats_, island_cell, 1)) << "Player 1 should end up with 50 gold";
-    EXPECT_EQ(0, count_gold(boats_, island_cell, 2)) << "Player 2 should end up with no gold";
+    island_cell->resolve_fight(boats_, 2);
+    EXPECT_EQ(0, count_gold(boats_, island_cell, 1)) << "Player 1 should end up with no gold";
+    EXPECT_EQ(50, count_gold(boats_, island_cell, 2)) << "Player 2 should end up with 50 gold";
 }
 
 TEST_F(CellTest, GoldVolcano)
