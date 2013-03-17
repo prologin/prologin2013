@@ -53,7 +53,7 @@ bool Cell::exists_boat(int boat_id)
     return boat_ids_.count(boat_id);
 }
 
-std::set<int> Cell::get_id_boats()
+std::set<int>& Cell::get_id_boats()
 {
     return boat_ids_;
 }

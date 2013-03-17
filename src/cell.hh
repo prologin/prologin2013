@@ -22,7 +22,7 @@ class Cell
         void add_boat(int boat_id);
         bool remove_boat(int boat_id);
         bool exists_boat(int boat_id);
-        std::set<int> get_id_boats();
+        std::set<int>& get_id_boats();
 
         void resolve_fight(std::map<int, bateau>& boats, int id_attacker);
 
