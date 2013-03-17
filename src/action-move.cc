@@ -51,9 +51,23 @@ void ActionMove::handle_buffer(utils::Buffer& buf)
 
 void ActionMove::apply_on(GameState* st) const
 {
+    Cell* dest = st->get_map()->get_cell(dest_);
     bateau boat = st->get_boats()[id_boat_];
-    st->get_map()->get_cell(dest_)->add_boat(id_boat_);
-    st->get_map()->get_cell(boat.pos)->remove_boat(id_boat_);
 
+    dest->add_boat(id_boat_);
+    st->get_map()->get_cell(boat.pos)->remove_boat(id_boat_);
     st->get_boat(id_boat_)->pos = dest_;
+
+    if (dest->get_type() == TERRAIN_ILE || dest->get_type() == TERRAIN_VOLCAN)
+    {
+        bateau* b;
+        for (auto& i : dest->get_id_boats())
+        {
+            b = st->get_boat(i);
+            if (b->joueur != player_id_ && b->btype == BATEAU_GALION)
+                return;
+        }
+
+        dest->set_player(player_id_);
+    }
 }
