@@ -216,7 +216,7 @@ TEST_F(CellTest, SeaFight6)
     INFO("get_player");
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should belong to nobody before first fight";
 
-    EXPECT_EQ(2, boats_.size());
+    EXPECT_EQ(40, boats_.size());
 
     sea_cell-> resolve_fight(boats_, 1);
 

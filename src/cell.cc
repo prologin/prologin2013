@@ -115,23 +115,30 @@ void Cell::resolve_fight(std::map<int, bateau>& boats, int id_attacker)
         {
             id_winner = id_p1;
             id_loser = id_p2;
+            galions_lost = galions_p2 - 1;
         }
         else if (id_p2 == player_)
         {
             id_winner = id_p2;
             id_loser = id_p1;
+            galions_lost = galions_p1 - 1;
         }
         else if (id_p1 == id_attacker)
         {
             id_winner = id_p1;
             id_loser = id_p2;
+            galions_lost = galions_p2 - 1;
         }
         else if (id_p2 == id_attacker)
         {
             id_winner = id_p2;
             id_loser = id_p1;
+            galions_lost = galions_p1 - 1;
         }
     }
+
+    if (player_ == id_loser)
+        player_ = id_winner;
 
     for (std::set<int>::iterator i = boat_ids_.begin(); i != boat_ids_.end();
             i++)
