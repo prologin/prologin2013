@@ -24,8 +24,6 @@ class Cell
         bool exists_boat(int boat_id);
         std::set<int>& get_id_boats();
 
-        void resolve_fight(std::map<int, bateau>& boats, int id_attacker);
-
     private:
         int x_;
         int y_;
