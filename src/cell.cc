@@ -66,11 +66,12 @@ void Cell::resolve_fight(std::map<int, bateau>& boats, int id_attacker)
     int galions_p1 = 0;
     int galions_p2 = 0;
 
-    int caravelle_p1 = -1;
-    int caravelle_p2 = -1;
+    int galions_lost = 0;
 
-    int winner = -1;
+    int caravelle_winner = -1;
+
     int id_winner = -1;
+    int id_loser = -1;
 
     int i;
 
@@ -90,14 +91,8 @@ void Cell::resolve_fight(std::map<int, bateau>& boats, int id_attacker)
             if (boats[i].joueur == id_p2)
                 galions_p2++;
         }
-        else
-        {
-            if (boats[i].joueur == id_p1 && caravelle_p1 == -1)
-                caravelle_p1 = boats[i].id;
-            if (boats[i].joueur == id_p2 && caravelle_p2 == -1)
-                caravelle_p2 = boats[i].id;
-        }
     }
+
 
     if (!galions_p1 || !galions_p2)
         return;
@@ -105,43 +100,46 @@ void Cell::resolve_fight(std::map<int, bateau>& boats, int id_attacker)
     if (galions_p1 > galions_p2)
     {
         id_winner = id_p1;
-        winner = 1;
-        galions_p2--; /* The winner loses galions_enemy - 1 */
+        id_loser = id_p2;
+        galions_lost = galions_p2 - 1; /* The winner loses galions_enemy-1 */
     }
     else if (galions_p2 > galions_p1)
     {
         id_winner = id_p2;
-        winner = 2;
-        galions_p1--;
+        id_loser = id_p1;
+        galions_lost = galions_p1 - 1; /* The winner loses galions_enemy-1 */
     }
     else
     {
         if (id_p1 == player_)
         {
             id_winner = id_p1;
-            winner = 1;
+            id_loser = id_p2;
         }
         else if (id_p2 == player_)
         {
             id_winner = id_p2;
-            winner = 2;
+            id_loser = id_p1;
         }
         else if (id_p1 == id_attacker)
         {
             id_winner = id_p1;
-            winner = 1;
+            id_loser = id_p2;
         }
         else if (id_p2 == id_attacker)
         {
             id_winner = id_p2;
-            winner = 2;
+            id_loser = id_p1;
         }
-        else
-            winner = 0;
     }
 
+    for (std::set<int>::iterator i = boat_ids_.begin(); i != boat_ids_.end();
+            i++)
+        if (boats[*i].btype == BATEAU_CARAVELLE)
+            caravelle_winner = boats[*i].id;
 
     int gold_move;
+
     for (std::set<int>::iterator it = boat_ids_.begin(); it != boat_ids_.end();
             it++)
     {
@@ -153,26 +151,22 @@ void Cell::resolve_fight(std::map<int, bateau>& boats, int id_attacker)
                 gold_move = boats[i].nb_or;
                 boats.erase(i);
                 remove_boat(i);
-                if (winner == 1 && caravelle_p1 != -1)
-                    boats[caravelle_p1].nb_or += gold_move;
-                else if (winner == 2 && caravelle_p2 != -1)
-                    boats[caravelle_p2].nb_or += gold_move;
+                if (caravelle_winner != -1)
+                    boats[caravelle_winner].nb_or += gold_move;
             }
         }
         else
         {
-            if (boats[i].joueur == id_p1 && galions_p2)
+            if (boats[i].joueur == id_winner && galions_lost)
             {
                 boats.erase(i);
                 remove_boat(i);
-                galions_p2--;
+                galions_lost--;
             }
-
-            if (boats[i].joueur == id_p2 && galions_p1)
+            else if (boats[i].joueur == id_loser)
             {
                 boats.erase(i);
                 remove_boat(i);
-                galions_p1--;
             }
         }
     }
