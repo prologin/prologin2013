@@ -148,7 +148,7 @@ void GameState::resolve_fight(position pos, int id_attacker)
     }
 
 
-    if (!galions_p1 || !galions_p2)
+    if (!galions_p1 && !galions_p2)
         return;
 
     if (galions_p1 > galions_p2 ||
@@ -169,7 +169,7 @@ void GameState::resolve_fight(position pos, int id_attacker)
         galions_lost = galions_p1 - 1; /* The winner loses galions_enemy-1 */
     }
 
-    if (c->get_player() == id_loser)
+    if (c->get_player() != -1 && c->get_player() == id_loser)
         c->set_player(id_winner);
 
     for (std::set<int>::iterator i = boat_ids.begin(); i != boat_ids.end();
@@ -197,7 +197,7 @@ void GameState::resolve_fight(position pos, int id_attacker)
         }
         else
         {
-            if (boats_[i].joueur == id_winner && galions_lost)
+            if (boats_[i].joueur == id_winner && galions_lost > 0)
             {
                 boats_.erase(i);
                 c->remove_boat(i);

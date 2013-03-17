@@ -424,15 +424,7 @@ TEST_F(ActionsTest, MoveTest)
 
     c = gamestate_->get_map()->get_cell({4, 3});
     EXPECT_TRUE(c->exists_boat(0)) << "Not in the destination position";
-    EXPECT_EQ(0, c->get_player()) << "Player hasn't been updated";
 
     bateau boat = gamestate_->get_boats()[0];
     EXPECT_EQ(boat.pos, (position {4, 3})) << "bateau.pos hasn't been updated";
-
-    c = gamestate_->get_map()->get_cell({2, 2});
-    c->set_player(1);
-    gamestate_->add_boat({2, 2}, 1, BATEAU_GALION);
-    ActionMove a2(0, {2, 2}, 0); // Origin : 4, 3
-    a2.apply_on(gamestate_);
-    EXPECT_EQ(1, c->get_player()) << "Player shouldn't be updated";
 }
