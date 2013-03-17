@@ -131,7 +131,7 @@ TEST_F(CellTest, SeaFight1)
 
     INFO("resolve_fight");
     EXPECT_EQ(1, boats_.size());
-    EXPECT_EQ(0, count_boats(boats_, sea_cell, 1)) << "Winner's boat must be remaining";
+    EXPECT_EQ(1, count_boats(boats_, sea_cell, 1)) << "Winner's boat must be remaining";
     EXPECT_EQ(0, count_boats(boats_, sea_cell, 2)) << "Loser's boat must be destroyed";
 
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should still belong to nobody after the fight";
@@ -195,7 +195,7 @@ TEST_F(CellTest, SeaFight5)
     INFO("get_player");
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should belong to nobody before first fight";
 
-    EXPECT_EQ(20, boats_.size());
+    EXPECT_EQ(40, boats_.size());
 
     sea_cell-> resolve_fight(boats_, 2);
 
