@@ -211,3 +211,10 @@ void GameState::resolve_fight(position pos, int id_attacker)
         }
     }
 }
+
+void GameState::resolve_all_fights(int id_attacker)
+{
+    for (int x = 0; x < TAILLE_TERRAIN; x++)
+        for (int y = 0; y < TAILLE_TERRAIN; y++)
+            resolve_fight({x, y}, id_attacker);
+}

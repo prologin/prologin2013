@@ -48,6 +48,7 @@ class GameState : public rules::GameState
         bateau* get_boat(int id);
 
         void resolve_fight(position pos, int id_attacker);
+        void resolve_all_fights(int id_attacker);
 
     private:
         Map* map_;
