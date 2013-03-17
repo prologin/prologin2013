@@ -51,7 +51,7 @@ void ActionCharge::handle_buffer(utils::Buffer& buf)
 
 void ActionCharge::apply_on(GameState* st) const
 {
-    st->get_boats()[id_boat_].nb_or += amount_;
+    st->get_boat(id_boat_)->nb_or += amount_;
     Cell* island = st->get_map()->get_cell(pos_);
     island->set_gold(island->get_gold() - amount_);
 }
