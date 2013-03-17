@@ -325,7 +325,7 @@ TEST_F(CellTest, GoldVolcano)
 
     EXPECT_EQ(30, count_gold(boats_, volcano_cell, 1)) << "Player 1 should start with 30 gold";
     EXPECT_EQ(20, count_gold(boats_, volcano_cell, 2)) << "Player 2 should start with 20 gold";
-    volcano_cell->resolve_fight(boats_, 1);
+    volcano_cell->resolve_fight(boats_, 2);
     EXPECT_EQ(50, count_gold(boats_, volcano_cell, 1)) << "Player 1 should end up with 50 gold";
     EXPECT_EQ(0, count_gold(boats_, volcano_cell, 2)) << "Player 2 should end up with no gold";
 }
