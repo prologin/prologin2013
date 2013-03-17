@@ -17,11 +17,12 @@ def build(bld):
             src/map.cc
             src/game.cc
             src/tools.cc
-            src/action-move.cc
-            src/action-construct.cc
-            src/action-colonize.cc
+            src/action-ack.cc
             src/action-charge.cc
+            src/action-colonize.cc
+            src/action-construct.cc
             src/action-discharge.cc
+            src/action-move.cc
         ''',
         target = 'prologin2013',
         use = ['net', 'rules', 'utils'],
