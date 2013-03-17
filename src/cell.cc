@@ -97,44 +97,22 @@ void Cell::resolve_fight(std::map<int, bateau>& boats, int id_attacker)
     if (!galions_p1 || !galions_p2)
         return;
 
-    if (galions_p1 > galions_p2)
+    if (galions_p1 > galions_p2 ||
+            (galions_p1 == galions_p2 &&
+                ((player_ == -1 && id_p1 == id_attacker) ||
+                id_p1 == player_)
+            )
+       )
     {
         id_winner = id_p1;
         id_loser = id_p2;
         galions_lost = galions_p2 - 1; /* The winner loses galions_enemy-1 */
     }
-    else if (galions_p2 > galions_p1)
+    else
     {
         id_winner = id_p2;
         id_loser = id_p1;
         galions_lost = galions_p1 - 1; /* The winner loses galions_enemy-1 */
-    }
-    else
-    {
-        if (id_p1 == player_)
-        {
-            id_winner = id_p1;
-            id_loser = id_p2;
-            galions_lost = galions_p2 - 1;
-        }
-        else if (id_p2 == player_)
-        {
-            id_winner = id_p2;
-            id_loser = id_p1;
-            galions_lost = galions_p1 - 1;
-        }
-        else if (id_p1 == id_attacker)
-        {
-            id_winner = id_p1;
-            id_loser = id_p2;
-            galions_lost = galions_p2 - 1;
-        }
-        else if (id_p2 == id_attacker)
-        {
-            id_winner = id_p2;
-            id_loser = id_p1;
-            galions_lost = galions_p1 - 1;
-        }
     }
 
     if (player_ == id_loser)
