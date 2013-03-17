@@ -31,7 +31,7 @@ def build(bld):
         lib = ['dl'],
     )
 
-    for test in ['cell', 'map', 'actions']:
+    for test in ['cell', 'map', 'fight', 'actions']:
         bld.program(
             features = 'gtest',
             source = 'src/tests/test-%s.cc' % test,
