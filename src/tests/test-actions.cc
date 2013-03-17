@@ -98,7 +98,7 @@ class ActionsTest : public ::testing::Test
             gamestate_->add_boat({2, 4}, 1, BATEAU_CARAVELLE); // 6
             gamestate_->get_boat(4)->deplacable = true;
 
-            gamestate_->add_boat({2, 5}, 0, BATEAU_CARAVELLE); // 6
+            gamestate_->add_boat({2, 5}, 0, BATEAU_CARAVELLE); // 7
             gamestate_->get_boat(4)->deplacable = true;
 
         }
