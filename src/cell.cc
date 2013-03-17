@@ -120,7 +120,8 @@ void Cell::resolve_fight(std::map<int, bateau>& boats, int id_attacker)
 
     for (std::set<int>::iterator i = boat_ids_.begin(); i != boat_ids_.end();
             i++)
-        if (boats[*i].btype == BATEAU_CARAVELLE)
+        if (boats[*i].btype == BATEAU_CARAVELLE &&
+            boats[*i].joueur == id_winner)
             caravelle_winner = boats[*i].id;
 
     int gold_move;
