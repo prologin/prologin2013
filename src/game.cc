@@ -230,7 +230,7 @@ void GameState::resolve_score(position pos)
     if (owner != -1)
         player_ids_[owner]->score += c->get_gold();
     for (auto& i : c->get_id_boats())
-        player_ids_[owner]->score += boats_[i].nb_or;
+        player_ids_[boats_[i].joueur]->score += boats_[i].nb_or;
 }
 
 void GameState::resolve_all_scores()
