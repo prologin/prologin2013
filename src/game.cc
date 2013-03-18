@@ -221,3 +221,22 @@ void GameState::resolve_all_fights(int id_attacker)
         for (int y = 0; y < TAILLE_TERRAIN; y++)
             resolve_fight({x, y}, id_attacker);
 }
+
+void GameState::resolve_score(position pos)
+{
+    Cell* c = map_->get_cell(pos);
+    int owner = c->get_player();
+    if (owner != -1)
+        player_ids_[owner]->score += c->get_gold();
+    for (auto& i : c->get_id_boats())
+        player_ids_[owner]->score += boats_[i].nb_or;
+}
+
+void GameState::resolve_all_scores()
+{
+    for (auto& i : players_->players)
+        i->score = 0;
+    for (int x = 0; x < TAILLE_TERRAIN; x++)
+        for (int y = 0; y < TAILLE_TERRAIN; y++)
+            resolve_score({x, y});
+}

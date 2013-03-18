@@ -50,6 +50,9 @@ class GameState : public rules::GameState
         void resolve_fight(position pos, int id_attacker);
         void resolve_all_fights(int id_attacker);
 
+        void resolve_score(position pos);
+        void resolve_all_scores();
+
     private:
         Map* map_;
         rules::Players_sptr players_;
