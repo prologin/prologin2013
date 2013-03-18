@@ -78,6 +78,7 @@ void Rules::client_loop(rules::ClientMessenger_sptr msgr)
     while (!api_->game_state()->is_finished())
     {
         INFO("TURN %d", api_->game_state()->get_current_turn());
+        api_->game_state()->update_gold();
 
         api_->actions()->clear();
 
@@ -115,6 +116,7 @@ void Rules::spectator_loop(rules::ClientMessenger_sptr msgr)
     while (!api_->game_state()->is_finished())
     {
         INFO("TURN %d", api_->game_state()->get_current_turn());
+        api_->game_state()->update_gold();
 
         api_->actions()->clear();
 
@@ -152,6 +154,7 @@ void Rules::server_loop(rules::ServerMessenger_sptr msgr)
     while (!api_->game_state()->is_finished())
     {
         INFO("TURN %d", api_->game_state()->get_current_turn());
+        api_->game_state()->update_gold();
 
         for (unsigned int i = 0; i < players_->players.size(); i++)
         {

@@ -241,3 +241,19 @@ void GameState::resolve_all_scores()
         for (int y = 0; y < TAILLE_TERRAIN; y++)
             resolve_score({x, y});
 }
+
+void GameState::update_gold()
+{
+    Cell* c;
+    for (auto p : map_->get_islands())
+    {
+        c = map_->get_cell(p);
+        if (c->get_player() != -1)
+        {
+            if (c->get_type() == TERRAIN_VOLCAN)
+                c->set_gold(c->get_gold() + REVENU_VOLCAN);
+            else if (c->get_type() == TERRAIN_ILE)
+                c->set_gold(c->get_gold() + REVENU_ILE);
+        }
+    }
+}

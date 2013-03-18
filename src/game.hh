@@ -53,6 +53,7 @@ class GameState : public rules::GameState
         void resolve_score(position pos);
         void resolve_all_scores();
 
+        void update_gold();
     private:
         Map* map_;
         rules::Players_sptr players_;
