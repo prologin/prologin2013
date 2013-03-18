@@ -36,6 +36,11 @@ class Api
         
         rules::Actions* actions() { return &actions_; }
 
+        const GameState* game_state() const { return game_state_; }
+        GameState* game_state() { return game_state_; }
+        void game_state_set(rules::GameState* gs)
+            { game_state_ = dynamic_cast<GameState*>(gs); }
+
     private:
         GameState* game_state_;
         rules::Player_sptr player_;

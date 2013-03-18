@@ -2,11 +2,14 @@
 
 #include <utils/log.hh>
 #include <rules/player.hh>
+#include <rules/actions.hh>
 
 #include "rules.hh"
 #include "game.hh"
 #include "map.hh"
 #include "api.hh"
+
+#include "action-ack.hh"
 
 Rules::Rules(const rules::Options opt)
     : opt_(opt)
@@ -70,12 +73,11 @@ Rules::~Rules()
 
 void Rules::client_loop(rules::ClientMessenger_sptr msgr)
 {
-#if 0
     CHECK(champion_ != nullptr);
 
-    while (!is_finished())
+    while (!api_->game_state()->is_finished())
     {
-        INFO("TURN %d", api_->game_state()->getCurrentTurn());
+        INFO("TURN %d", api_->game_state()->get_current_turn());
 
         api_->actions()->clear();
 
@@ -90,31 +92,29 @@ void Rules::client_loop(rules::ClientMessenger_sptr msgr)
 
         api_->actions()->clear();
 
-        resolve_fights();
+        api_->game_state()->resolve_all_fights(api_->player()->id);
 
         /* Get other players actions */
         msgr->pull_actions(api_->actions());
 
         /* Apply them onto the gamestate */
-        for (IAction_sptr action : api_->actions()->actions())
+        for (auto action : api_->actions()->actions())
         {
             api_->game_state_set(action->apply(api_->game_state()));
         }
 
-        resolve_fights();
-        resolve_points();
+        api_->game_state()->resolve_all_fights(api_->player()->id);
+        api_->game_state()->resolve_all_scores();
     }
-#endif
 }
 
 void Rules::spectator_loop(rules::ClientMessenger_sptr msgr)
 {
-#if 0
     CHECK(champion_ != nullptr);
 
-    while (!is_finished())
+    while (!api_->game_state()->is_finished())
     {
-        INFO("TURN %d", api_->game_state()->getCurrentTurn());
+        INFO("TURN %d", api_->game_state()->get_current_turn());
 
         api_->actions()->clear();
 
@@ -124,7 +124,8 @@ void Rules::spectator_loop(rules::ClientMessenger_sptr msgr)
         while (!msgr->wait_for_turn(api_->player()->id, &pulled_id))
             ;
         /* Send the ACK to the server (client can only send actions) */
-        api_actions->add(rules::IAction_sptr(new ActionAck(api_->player()->id)));
+        api_->actions()->add(
+                rules::IAction_sptr(new ActionAck(api_->player()->id)));
         msgr->send_actions(*api_->actions());
         msgr->wait_for_ack();
 
@@ -134,25 +135,23 @@ void Rules::spectator_loop(rules::ClientMessenger_sptr msgr)
         msgr->pull_actions(api_->actions());
 
         /* Apply them onto the gamestate */
-        for (IAction_sptr action : api_->actions()->actions())
+        for (auto action : api_->actions()->actions())
         {
             api_->game_state_set(action->apply(api_->game_state()));
         }
 
-        resolve_fights();
-        resolve_points();
+        api_->game_state()->resolve_all_fights(api_->player()->id);
+        api_->game_state()->resolve_all_scores();
     }
-#endif
 }
 
 void Rules::server_loop(rules::ServerMessenger_sptr msgr)
 {
-#if 0
     CHECK(champion_ == nullptr);
 
-    while (!is_finished())
+    while (!api_->game_state()->is_finished())
     {
-        INFO("TURN %d", api_->game_state()->getCurrentTurn());
+        INFO("TURN %d", api_->game_state()->get_current_turn());
 
         for (unsigned int i = 0; i < players_->players.size(); i++)
         {
@@ -166,15 +165,17 @@ void Rules::server_loop(rules::ServerMessenger_sptr msgr)
             msgr->recv_actions(&actions);
             msgr->ack();
 
-            for (IAction_sptr action : actions)
+            for (auto action : actions.actions())
             {
                 api_->game_state_set(action->apply(api_->game_state()));
             }
-            resolve_fights();
+
+            api_->game_state()->resolve_all_fights(api_->player()->id);
 
             msgr->push_actions(actions);
         }
-        resolve_score();
+
+        api_->game_state()->resolve_all_scores();
 
         for (unsigned int i = 0; i < spectators_->players.size(); i++)
         {
@@ -184,5 +185,4 @@ void Rules::server_loop(rules::ServerMessenger_sptr msgr)
             msgr->ack();
         }
     }
-#endif
 }
