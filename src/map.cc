@@ -49,6 +49,9 @@ int Map::load(std::istream& s)
                 FATAL("Invalid cell at y=%d x=%d", y, x);
 
             map_[y][x] = new Cell(y, x, type_chars[line[x]]);
+            if (type_chars[line[x]] == TERRAIN_VOLCAN ||
+                type_chars[line[x]] == TERRAIN_ILE)
+                islands_.push_back({y, x});
         }
     }
     return 0;
@@ -65,4 +68,9 @@ Cell* Map::get_cell(position p) const
     if (!valid_position(p))
         return NULL;
     return map_[p.y][p.x];
+}
+
+std::vector<position> Map::get_islands() const
+{
+    return islands_;
 }

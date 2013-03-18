@@ -11,16 +11,17 @@
 */
 
 #include <stdlib.h>
+#include <algorithm>
 
 #include "api.hh"
+#include "tools.hh"
 
 // global used in interface.cc
 Api* api;
 
-Api::Api(GameState* game_state, rules::Player_sptr player, int player_index)
+Api::Api(GameState* game_state, rules::Player_sptr player)
     : game_state_(game_state),
-      player_(player),
-      player_index_(player_index_)
+      player_(player)
 {
   api = this;
 }
@@ -30,8 +31,7 @@ Api::Api(GameState* game_state, rules::Player_sptr player, int player_index)
 //
 terrain Api::info_terrain(position pos)
 {
-  // TODO
-  abort();
+    return game_state_->get_map()->get_cell(pos)->get_type();
 }
 
 ///
@@ -39,8 +39,7 @@ terrain Api::info_terrain(position pos)
 //
 int Api::info_ile_joueur(position pos)
 {
-  // TODO
-  abort();
+    return game_state_->get_map()->get_cell(pos)->get_player();
 }
 
 ///
@@ -48,8 +47,7 @@ int Api::info_ile_joueur(position pos)
 //
 int Api::info_ile_or(position pos)
 {
-  // TODO
-  abort();
+    return game_state_->get_map()->get_cell(pos)->get_gold();
 }
 
 ///
@@ -57,8 +55,7 @@ int Api::info_ile_or(position pos)
 //
 bateau Api::info_bateau(int id)
 {
-  // TODO
-  abort();
+    return game_state_->get_boats()[id];
 }
 
 ///
@@ -66,8 +63,10 @@ bateau Api::info_bateau(int id)
 //
 std::vector<bateau> Api::liste_bateaux_position(position pos)
 {
-  // TODO
-  abort();
+    std::vector<bateau> r;
+    for(auto& i: game_state_->get_map()->get_cell(pos)->get_id_boats())
+        r.push_back(game_state_->get_boats()[i]);
+    return r;
 }
 
 ///
@@ -75,8 +74,10 @@ std::vector<bateau> Api::liste_bateaux_position(position pos)
 //
 std::vector<int> Api::liste_id_bateaux_position(position pos)
 {
-  // TODO
-  abort();
+    std::vector<int> r;
+    std::set<int> i = game_state_->get_map()->get_cell(pos)->get_id_boats();
+    std::copy(i.begin(), i.end(), std::back_inserter(r));
+    return r;
 }
 
 ///
@@ -84,8 +85,7 @@ std::vector<int> Api::liste_id_bateaux_position(position pos)
 //
 std::vector<position> Api::liste_iles()
 {
-  // TODO
-  abort();
+    return game_state_->get_map()->get_islands();
 }
 
 ///
@@ -93,8 +93,12 @@ std::vector<position> Api::liste_iles()
 //
 std::vector<position> Api::mes_iles()
 {
-  // TODO
-  abort();
+    std::vector<position> r;
+    std::vector<position> i = game_state_->get_map()->get_islands();
+    std::copy_if(i.begin(), i.end(), r.begin(), [this](position p) {
+            return game_state_->get_map()->get_cell(p)->get_player() ==
+            player_->id; });
+    return r;
 }
 
 ///
@@ -102,8 +106,7 @@ std::vector<position> Api::mes_iles()
 //
 int Api::distance(position depart, position arrivee)
 {
-  // TODO
-  abort();
+    return distance(depart, arrivee);
 }
 
 ///
@@ -156,8 +159,7 @@ erreur Api::decharger(int id, int nb_or)
 //
 int Api::mon_joueur()
 {
-  // TODO
-  abort();
+    return player_->id;
 }
 
 ///
@@ -165,8 +167,7 @@ int Api::mon_joueur()
 //
 std::vector<int> Api::scores()
 {
-  // TODO
-  abort();
+    return game_state_->get_scores();
 }
 
 ///
@@ -174,36 +175,5 @@ std::vector<int> Api::scores()
 //
 int Api::tour_actuel()
 {
-  // TODO
-  abort();
+    return game_state_->get_current_turn();
 }
-
-///
-// Retourne le nombre total de tours de toute la partie
-//
-int Api::nombre_tours()
-{
-  // TODO
-  abort();
-}
-
-///
-// Affiche le contenu d'une valeur de type bateau_type
-//
-
-///
-// Affiche le contenu d'une valeur de type terrain
-//
-
-///
-// Affiche le contenu d'une valeur de type erreur
-//
-
-///
-// Affiche le contenu d'une valeur de type position
-//
-
-///
-// Affiche le contenu d'une valeur de type bateau
-//
-

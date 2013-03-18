@@ -21,16 +21,7 @@ Rules::Rules(const rules::Options opt)
     GameState* game_state = new GameState(map, opt.players);
     game_state->init();
 
-    int player_index = 0;
-    if (opt.player.get() != nullptr)
-    {
-        for (; (unsigned)player_index < opt.players->players.size();
-                ++player_index)
-            if (opt.players->players[player_index]->id == opt.player->id)
-                break;
-    }
-
-    api_ = new Api(game_state, opt.player, player_index);
+    api_ = new Api(game_state, opt.player);
 
     // Get the champion library if we are a client
     if (!opt.champion_lib.empty())

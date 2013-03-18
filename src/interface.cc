@@ -320,14 +320,6 @@ extern "C" int api_tour_actuel()
 }
 
 ///
-// Retourne le nombre total de tours de toute la partie
-//
-extern "C" int api_nombre_tours()
-{
-  return api->nombre_tours();
-}
-
-///
 // Affiche le contenu d'une valeur de type bateau_type
 //
 std::ostream& operator<<(std::ostream& os, bateau_type v)

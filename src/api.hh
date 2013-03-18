@@ -27,7 +27,7 @@ class Api
 {
 
 public:
-    Api(GameState* game_state, rules::Player_sptr player, int player_index_);
+    Api(GameState* game_state, rules::Player_sptr player);
     virtual ~Api() { }
 
 private:
@@ -105,10 +105,6 @@ public:
 // Retourne le numéro du tour actuel
 //
    int tour_actuel();
-///
-// Retourne le nombre total de tours de toute la partie
-//
-   int nombre_tours();
 ///
 // Affiche le contenu d'une valeur de type bateau_type
 //

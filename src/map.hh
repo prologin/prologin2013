@@ -2,6 +2,7 @@
 # define MAP_HH_
 
 #include <array>
+#include <vector>
 
 #include "constant.hh"
 #include "cell.hh"
@@ -27,9 +28,13 @@ class Map
         bool valid_position(position p) const;
         Cell* get_cell(position p) const;
 
+        std::vector<position> get_islands() const;
+
     private:
         std::array<std::array<Cell*, TAILLE_TERRAIN>, TAILLE_TERRAIN> map_;
         std::array<position, MAX_JOUEURS> start_positions_;
+
+        std::vector<position> islands_;
 };
 
 #endif // !MAP_HH_

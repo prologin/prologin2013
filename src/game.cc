@@ -54,6 +54,7 @@ size_t GameState::get_player_count() const
     return players_->players.size();
 }
 
+// FIXME : should be indexed by ID
 std::vector<int> GameState::get_scores() const
 {
     std::vector<int> scores;
