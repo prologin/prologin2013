@@ -16,7 +16,7 @@ class MapTest : public ::testing::Test
         utils::Logger::get().level() = utils::Logger::DEBUG_LEVEL;
 
         f << "2 0\n";
-        f << "7 7\n";
+        f << "2 2\n";
         f << "~~o~~~~~~~~~~~~~~~~~~~~~~~o~~~~~\n";
         f << "~~~~~~~~~~~~~~~~~~~~~~~~o~~~~~~~\n";
         f << "~~o~~~~~~~~~~~~~~~~~~~~~~~o~~~~~\n";

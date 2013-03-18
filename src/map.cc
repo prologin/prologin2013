@@ -26,7 +26,11 @@ int Map::load(std::istream& s)
     std::string line;
 
     for (int i = 0; i < MAX_JOUEURS; i++)
+    {
         s >> start_positions_[i].x >> start_positions_[i].y;
+        INFO("Player %d starting position is x=%d, y=%d",
+                i, start_positions_[i].x, start_positions_[i].y);
+    }
 
     for (int y = 0; y < TAILLE_TERRAIN; ++y)
     {
@@ -53,19 +57,20 @@ int Map::load(std::istream& s)
                 type_chars[line[x]] == TERRAIN_ILE)
                 islands_.push_back({y, x});
         }
-
-        // FIXME : check id / index matching
-        Cell* c;
-        for (int i = 0; i < MAX_JOUEURS; i++)
-        {
-            c = get_cell(start_positions_[i]);
-            if (!c)
-                FATAL("starting position for player %d is invalid", i+1);
-            if (c->get_type() != TERRAIN_ILE)
-                FATAL("starting position for player %d is not an island", i+1);
-            c->set_player(i);
-        }
     }
+
+    // FIXME : check id / index matching
+    Cell* c;
+    for (int i = 0; i < MAX_JOUEURS; i++)
+    {
+        c = get_cell(start_positions_[i]);
+        if (!c)
+            FATAL("starting position for player %d is invalid", i+1);
+        if (c->get_type() != TERRAIN_ILE)
+            FATAL("starting position for player %d is not an island", i+1);
+        c->set_player(i);
+    }
+
     return 0;
 }
 
