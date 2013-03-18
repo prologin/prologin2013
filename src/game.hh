@@ -53,6 +53,7 @@ class GameState : public rules::GameState
     private:
         Map* map_;
         rules::Players_sptr players_;
+        std::map<int, rules::Player_sptr> player_ids_;
         int current_turn_;
 
         int boat_next_id_;

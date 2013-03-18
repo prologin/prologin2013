@@ -15,6 +15,8 @@ GameState::GameState(Map* map, rules::Players_sptr players)
       current_turn_(0),
       boat_next_id_(0)
 {
+    for (auto& p : players_->players)
+        player_ids_[p->id] = p;
 }
 
 GameState::GameState(const GameState& st)
@@ -24,6 +26,7 @@ GameState::GameState(const GameState& st)
       current_turn_(st.current_turn_)
 {
     boats_.insert(st.boats_.begin(), st.boats_.end());
+    player_ids_.insert(st.player_ids_.begin(), st.player_ids_.end());
 }
 
 rules::GameState* GameState::copy() const
