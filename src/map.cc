@@ -59,6 +59,8 @@ int Map::load(std::istream& s)
         for (int i = 0; i < MAX_JOUEURS; i++)
         {
             c = get_cell(start_positions_[i]);
+            if (!c)
+                FATAL("starting position for player %d is invalid", i+1);
             if (c->get_type() != TERRAIN_ILE)
                 FATAL("starting position for player %d is not an island", i+1);
             c->set_player(i);
