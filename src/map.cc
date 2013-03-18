@@ -53,6 +53,16 @@ int Map::load(std::istream& s)
                 type_chars[line[x]] == TERRAIN_ILE)
                 islands_.push_back({y, x});
         }
+
+        // FIXME : check id / index matching
+        Cell* c;
+        for (int i = 0; i < MAX_JOUEURS; i++)
+        {
+            c = get_cell(start_positions_[i]);
+            if (c->get_type() != TERRAIN_ILE)
+                FATAL("starting position for player %d is not an island", i+1);
+            c->set_player(i);
+        }
     }
     return 0;
 }
