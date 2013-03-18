@@ -9,7 +9,7 @@
 class ActionCharge : public rules::Action<GameState>
 {
     public:
-        ActionCharge(int id_boat, position pos, int amount, int player);
+        ActionCharge(int id_boat, int amount, int player);
 
         virtual int check(const GameState* st) const;
         virtual void handle_buffer(utils::Buffer& buf);
@@ -20,7 +20,6 @@ class ActionCharge : public rules::Action<GameState>
 
     private:
         int id_boat_;
-        position pos_;
         int amount_;
         int player_id_;
 };

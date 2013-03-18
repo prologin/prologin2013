@@ -110,46 +110,29 @@ class ActionsTest : public ::testing::Test
 
 TEST_F(ActionsTest, ChargeCheckTest)
 {
-    ActionCharge a1(5, {-1, 0}, 1, 0);
-    EXPECT_EQ(POSITION_INVALIDE, a1.check(gamestate_))
-        << "Position should be invalid";
-
-    ActionCharge a2(5, {1, TAILLE_TERRAIN}, 1, 0);
-    EXPECT_EQ(POSITION_INVALIDE, a2.check(gamestate_))
-        << "Position should be invalid";
-
-    ActionCharge a3(5, {0, 0}, 1, 0);
-    EXPECT_EQ(ILE_INVALIDE, a3.check(gamestate_))
-        << "Island should be invalid";
-
     gamestate_->get_map()->get_cell({2, 4})->set_player(1);
-    ActionCharge a4(5, {2, 4}, 1, 0);
+    ActionCharge a4(5, 1, 0);
     EXPECT_EQ(ILE_ENNEMIE, a4.check(gamestate_))
         << "Island should be enemy";
 
     gamestate_->get_map()->get_cell({2, 4})->set_player(0);
     gamestate_->get_map()->get_cell({2, 4})->set_gold(0);
-    ActionCharge a5(5, {2, 4}, 5, 0);
+    ActionCharge a5(5, 5, 0);
     EXPECT_EQ(OR_INSUFFISANT, a5.check(gamestate_))
         << "There shouldn't be enough gold";
 
     gamestate_->get_map()->get_cell({2, 4})->set_gold(4);
-    ActionCharge a6(5, {2, 4}, 5, 0);
+    ActionCharge a6(5, 5, 0);
     EXPECT_EQ(OR_INSUFFISANT, a6.check(gamestate_))
         << "There shouldn't be enough gold";
 
     gamestate_->get_map()->get_cell({2, 4})->set_gold(5);
-    ActionCharge a7(6, {2, 4}, 1, 0);
+    ActionCharge a7(6, 1, 0);
     EXPECT_EQ(BATEAU_ENNEMI, a7.check(gamestate_))
         << "Boat should be enemy";
 
     gamestate_->get_map()->get_cell({2, 4})->set_gold(5);
-    ActionCharge a8(7, {2, 4}, 1, 0);
-    EXPECT_EQ(POSITION_INVALIDE, a8.check(gamestate_))
-        << "Boat shuldn't be in the same cell than the island";
-
-    gamestate_->get_map()->get_cell({2, 4})->set_gold(5);
-    ActionCharge a9(5, {2, 4}, 5, 0);
+    ActionCharge a9(5, 5, 0);
     EXPECT_EQ(OK, a9.check(gamestate_))
         << "Should be OK";
 }
@@ -160,7 +143,7 @@ TEST_F(ActionsTest, ChargeTest)
     c->set_player(0);
 
     c->set_gold(5);
-    ActionCharge a1(5, {2, 4}, 3, 0);
+    ActionCharge a1(5, 3, 0);
     a1.apply_on(gamestate_);
     EXPECT_EQ(2, c->get_gold())
         << "Only 2 gold should remain";
@@ -171,46 +154,29 @@ TEST_F(ActionsTest, ChargeTest)
 
 TEST_F(ActionsTest, DischargeCheckTest)
 {
-    ActionDischarge a1(5, {-1, 0}, 1, 0);
-    EXPECT_EQ(POSITION_INVALIDE, a1.check(gamestate_))
-        << "Position should be invalid";
-
-    ActionDischarge a2(5, {1, TAILLE_TERRAIN}, 1, 0);
-    EXPECT_EQ(POSITION_INVALIDE, a2.check(gamestate_))
-        << "Position should be invalid";
-
-    ActionDischarge a3(5, {0, 0}, 1, 0);
-    EXPECT_EQ(ILE_INVALIDE, a3.check(gamestate_))
-        << "Island should be invalid";
-
     gamestate_->get_map()->get_cell({2, 4})->set_player(1);
-    ActionDischarge a4(5, {2, 4}, 1, 0);
+    ActionDischarge a4(5, 1, 0);
     EXPECT_EQ(ILE_ENNEMIE, a4.check(gamestate_))
         << "Island should be enemy";
 
     gamestate_->get_map()->get_cell({2, 4})->set_player(0);
     gamestate_->get_boat(5)->nb_or = 0;
-    ActionDischarge a5(5, {2, 4}, 5, 0);
+    ActionDischarge a5(5, 5, 0);
     EXPECT_EQ(OR_INSUFFISANT, a5.check(gamestate_))
         << "There shouldn't be enough gold";
 
     gamestate_->get_boat(5)->nb_or = 4;
-    ActionDischarge a6(5, {2, 4}, 5, 0);
+    ActionDischarge a6(5, 5, 0);
     EXPECT_EQ(OR_INSUFFISANT, a6.check(gamestate_))
         << "There shouldn't be enough gold";
 
     gamestate_->get_boat(6)->nb_or = 4;
-    ActionDischarge a7(6, {2, 4}, 1, 0);
+    ActionDischarge a7(6, 1, 0);
     EXPECT_EQ(BATEAU_ENNEMI, a7.check(gamestate_))
         << "Boat should be enemy";
 
-    gamestate_->get_boat(7)->nb_or = 4;
-    ActionDischarge a8(7, {2, 4}, 1, 0);
-    EXPECT_EQ(POSITION_INVALIDE, a8.check(gamestate_))
-        << "Boat shuldn't be in the same cell than the island";
-
     gamestate_->get_boat(5)->nb_or = 5;
-    ActionDischarge a9(5, {2, 4}, 5, 0);
+    ActionDischarge a9(5, 5, 0);
     EXPECT_EQ(OK, a9.check(gamestate_))
         << "Should be OK";
 }
@@ -223,7 +189,7 @@ TEST_F(ActionsTest, DischargeTest)
 
     gamestate_->get_boat(5)->nb_or = 4;
 
-    ActionDischarge a1(5, {2, 4}, 3, 0);
+    ActionDischarge a1(5, 3, 0);
     a1.apply_on(gamestate_);
     EXPECT_EQ(8, c->get_gold())
         << "Only 2 gold should remain";
@@ -295,9 +261,9 @@ TEST_F(ActionsTest, ConstructTest)
     a1.apply_on(gamestate_);
     EXPECT_EQ(3, c->get_gold())
         << "Only 3 gold should remain";
-    EXPECT_EQ(o + 1, c->get_id_boats().size())
+    EXPECT_EQ(o + 1, (int) c->get_id_boats().size())
         << "No boat created";
-    EXPECT_EQ(p + 1, gamestate_->get_boats().size())
+    EXPECT_EQ(p + 1, (int) gamestate_->get_boats().size())
         << "No boat created";
 }
 
@@ -417,7 +383,8 @@ TEST_F(ActionsTest, MoveTest)
     a1.apply_on(gamestate_);
 
     std::map<int, bateau> boats = gamestate_->get_boats();
-    EXPECT_EQ(1, boats.count(0)) << "Boat has disappeared from boat std::map";
+    EXPECT_EQ(1, (int) boats.count(0))
+        << "Boat has disappeared from boat std::map";
 
     c = gamestate_->get_map()->get_cell({3, 3});
     EXPECT_FALSE(c->exists_boat(0)) << "Still in the original position";

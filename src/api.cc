@@ -16,6 +16,12 @@
 #include "api.hh"
 #include "tools.hh"
 
+#include "action-charge.hh"
+#include "action-construct.hh"
+#include "action-colonize.hh"
+#include "action-discharge.hh"
+#include "action-move.hh"
+
 // global used in interface.cc
 Api* api;
 
@@ -23,7 +29,7 @@ Api::Api(GameState* game_state, rules::Player_sptr player)
     : game_state_(game_state),
       player_(player)
 {
-  api = this;
+    api = this;
 }
 
 ///
@@ -97,7 +103,7 @@ std::vector<position> Api::mes_iles()
     std::vector<position> i = game_state_->get_map()->get_islands();
     std::copy_if(i.begin(), i.end(), r.begin(), [this](position p) {
             return game_state_->get_map()->get_cell(p)->get_player() ==
-            player_->id; });
+            (int) player_->id; });
     return r;
 }
 
@@ -114,8 +120,14 @@ int Api::distance(position depart, position arrivee)
 //
 erreur Api::construire(bateau_type btype, position pos)
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionConstruct(btype, pos, player_->id));
+    
+    erreur err;
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    return OK;
 }
 
 ///
@@ -123,8 +135,14 @@ erreur Api::construire(bateau_type btype, position pos)
 //
 erreur Api::deplacer(int id, position pos)
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionMove(id, pos, player_->id));
+    
+    erreur err;
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    return OK;
 }
 
 ///
@@ -132,8 +150,14 @@ erreur Api::deplacer(int id, position pos)
 //
 erreur Api::coloniser(position pos)
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionColonize(pos, player_->id));
+    
+    erreur err;
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    return OK;
 }
 
 ///
@@ -141,8 +165,14 @@ erreur Api::coloniser(position pos)
 //
 erreur Api::charger(int id, int nb_or)
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionCharge(id, nb_or, player_->id));
+    
+    erreur err;
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    return OK;
 }
 
 ///
@@ -150,8 +180,14 @@ erreur Api::charger(int id, int nb_or)
 //
 erreur Api::decharger(int id, int nb_or)
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionDischarge(id, nb_or, player_->id));
+    
+    erreur err;
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    return OK;
 }
 
 ///

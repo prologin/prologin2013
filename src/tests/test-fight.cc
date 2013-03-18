@@ -124,12 +124,12 @@ TEST_F(GameTest, SeaFight1)
     INFO("get_player");
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should belong to nobody before first fight";
 
-    EXPECT_EQ(1, gamestate_->get_boats().size());
+    EXPECT_EQ(1, (int) gamestate_->get_boats().size());
 
     gamestate_->resolve_fight(pos, 0);
 
     INFO("resolve_fight");
-    EXPECT_EQ(1, gamestate_->get_boats().size());
+    EXPECT_EQ(1, (int) gamestate_->get_boats().size());
 
     EXPECT_NE(-1, count_boats(pos, 0)) << "The wrong boats were deleted from boats std::map<int, bateau>";
     EXPECT_EQ(1, count_boats(pos, 0)) << "Winner's boat must be remaining";
@@ -151,12 +151,12 @@ TEST_F(GameTest, SeaFight2)
     INFO("get_player");
     EXPECT_EQ(-1, sea_cell->get_player()) << "Sea cell should belong to nobody";
 
-    EXPECT_EQ(2, gamestate_->get_boats().size());
+    EXPECT_EQ(2, (int) gamestate_->get_boats().size());
 
     gamestate_->resolve_fight(pos, 1);
 
     INFO("resolve_fight");
-    EXPECT_EQ(1, gamestate_->get_boats().size());
+    EXPECT_EQ(1, (int) gamestate_->get_boats().size());
 
     EXPECT_NE(-1, count_boats(pos, 0)) << "The wrong boats were deleted from boats std::map<int, bateau>";
     EXPECT_EQ(0, count_boats(pos, 0)) << "Loser's boat must be destroyed";
@@ -235,12 +235,12 @@ TEST_F(GameTest, SeaFight5)
     INFO("get_player");
     EXPECT_EQ(-1, sea_cell->get_player()) << "Sea cell should belong to nobody";
 
-    EXPECT_EQ(40, gamestate_->get_boats().size());
+    EXPECT_EQ(40, (int) gamestate_->get_boats().size());
 
     gamestate_->resolve_fight(pos, 1);
 
     INFO("resolve_fight");
-    EXPECT_EQ(1, gamestate_->get_boats().size());
+    EXPECT_EQ(1, (int) gamestate_->get_boats().size());
 
     EXPECT_NE(-1, count_boats(pos, 1)) << "The wrong boats were deleted from boats std::map<int, bateau>";
     EXPECT_EQ(1, count_boats(pos, 1)) << "1 boat should remain for the winner";
@@ -267,12 +267,12 @@ TEST_F(GameTest, SeaFight6)
     INFO("get_player");
     EXPECT_EQ(-1, sea_cell->get_player()) << "Cell should belong to nobody before first fight";
 
-    EXPECT_EQ(40, gamestate_->get_boats().size());
+    EXPECT_EQ(40, (int) gamestate_->get_boats().size());
 
     gamestate_->resolve_fight(pos, 0);
 
     INFO("resolve_fight");
-    EXPECT_EQ(1, gamestate_->get_boats().size());
+    EXPECT_EQ(1, (int) gamestate_->get_boats().size());
 
     EXPECT_NE(-1, count_boats(pos, 0)) << "The wrong boats were deleted from boats std::map<int, bateau>";
     EXPECT_EQ(1, count_boats(pos, 0)) << "1 boat should remain for the winner";
