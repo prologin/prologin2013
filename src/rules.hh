@@ -45,7 +45,7 @@ class Rules
         rules::Players_sptr spectators_;
 
         int timeout_;
-        
+
         utils::Sandbox sandbox_;
 };
 
