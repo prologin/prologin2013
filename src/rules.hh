@@ -21,7 +21,11 @@ class Rules
         Rules(rules::Players_sptr players, Api* api);
         virtual ~Rules();
 
-        // FIXME
+        bool is_spectator(uint32_t id);
+
+        void end_of_move(uint32_t id);
+        void end_of_turn();
+
         void client_loop(rules::ClientMessenger_sptr msgr);
         void spectator_loop(rules::ClientMessenger_sptr msgr);
         void server_loop(rules::ServerMessenger_sptr msgr);

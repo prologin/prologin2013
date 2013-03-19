@@ -79,7 +79,7 @@ void GameState::increment_turn()
 
 bool GameState::is_finished()
 {
-    return current_turn_ == FIN_PARTIE;
+    return current_turn_ >= FIN_PARTIE;
 }
 
 
