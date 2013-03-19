@@ -171,30 +171,65 @@ void Rules::spectator_loop(rules::ClientMessenger_sptr msgr)
     INFO("TURN %d", api_->game_state()->get_current_turn());
     while (!api_->game_state()->is_finished())
     {
+        /* We first retrieve the ID of the first player, then we check for
+         * each player if he is the first to play. If so, we executes
+         * end_of_turn() before doing anything. Then, we play the move and call
+         * end_of_move().
+         */
+
+        uint32_t playing_id;
+        int first_player = -1;
+
+        /* Other players turns */
+        while (!api_->game_state()->is_finished() &&
+               msgr->wait_for_turn(opt_.player->id, &playing_id))
+        {
+
+            /* End of each turn */
+            if (first_player == (int) playing_id)
+                end_of_turn();
+
+            if (first_player == -1)
+                first_player = playing_id;
+
+            if (api_->game_state()->is_finished())
+                break;
+
+           /* Clear the list of actions*/
+            api_->actions()->clear();
+
+            /* Get current player actions */
+            msgr->pull_actions(api_->actions());
+
+            /* Apply them onto the gamestate */
+            for (auto action : api_->actions()->actions())
+                if (action->player_id() != api_->player()->id)
+                    api_->game_state_set(action->apply(api_->game_state()));
+            msgr->wait_for_ack();
+
+            /* End of each move */
+            end_of_move(playing_id);
+        }
+
+        /* End of each turn */
+        if (first_player == (int) playing_id)
+            end_of_turn();
+
+        if (first_player == -1)
+            first_player = playing_id;
+
+        if (api_->game_state()->is_finished())
+            break;
+
         api_->actions()->clear();
-
         champion_jouer_tour();
-
-        uint32_t pulled_id;
-        while (!msgr->wait_for_turn(api_->player()->id, &pulled_id))
-            end_of_move(pulled_id);
-
         /* Send the ACK to the server (client can only send actions) */
         api_->actions()->add(
                 rules::IAction_sptr(new ActionAck(api_->player()->id)));
         msgr->send_actions(*api_->actions());
         msgr->wait_for_ack();
-
-        api_->actions()->clear();
-
-        /* Get other players actions */
         msgr->pull_actions(api_->actions());
-
-        /* Apply them onto the gamestate */
-        for (auto action : api_->actions()->actions())
-            api_->game_state_set(action->apply(api_->game_state()));
-
-        end_of_turn();
+        api_->actions()->clear();
     }
 }
 
