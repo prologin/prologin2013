@@ -236,7 +236,7 @@ int Api::adversaire()
 }
 
 ///
-// Retourne les scores de chaque joueur
+// Retourne les scores du joueur spécifié
 //
 int Api::score(int id_joueur)
 {
