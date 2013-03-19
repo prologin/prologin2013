@@ -128,9 +128,9 @@ void GameState::resolve_fight(position pos, int id_attacker)
 
     int id_defender = -1;
 
+    /* Getting the number of galions on each side */
     int galions_attacker = 0;
     int galions_defender = 0;
-
     for (std::set<int>::iterator it = boat_ids.begin(); it != boat_ids.end(); ++it)
     {
         if (boats_[*it].joueur != id_attacker && id_defender == -1)
@@ -145,20 +145,26 @@ void GameState::resolve_fight(position pos, int id_attacker)
         }
     }
 
+    /* Winner loose loser's galions - 1 */
     int galions_lost = std::min(galions_attacker, galions_defender) - 1;
+    /* By default, we assume the attacker has won */
     int id_winner = id_attacker;
     int id_loser = id_defender;
 
-    if (galions_lost < 0)
+    /* No galions, no battle */
+    if (galions_attacker == 0 && galions_defender == 0)
         return;
 
+    /* In case of equality, island's owner wins, then attacker. */
     if (galions_attacker < galions_defender ||
         (galions_attacker == galions_defender && c->get_player() == id_defender))
         std::swap(id_winner, id_loser);
 
+    /* Island change owner if the owner loses */
     if (c->get_player() != -1 && c->get_player() == id_loser)
         c->set_player(id_winner);
 
+    /* Winner's caravelle with lowest id will get the gold of the looser */
     int caravelle_winner = -1;
     for (std::set<int>::iterator i = boat_ids.begin(); i != boat_ids.end() && caravelle_winner == -1; ++i)
         if (boats_[*i].btype == BATEAU_CARAVELLE && boats_[*i].joueur == id_winner)
@@ -167,12 +173,14 @@ void GameState::resolve_fight(position pos, int id_attacker)
     int gold_move = 0;
     for (std::set<int>::iterator it = boat_ids.begin(); it != boat_ids.end(); ++it)
     {
+        /* Looser loses all of his boats and the gold inside the caravelles */
         if (boats_[*it].joueur == id_loser)
         {
             gold_move += boats_[*it].nb_or;
             boats_.erase(*it);
             c->remove_boat(*it);
         }
+        /* Winner loses some galions ... */
         else if (boats_[*it].btype == BATEAU_GALION && galions_lost > 0)
         {
             boats_.erase(*it);
@@ -180,6 +188,7 @@ void GameState::resolve_fight(position pos, int id_attacker)
             galions_lost--;
         }
     }
+    /* ... and get the loser's gold */
     if (caravelle_winner != -1)
         boats_[caravelle_winner].nb_or += gold_move;
 }
