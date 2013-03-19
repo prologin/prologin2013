@@ -30,6 +30,8 @@ class Map
 
         std::vector<position> get_islands() const;
 
+        position get_start_position(int i);
+
     private:
         std::array<std::array<Cell*, TAILLE_TERRAIN>, TAILLE_TERRAIN> map_;
         std::array<position, MAX_JOUEURS> start_positions_;

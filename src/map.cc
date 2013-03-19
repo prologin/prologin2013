@@ -4,6 +4,7 @@
 #include <array>
 
 #include <utils/log.hh>
+#include <rules/player.hh>
 
 #include "constant.hh"
 #include "cell.hh"
@@ -59,18 +60,6 @@ int Map::load(std::istream& s)
         }
     }
 
-    // FIXME : check id / index matching
-    Cell* c;
-    for (int i = 0; i < MAX_JOUEURS; i++)
-    {
-        c = get_cell(start_positions_[i]);
-        if (!c)
-            FATAL("starting position for player %d is invalid", i+1);
-        if (c->get_type() != TERRAIN_ILE)
-            FATAL("starting position for player %d is not an island", i+1);
-        c->set_player(i+1);
-    }
-
     return 0;
 }
 
@@ -90,4 +79,11 @@ Cell* Map::get_cell(position p) const
 std::vector<position> Map::get_islands() const
 {
     return islands_;
+}
+
+position Map::get_start_position(int i)
+{
+    if (i < (int) start_positions_.size())
+        return start_positions_[i];
+    return { -1, -1 };
 }

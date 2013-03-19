@@ -16,7 +16,21 @@ GameState::GameState(Map* map, rules::Players_sptr players)
       boat_next_id_(0)
 {
     for (auto& p : players_->players)
-        player_ids_[p->id] = p;
+        if (p->type == rules::PLAYER)
+            player_ids_[p->id] = p;
+
+    int i = 0;
+    Cell* c;
+    for (auto& p : player_ids_)
+    {
+        c = map->get_cell(map->get_start_position(i));
+        if (!c)
+            FATAL("starting position for player %d is invalid", i+1);
+        if (c->get_type() != TERRAIN_ILE)
+            FATAL("starting position for player %d is not an island", i+1);
+        c->set_player(player_ids_[p.first]->id);
+        i++;
+    }
 }
 
 GameState::GameState(const GameState& st)
