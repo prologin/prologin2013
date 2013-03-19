@@ -192,7 +192,7 @@ void Rules::server_loop(rules::ServerMessenger_sptr msgr)
     CHECK(champion_ == nullptr);
 
     /* Pushing the last player ID to inform clients of the end of a turn */
-    msgr->push_id(players_->players[players_->players.size()]->id);
+    msgr->push_id(players_->players[players_->players.size() - 1]->id);
 
     INFO("TURN %d", api_->game_state()->get_current_turn());
     while (!api_->game_state()->is_finished())
