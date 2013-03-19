@@ -105,8 +105,8 @@ void Rules::client_loop(rules::ClientMessenger_sptr msgr)
          * end_of_move().
          */
 
-        uint32_t playing_id = -1;
-        int first_player;
+        uint32_t playing_id;
+        int first_player = -1;
 
         /* Other players turns */
         while (!api_->game_state()->is_finished() &&

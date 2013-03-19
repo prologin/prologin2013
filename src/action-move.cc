@@ -31,7 +31,7 @@ int ActionMove::check(const GameState* st) const
     if (!(cell_d = st->get_map()->get_cell(dest_)))
         return POSITION_INVALIDE;
 
-    int max_move;
+    int max_move = 0;
     if (boat.btype == BATEAU_CARAVELLE)
         max_move = CARAVELLE_DEPLACEMENT;
     else if (boat.btype == BATEAU_GALION)
