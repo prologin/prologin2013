@@ -101,9 +101,11 @@ void Rules::client_loop(rules::ClientMessenger_sptr msgr)
     uint32_t last_player_id;
     msgr->pull_id(&last_player_id);
 
+    api_->game_state()->increment_turn();
     INFO("TURN %d", api_->game_state()->get_current_turn());
     while (!api_->game_state()->is_finished())
     {
+
         uint32_t playing_id;
 
         /* Other players turns */
@@ -147,9 +149,11 @@ void Rules::spectator_loop(rules::ClientMessenger_sptr msgr)
     uint32_t last_player_id;
     msgr->pull_id(&last_player_id);
 
+    api_->game_state()->increment_turn();
     INFO("TURN %d", api_->game_state()->get_current_turn());
     while (!api_->game_state()->is_finished())
     {
+
         uint32_t playing_id;
 
         /* Other players turns */
@@ -194,6 +198,7 @@ void Rules::server_loop(rules::ServerMessenger_sptr msgr)
     /* Pushing the last player ID to inform clients of the end of a turn */
     msgr->push_id(players_->players[players_->players.size() - 1]->id);
 
+    api_->game_state()->increment_turn();
     INFO("TURN %d", api_->game_state()->get_current_turn());
     while (!api_->game_state()->is_finished())
     {
