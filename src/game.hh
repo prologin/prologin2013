@@ -44,7 +44,6 @@ class GameState : public rules::GameState
 
 
         bool add_boat(position origin, int player, bateau_type btype);
-        std::map<int, bateau> get_boats() const;
         bateau* get_boat(int id);
 
         void resolve_fight(position pos, int id_attacker);

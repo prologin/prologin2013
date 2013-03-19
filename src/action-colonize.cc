@@ -25,8 +25,8 @@ int ActionColonize::check(const GameState* st) const
     for (std::set<int>::iterator it = list_boats.begin();
             it != list_boats.end(); it++)
     {
-        bateau boat = st->get_boats()[*it];
-        if (boat.btype == BATEAU_CARAVELLE && boat.joueur == player_id_)
+        bateau* boat = const_cast<GameState*>(st)->get_boat(*it);
+        if (boat->btype == BATEAU_CARAVELLE && boat->joueur == player_id_)
             return OK;
     }
 

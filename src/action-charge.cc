@@ -12,13 +12,12 @@ ActionCharge::ActionCharge(int id_boat, int amount, int player)
 int ActionCharge::check(const GameState* st) const
 {
     Cell* island;
+    const bateau* boat = const_cast<GameState*>(st)->get_boat(id_boat_);
 
-    if (!st->get_boats().count(id_boat_))
+    if (boat == NULL)
         return ID_INVALIDE;
 
-    bateau boat = st->get_boats()[id_boat_];
-
-    if (!(island = st->get_map()->get_cell(boat.pos)))
+    if (!(island = st->get_map()->get_cell(boat->pos)))
         return POSITION_INVALIDE;
 
     if (island->get_type() != TERRAIN_ILE &&
@@ -31,7 +30,7 @@ int ActionCharge::check(const GameState* st) const
     if (island->get_gold() < amount_)
         return OR_INSUFFISANT;
 
-    if (boat.joueur != player_id_)
+    if (boat->joueur != player_id_)
         return BATEAU_ENNEMI;
 
     return OK;
@@ -46,7 +45,8 @@ void ActionCharge::handle_buffer(utils::Buffer& buf)
 
 void ActionCharge::apply_on(GameState* st) const
 {
-    st->get_boat(id_boat_)->nb_or += amount_;
-    Cell* island = st->get_map()->get_cell(st->get_boat(id_boat_)->pos);
+    bateau* boat = st->get_boat(id_boat_);
+    Cell* island = st->get_map()->get_cell(boat->pos);
     island->set_gold(island->get_gold() - amount_);
+    boat->nb_or += amount_;
 }

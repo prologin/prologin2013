@@ -72,9 +72,9 @@ int Api::info_ile_or(position pos)
 //
 bateau Api::info_bateau(int id)
 {
-    std::map<int, bateau> boats = game_state_->get_boats();
-    if (boats.find(id) != boats.end())
-        return boats[id];
+    bateau* boat = game_state_->get_boat(id);
+    if (boat != NULL)
+        return *boat;
     return {-1, {-1, -1}, -1, BATEAU_ERREUR, -1, false};
 }
 
@@ -84,8 +84,7 @@ bateau Api::info_bateau(int id)
 //
 bool Api::bateau_existe(int id)
 {
-    std::map<int, bateau> boats = game_state_->get_boats();
-    return (boats.find(id) != boats.end());
+    return (game_state_->get_boat(id) != NULL);
 }
 
 ///
@@ -98,7 +97,7 @@ std::vector<bateau> Api::liste_bateaux_position(position pos)
     if (!c)
         return r;
     for(auto& i: c->get_id_boats())
-        r.push_back(game_state_->get_boats()[i]);
+        r.push_back(*game_state_->get_boat(i));
     return r;
 }
 

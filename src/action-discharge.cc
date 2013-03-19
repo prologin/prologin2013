@@ -12,13 +12,12 @@ ActionDischarge::ActionDischarge(int id_boat, int amount, int player)
 int ActionDischarge::check(const GameState* st) const
 {
     Cell* island;
+    const bateau* boat = const_cast<GameState*>(st)->get_boat(id_boat_);
 
-    if (!st->get_boats().count(id_boat_))
+    if (boat == NULL)
         return ID_INVALIDE;
 
-    bateau boat = st->get_boats()[id_boat_];
-
-    if (!(island = st->get_map()->get_cell(boat.pos)))
+    if (!(island = st->get_map()->get_cell(boat->pos)))
         return POSITION_INVALIDE;
 
     if (island->get_type() != TERRAIN_ILE &&
@@ -28,10 +27,10 @@ int ActionDischarge::check(const GameState* st) const
     if (island->get_player() != player_id_)
         return ILE_ENNEMIE;
 
-    if (boat.joueur != player_id_)
+    if (boat->joueur != player_id_)
         return BATEAU_ENNEMI;
 
-    if (boat.nb_or < amount_)
+    if (boat->nb_or < amount_)
         return OR_INSUFFISANT;
 
     return OK;
@@ -46,7 +45,8 @@ void ActionDischarge::handle_buffer(utils::Buffer& buf)
 
 void ActionDischarge::apply_on(GameState* st) const
 {
-    Cell* island = st->get_map()->get_cell(st->get_boats()[id_boat_].pos);
+    bateau* boat = st->get_boat(id_boat_);
+    Cell* island = st->get_map()->get_cell(boat->pos);
     island->set_gold(island->get_gold() + amount_);
-    st->get_boat(id_boat_)->nb_or -= amount_;
+    boat->nb_or -= amount_;
 }

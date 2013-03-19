@@ -82,7 +82,6 @@ bool GameState::is_finished()
     return current_turn_ >= FIN_PARTIE;
 }
 
-
 bool GameState::add_boat(position origin, int player, bateau_type btype)
 {
     int id = boat_next_id_++;
@@ -103,14 +102,12 @@ bool GameState::add_boat(position origin, int player, bateau_type btype)
     return true;
 }
 
-std::map<int, bateau> GameState::get_boats() const
-{
-    return boats_;
-}
-
 bateau* GameState::get_boat(int id)
 {
-    return &boats_[id];
+    std::map<int, bateau>::iterator it = boats_.find(id);
+    if (it == boats_.end())
+      return NULL;
+    return &(it->second);
 }
 
 void GameState::resolve_fight(position pos, int id_attacker)

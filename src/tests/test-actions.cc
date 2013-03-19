@@ -254,7 +254,6 @@ TEST_F(ActionsTest, ConstructTest)
     Cell* c = gamestate_->get_map()->get_cell({2, 2});
     c->set_player(0);
     int o = c->get_id_boats().size();
-    int p = gamestate_->get_boats().size();
 
     c->set_gold(CARAVELLE_COUT + 3);
     ActionConstruct a1(BATEAU_CARAVELLE, {2, 2}, 0);
@@ -262,8 +261,6 @@ TEST_F(ActionsTest, ConstructTest)
     EXPECT_EQ(3, c->get_gold())
         << "Only 3 gold should remain";
     EXPECT_EQ(o + 1, (int) c->get_id_boats().size())
-        << "No boat created";
-    EXPECT_EQ(p + 1, (int) gamestate_->get_boats().size())
         << "No boat created";
 }
 
@@ -382,8 +379,7 @@ TEST_F(ActionsTest, MoveTest)
     ActionMove a1(0, {4, 3}, 0); // Origin : 3, 3
     a1.apply_on(gamestate_);
 
-    std::map<int, bateau> boats = gamestate_->get_boats();
-    EXPECT_EQ(1, (int) boats.count(0))
+    EXPECT_FALSE(gamestate_->get_boat(0) == NULL)
         << "Boat has disappeared from boat std::map";
 
     c = gamestate_->get_map()->get_cell({3, 3});
@@ -392,6 +388,6 @@ TEST_F(ActionsTest, MoveTest)
     c = gamestate_->get_map()->get_cell({4, 3});
     EXPECT_TRUE(c->exists_boat(0)) << "Not in the destination position";
 
-    bateau boat = gamestate_->get_boats()[0];
-    EXPECT_EQ(boat.pos, (position {4, 3})) << "bateau.pos hasn't been updated";
+    bateau* boat = gamestate_->get_boat(0);
+    EXPECT_EQ(boat->pos, (position {4, 3})) << "bateau.pos hasn't been updated";
 }

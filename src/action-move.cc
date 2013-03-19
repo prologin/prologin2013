@@ -12,19 +12,19 @@ ActionMove::ActionMove(int id_boat, position dest, int player)
 
 int ActionMove::check(const GameState* st) const
 {
-    std::map<int, bateau> boats = st->get_boats();
-    if (boats.find(id_boat_) == boats.end())
-        return ID_INVALIDE;
-    bateau boat = st->get_boats()[id_boat_];
+    const bateau* boat = const_cast<GameState*>(st)->get_boat(id_boat_);
 
-    if (boat.joueur != player_id_)
+    if (boat == NULL)
+        return ID_INVALIDE;
+
+    if (boat->joueur != player_id_)
         return BATEAU_ENNEMI;
 
-    if (!boat.deplacable)
+    if (!boat->deplacable)
         return NON_DEPLACABLE;
 
     Cell* cell_o;
-    if (!(cell_o = st->get_map()->get_cell(boat.pos)))
+    if (!(cell_o = st->get_map()->get_cell(boat->pos)))
         return POSITION_INVALIDE;
 
     Cell* cell_d;
@@ -32,12 +32,12 @@ int ActionMove::check(const GameState* st) const
         return POSITION_INVALIDE;
 
     int max_move = 0;
-    if (boat.btype == BATEAU_CARAVELLE)
+    if (boat->btype == BATEAU_CARAVELLE)
         max_move = CARAVELLE_DEPLACEMENT;
-    else if (boat.btype == BATEAU_GALION)
+    else if (boat->btype == BATEAU_GALION)
         max_move = GALION_DEPLACEMENT;
 
-    if (distance(boat.pos, dest_) > max_move)
+    if (distance(boat->pos, dest_) > max_move)
         return TROP_LOIN;
     return OK;
 }
@@ -52,8 +52,8 @@ void ActionMove::handle_buffer(utils::Buffer& buf)
 void ActionMove::apply_on(GameState* st) const
 {
     Cell* dest = st->get_map()->get_cell(dest_);
-    bateau boat = st->get_boats()[id_boat_];
+    bateau* boat = st->get_boat(id_boat_);
     dest->add_boat(id_boat_);
-    st->get_map()->get_cell(boat.pos)->remove_boat(id_boat_);
-    st->get_boat(id_boat_)->pos = dest_;
+    st->get_map()->get_cell(boat->pos)->remove_boat(id_boat_);
+    boat->pos = dest_;
 }
