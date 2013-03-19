@@ -106,7 +106,7 @@ void Rules::client_loop(rules::ClientMessenger_sptr msgr)
          */
 
         uint32_t playing_id = -1;
-        uint32_t first_player;
+        int first_player;
 
         /* Other players turns */
         while (!api_->game_state()->is_finished() &&
@@ -114,7 +114,7 @@ void Rules::client_loop(rules::ClientMessenger_sptr msgr)
         {
 
             /* End of each turn */
-            if (first_player == playing_id)
+            if (first_player == (int) playing_id)
                 end_of_turn();
 
             if (first_player == -1)
@@ -144,7 +144,7 @@ void Rules::client_loop(rules::ClientMessenger_sptr msgr)
         }
 
         /* End of each turn */
-        if (first_player == playing_id)
+        if (first_player == (int) playing_id)
             end_of_turn();
 
         if (first_player == -1)
