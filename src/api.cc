@@ -228,11 +228,19 @@ int Api::mon_joueur()
 }
 
 ///
+// Retourne le numéro de votre adversaire
+//
+int Api::adversaire()
+{
+    return game_state_->get_opponent(player_->id);
+}
+
+///
 // Retourne les scores de chaque joueur
 //
-std::vector<int> Api::scores()
+int Api::score(int id_joueur)
 {
-    return game_state_->get_scores();
+    return game_state_->get_score(id_joueur);
 }
 
 ///

@@ -224,10 +224,16 @@ function:
     fct_ret_type: int
     fct_arg: []
   -
-    fct_name: scores
-    fct_summary: Retourne les scores de chaque joueur
-    fct_ret_type: int array
+    fct_name: adversaire
+    fct_summary: Retourne le numéro de votre adversaire
+    fct_ret_type: int
     fct_arg: []
+  -
+    fct_name: score
+    fct_summary: Retourne les scores du joueur désigné par l'identifiant ``id``
+    fct_ret_type: int
+    fct_arg:
+      - [id_joueur, int, "Identifiant du joueur"]
   -
     fct_name: tour_actuel
     fct_summary: Retourne le numéro du tour actuel

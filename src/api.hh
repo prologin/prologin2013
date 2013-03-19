@@ -119,9 +119,13 @@ class Api
         //
         int mon_joueur();
         ///
-        // Retourne les scores de chaque joueur
+        // Retourne le numéro de votre adversaire
         //
-        std::vector<int> scores();
+        int adversaire();
+        ///
+        // Retourne les scores du joueur désigné par l'identifiant ``id``
+        //
+        int score(int id_joueur);
         ///
         // Retourne le numéro du tour actuel
         //

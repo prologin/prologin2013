@@ -63,22 +63,19 @@ Map* GameState::get_map() const
     return map_;
 }
 
-size_t GameState::get_player_count() const
+int GameState::get_score(int player_id) const
 {
-    return players_->players.size();
+    if (player_ids_.find(player_id) == player_ids_.end())
+        return -1;
+    return player_ids_.find(player_id)->second->score;
 }
 
-// FIXME : should be indexed by ID
-std::vector<int> GameState::get_scores() const
+int GameState::get_opponent(int player_id) const
 {
-    std::vector<int> scores;
-    for (auto it = players_->players.begin(); it != players_->players.end();
-            ++it)
-    {
-        scores.push_back((*it)->score);
-    }
-
-    return scores;
+    for (auto i : players_->players)
+        if ((int) i->id != player_id)
+            return i->id;
+    return -1;
 }
 
 int GameState::get_current_turn() const

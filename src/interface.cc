@@ -312,11 +312,19 @@ extern "C" int api_mon_joueur()
 }
 
 ///
-// Retourne les scores de chaque joueur
+// Retourne le numéro de votre adversaire
 //
-extern "C" std::vector<int> api_scores()
+extern "C" int api_adversaire()
 {
-  return api->scores();
+  return api->adversaire();
+}
+
+///
+// Retourne les scores du joueur désigné par l'identifiant ``id``
+//
+extern "C" int api_score(int id_joueur)
+{
+  return api->score(id_joueur);
 }
 
 ///

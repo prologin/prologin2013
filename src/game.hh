@@ -33,15 +33,14 @@ class GameState : public rules::GameState
 
         Map* get_map() const;
 
-        size_t get_player_count() const;
+        int get_score(int player) const;
 
-        std::vector<int> get_scores() const;
+        int get_opponent(int player) const;
 
         int get_current_turn() const;
         void increment_turn();
 
         bool is_finished();
-
 
         bool add_boat(position origin, int player, bateau_type btype);
         bateau* get_boat(int id);
