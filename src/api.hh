@@ -68,6 +68,11 @@ class Api
         //
         bateau info_bateau(int id);
         ///
+        // Retourne vrai si le bateau ayant pour identifiant ``id`` existe et est
+        // encore à flots
+        //
+        bool bateau_existe(int id);
+        ///
         // Retourne la liste de bateaux à la position ``pos``
         //
         std::vector<bateau> liste_bateaux_position(position pos);

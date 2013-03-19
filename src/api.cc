@@ -79,6 +79,16 @@ bateau Api::info_bateau(int id)
 }
 
 ///
+// Retourne vrai si le bateau ayant pour identifiant ``id`` existe et est
+// encore à flots
+//
+bool Api::bateau_existe(int id)
+{
+    std::map<int, bateau> boats = game_state_->get_boats();
+    return (boats.find(id) != boats.end());
+}
+
+///
 // Retourne la liste de bateaux à la position ``pos``
 //
 std::vector<bateau> Api::liste_bateaux_position(position pos)

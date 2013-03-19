@@ -132,6 +132,14 @@ function:
     fct_arg:
       - [id, int, "Identifiant"]
   -
+    fct_name: bateau_existe
+    fct_summary:
+      "Retourne vrai si le bateau ayant pour identifiant ``id`` existe et est
+      encore à flots"
+    fct_ret_type: bool
+    fct_arg:
+      - [id, int, "Identifiant"]
+  -
     fct_name: liste_bateaux_position
     fct_summary:
       "Retourne la liste de bateaux à la position ``pos``"

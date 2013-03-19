@@ -216,6 +216,14 @@ extern "C" bateau api_info_bateau(int id)
 }
 
 ///
+// Retourne vrai si le bateau ayant pour identifiant ``id`` existe et est encore à flots
+//
+extern "C" bool api_bateau_existe(int id)
+{
+  return api->bateau_existe(id);
+}
+
+///
 // Retourne la liste de bateaux à la position ``pos``
 //
 extern "C" std::vector<bateau> api_liste_bateaux_position(position pos)
