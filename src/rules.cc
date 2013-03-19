@@ -118,7 +118,6 @@ void Rules::client_loop(rules::ClientMessenger_sptr msgr)
             for (auto action : api_->actions()->actions())
                 if (action->player_id() != api_->player()->id)
                     api_->game_state_set(action->apply(api_->game_state()));
-            msgr->wait_for_ack();
         }
         else /* Current player turn */
         {
@@ -165,7 +164,6 @@ void Rules::spectator_loop(rules::ClientMessenger_sptr msgr)
             for (auto action : api_->actions()->actions())
                 if (action->player_id() != api_->player()->id)
                     api_->game_state_set(action->apply(api_->game_state()));
-            msgr->wait_for_ack();
 
             /* End of each move */
             end_of_move(playing_id);
