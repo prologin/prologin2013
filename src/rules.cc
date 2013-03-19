@@ -96,41 +96,22 @@ void Rules::client_loop(rules::ClientMessenger_sptr msgr)
 {
     CHECK(champion_ != nullptr);
 
+    uint32_t last_player_id;
+    msgr->pull_id(&last_player_id);
+
     INFO("TURN %d", api_->game_state()->get_current_turn());
     while (!api_->game_state()->is_finished())
     {
-        /* We first retrieve the ID of the first player, then we check for
-         * each player if he is the first to play. If so, we executes
-         * end_of_turn() before doing anything. Then, we play the move and call
-         * end_of_move().
-         */
-
         uint32_t playing_id;
-        int first_player = -1;
 
         /* Other players turns */
-        while (!api_->game_state()->is_finished() &&
-               msgr->wait_for_turn(opt_.player->id, &playing_id))
+        if (msgr->wait_for_turn(opt_.player->id, &playing_id))
         {
-
-            /* End of each turn */
-            if (first_player == (int) playing_id)
-                end_of_turn();
-
-            if (first_player == -1)
-                first_player = playing_id;
-
-            if (api_->game_state()->is_finished())
-                break;
-
-            /* Pass if spectator */
             if (is_spectator(playing_id))
-                continue;
-
-            /* Clear the list of actions*/
-            api_->actions()->clear();
+              continue;
 
             /* Get current player actions */
+            api_->actions()->clear();
             msgr->pull_actions(api_->actions());
 
             /* Apply them onto the gamestate */
@@ -138,29 +119,23 @@ void Rules::client_loop(rules::ClientMessenger_sptr msgr)
                 if (action->player_id() != api_->player()->id)
                     api_->game_state_set(action->apply(api_->game_state()));
             msgr->wait_for_ack();
-
-            /* End of each move */
-            end_of_move(playing_id);
+        }
+        else /* Current player turn */
+        {
+            api_->actions()->clear();
+            sandbox_.execute(champion_jouer_tour);
+            msgr->send_actions(*api_->actions());
+            msgr->wait_for_ack();
+            msgr->pull_actions(api_->actions());
+            api_->actions()->clear();
         }
 
+        /* End of each move */
+        end_of_move(playing_id);
+
         /* End of each turn */
-        if (first_player == (int) playing_id)
+        if (last_player_id == playing_id)
             end_of_turn();
-
-        if (first_player == -1)
-            first_player = playing_id;
-
-        if (api_->game_state()->is_finished())
-            break;
-
-        api_->actions()->clear();
-        sandbox_.execute(champion_jouer_tour);
-        msgr->send_actions(*api_->actions());
-        msgr->wait_for_ack();
-        msgr->pull_actions(api_->actions());
-        api_->actions()->clear();
-
-        end_of_move(api_->player()->id);
     }
 }
 
@@ -168,37 +143,22 @@ void Rules::spectator_loop(rules::ClientMessenger_sptr msgr)
 {
     CHECK(champion_ != nullptr);
 
+    uint32_t last_player_id;
+    msgr->pull_id(&last_player_id);
+
     INFO("TURN %d", api_->game_state()->get_current_turn());
     while (!api_->game_state()->is_finished())
     {
-        /* We first retrieve the ID of the first player, then we check for
-         * each player if he is the first to play. If so, we executes
-         * end_of_turn() before doing anything. Then, we play the move and call
-         * end_of_move().
-         */
-
         uint32_t playing_id;
-        int first_player = -1;
 
         /* Other players turns */
-        while (!api_->game_state()->is_finished() &&
-               msgr->wait_for_turn(opt_.player->id, &playing_id))
+        if (msgr->wait_for_turn(opt_.player->id, &playing_id))
         {
-
-            /* End of each turn */
-            if (first_player == (int) playing_id)
-                end_of_turn();
-
-            if (first_player == -1)
-                first_player = playing_id;
-
-            if (api_->game_state()->is_finished())
-                break;
-
-           /* Clear the list of actions*/
-            api_->actions()->clear();
+            if (is_spectator(playing_id))
+              continue;
 
             /* Get current player actions */
+            api_->actions()->clear();
             msgr->pull_actions(api_->actions());
 
             /* Apply them onto the gamestate */
@@ -209,33 +169,30 @@ void Rules::spectator_loop(rules::ClientMessenger_sptr msgr)
 
             /* End of each move */
             end_of_move(playing_id);
+
+            /* End of each turn */
+            if (last_player_id == playing_id)
+                end_of_turn();
         }
-
-        /* End of each turn */
-        if (first_player == (int) playing_id)
-            end_of_turn();
-
-        if (first_player == -1)
-            first_player = playing_id;
-
-        if (api_->game_state()->is_finished())
-            break;
-
-        api_->actions()->clear();
-        champion_jouer_tour();
-        /* Send the ACK to the server (client can only send actions) */
-        api_->actions()->add(
-                rules::IAction_sptr(new ActionAck(api_->player()->id)));
-        msgr->send_actions(*api_->actions());
-        msgr->wait_for_ack();
-        msgr->pull_actions(api_->actions());
-        api_->actions()->clear();
+        else /* Current player turn */
+        {
+            api_->actions()->clear();
+            champion_jouer_tour();
+            /* Send the ACK to the server (client can only send actions) */
+            api_->actions()->add(
+                    rules::IAction_sptr(new ActionAck(api_->player()->id)));
+            msgr->send_actions(*api_->actions());
+            msgr->wait_for_ack();
+        }
     }
 }
 
 void Rules::server_loop(rules::ServerMessenger_sptr msgr)
 {
     CHECK(champion_ == nullptr);
+
+    /* Pushing the last player ID to inform clients of the end of a turn */
+    msgr->push_id(players_->players[players_->players.size()]->id);
 
     INFO("TURN %d", api_->game_state()->get_current_turn());
     while (!api_->game_state()->is_finished())
@@ -244,9 +201,7 @@ void Rules::server_loop(rules::ServerMessenger_sptr msgr)
         {
             msgr->push_id(players_->players[i]->id);
             if (!msgr->poll(timeout_))
-            {
                 continue;
-            }
 
             rules::Actions actions;
             msgr->recv_actions(&actions);
