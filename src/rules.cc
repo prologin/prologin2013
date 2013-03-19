@@ -16,6 +16,8 @@ Rules::Rules(const rules::Options opt)
 {
     if (!opt.champion_lib.empty())
         champion_ = new utils::DLL(opt.champion_lib);
+    else
+        champion_ = nullptr;
 
     std::ifstream ifs(opt.map_file);
     Map* map = new Map;
