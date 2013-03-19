@@ -37,23 +37,34 @@ Api::Api(GameState* game_state, rules::Player_sptr player)
 //
 terrain Api::info_terrain(position pos)
 {
-    return game_state_->get_map()->get_cell(pos)->get_type();
+    Cell* c = game_state_->get_map()->get_cell(pos);
+    if (c)
+        return c->get_type();
+    return TERRAIN_ERREUR;
 }
 
 ///
-// Retourne le joueur qui possède l'île à l'emplacement ``pos``. Retourne 0 si l'île est libre. Retourne -1 si la position indiquée n'est pas une île
+// Retourne le joueur qui possède l'île à l'emplacement ``pos``.
+// Retourne -1 si la position indiquée n'est pas une île ou si l'île est libre
 //
 int Api::info_ile_joueur(position pos)
 {
-    return game_state_->get_map()->get_cell(pos)->get_player();
+    Cell* c = game_state_->get_map()->get_cell(pos);
+    if (c)
+        return c->get_player();
+    return -1;
 }
 
 ///
-// Retourne l'or contenu sur l'île à l'emplacement ``pos``. Retourne -1 si la case spécifiée n'est pas une île.
+// Retourne l'or contenu sur l'île à l'emplacement ``pos``. Retourne -1 si la
+// case spécifiée n'est pas une île.
 //
 int Api::info_ile_or(position pos)
 {
-    return game_state_->get_map()->get_cell(pos)->get_gold();
+    Cell* c = game_state_->get_map()->get_cell(pos);
+    if (c)
+        return c->get_gold();
+    return -1;
 }
 
 ///
@@ -61,7 +72,10 @@ int Api::info_ile_or(position pos)
 //
 bateau Api::info_bateau(int id)
 {
-    return game_state_->get_boats()[id];
+    std::map<int, bateau> boats = game_state_->get_boats();
+    if (boats.find(id) != boats.end())
+        return boats[id];
+    return {-1, {-1, -1}, -1, BATEAU_ERREUR, -1, false};
 }
 
 ///
@@ -69,8 +83,11 @@ bateau Api::info_bateau(int id)
 //
 std::vector<bateau> Api::liste_bateaux_position(position pos)
 {
+    Cell* c = game_state_->get_map()->get_cell(pos);
     std::vector<bateau> r;
-    for(auto& i: game_state_->get_map()->get_cell(pos)->get_id_boats())
+    if (!c)
+        return r;
+    for(auto& i: c->get_id_boats())
         r.push_back(game_state_->get_boats()[i]);
     return r;
 }
@@ -80,8 +97,11 @@ std::vector<bateau> Api::liste_bateaux_position(position pos)
 //
 std::vector<int> Api::liste_id_bateaux_position(position pos)
 {
+    Cell* c = game_state_->get_map()->get_cell(pos);
     std::vector<int> r;
-    std::set<int> i = game_state_->get_map()->get_cell(pos)->get_id_boats();
+    if (!c)
+        return r;
+    std::set<int> i = c->get_id_boats();
     std::copy(i.begin(), i.end(), std::back_inserter(r));
     return r;
 }

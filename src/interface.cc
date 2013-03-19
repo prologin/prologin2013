@@ -192,7 +192,7 @@ extern "C" terrain api_info_terrain(position pos)
 }
 
 ///
-// Retourne le joueur qui possède l'île à l'emplacement ``pos``. Retourne 0 si l'île est libre. Retourne -1 si la position indiquée n'est pas une île
+// Retourne le joueur qui possède l'île à l'emplacement ``pos``. Retourne -1 si l'île est libre ou si la position indiquée n'est pas une île
 //
 extern "C" int api_info_ile_joueur(position pos)
 {

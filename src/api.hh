@@ -53,11 +53,14 @@ class Api
         //
         terrain info_terrain(position pos);
         ///
-        // Retourne le joueur qui possède l'île à l'emplacement ``pos``. Retourne 0 si l'île est libre. Retourne -1 si la position indiquée n'est pas une île
+        // Retourne le joueur qui possède l'île à l'emplacement ``pos``.
+        // Retourne -1 si la position indiquée n'est pas une île ou si l'île
+        // est libre.
         //
         int info_ile_joueur(position pos);
         ///
-        // Retourne l'or contenu sur l'île à l'emplacement ``pos``. Retourne -1 si la case spécifiée n'est pas une île.
+        // Retourne l'or contenu sur l'île à l'emplacement ``pos``. Retourne -1
+        // si la case spécifiée n'est pas une île.
         //
         int info_ile_or(position pos);
         ///
@@ -85,11 +88,13 @@ class Api
         //
         int distance(position depart, position arrivee);
         ///
-        // Construire un bateau de type ``btype`` sur l'île à la position ``pos``
+        // Construire un bateau de type ``btype`` sur l'île à la position
+        // ``pos``
         //
         erreur construire(bateau_type btype, position pos);
         ///
-        // Déplace le bateau représenté par l'identifiant ``id`` jusqu'à la position `pos`` (si elle est dans la portée du bateau)
+        // Déplace le bateau représenté par l'identifiant ``id`` jusqu'à la
+        // position `pos`` (si elle est dans la portée du bateau)
         //
         erreur deplacer(int id, position pos);
         ///
@@ -116,26 +121,6 @@ class Api
         // Retourne le numéro du tour actuel
         //
         int tour_actuel();
-        ///
-        // Affiche le contenu d'une valeur de type bateau_type
-        //
-
-        ///
-        // Affiche le contenu d'une valeur de type terrain
-        //
-
-        ///
-        // Affiche le contenu d'une valeur de type erreur
-        //
-
-        ///
-        // Affiche le contenu d'une valeur de type position
-        //
-
-        ///
-        // Affiche le contenu d'une valeur de type bateau
-        //
-
 };
 
 
