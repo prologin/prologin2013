@@ -56,7 +56,7 @@ int Map::load(std::istream& s)
             map_[y][x] = new Cell(y, x, type_chars[line[x]]);
             if (type_chars[line[x]] == TERRAIN_VOLCAN ||
                 type_chars[line[x]] == TERRAIN_ILE)
-                islands_.push_back({y, x});
+                islands_.push_back({x, y});
         }
     }
 
