@@ -20,19 +20,19 @@ constant:
     cst_comment: Nombre maximum de joueurs dans la partie
   -
     cst_name: REVENU_ILE
-    cst_val: 100
+    cst_val: 10
     cst_comment: Revenu en or par île à chaque tour
   -
     cst_name: REVENU_VOLCAN
-    cst_val: 200
+    cst_val: 20
     cst_comment: Revenu en or par volcan à chaque tour
   -
     cst_name: CARAVELLE_COUT
-    cst_val: 25
+    cst_val: 3
     cst_comment: Coût de construction d'une Caravelle
   -
     cst_name: GALION_COUT
-    cst_val: 10
+    cst_val: 1
     cst_comment: Coût de construction d'un Galion
   -
     cst_name: CARAVELLE_DEPLACEMENT

@@ -31,22 +31,22 @@
 ///
 // Revenu en or par île à chaque tour
 //
-# define REVENU_ILE                100
+# define REVENU_ILE                10
 
 ///
 // Revenu en or par volcan à chaque tour
 //
-# define REVENU_VOLCAN             200
+# define REVENU_VOLCAN             20
 
 ///
 // Coût de construction d'une Caravelle
 //
-# define CARAVELLE_COUT            25
+# define CARAVELLE_COUT            3
 
 ///
 // Coût de construction d'un Galion
 //
-# define GALION_COUT               10
+# define GALION_COUT               1
 
 ///
 // Déplacement de la Caravelle
