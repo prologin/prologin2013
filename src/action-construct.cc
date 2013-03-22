@@ -22,7 +22,7 @@ int ActionConstruct::check(const GameState* st) const
         return ILE_ENNEMIE;
 
     int cost = (btype_ == BATEAU_GALION) ? GALION_COUT : CARAVELLE_COUT;
-    if (island->get_gold() < cost)
+    if (island->get_gold() < cost || btype_ == BATEAU_ERREUR)
         return OR_INSUFFISANT;
 
     return OK;
