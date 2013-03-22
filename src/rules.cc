@@ -226,14 +226,14 @@ void Rules::server_loop(rules::ServerMessenger_sptr msgr)
             if (!msgr->poll(timeout_))
                 continue;
 
-            rules::Actions actions;
-            msgr->recv_actions(&actions);
+            api_->actions()->clear();
+            msgr->recv_actions(api_->actions());
             msgr->ack();
 
-            for (auto action : actions.actions())
+            for (auto action : api_->actions()->actions())
                 api_->game_state_set(action->apply(api_->game_state()));
 
-            msgr->push_actions(actions);
+            msgr->push_actions(*api_->actions());
             end_of_move(i);
         }
 
