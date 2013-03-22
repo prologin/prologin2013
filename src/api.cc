@@ -130,9 +130,10 @@ std::vector<position> Api::mes_iles()
 {
     std::vector<position> r;
     std::vector<position> i = game_state_->get_map()->get_islands();
-    std::copy_if(i.begin(), i.end(), r.begin(), [this](position p) {
-            return game_state_->get_map()->get_cell(p)->get_player() ==
-            (int) player_->id; });
+    for (auto c : i)
+        if (game_state_->get_map()->get_cell(c)->get_player() == (int)
+                player_->id)
+            r.push_back(c);
     return r;
 }
 
