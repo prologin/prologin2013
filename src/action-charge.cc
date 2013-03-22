@@ -9,6 +9,13 @@ ActionCharge::ActionCharge(int id_boat, int amount, int player)
 {
 }
 
+ActionCharge::ActionCharge()
+    : id_boat_(-1),
+      amount_(0),
+      player_id_(-1)
+{
+}
+
 int ActionCharge::check(const GameState* st) const
 {
     Cell* island;

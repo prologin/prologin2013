@@ -10,6 +10,7 @@ class ActionDischarge : public rules::Action<GameState>
 {
     public:
         ActionDischarge(int id_boat, int amount, int player);
+        ActionDischarge();
 
         virtual int check(const GameState* st) const;
         virtual void handle_buffer(utils::Buffer& buf);

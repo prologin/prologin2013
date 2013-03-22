@@ -10,6 +10,7 @@ class ActionConstruct : public rules::Action<GameState>
 {
     public:
         ActionConstruct(bateau_type btype, position pos, int player);
+        ActionConstruct();
 
         virtual int check(const GameState* st) const;
         virtual void handle_buffer(utils::Buffer& buf);

@@ -10,6 +10,7 @@ class ActionMove : public rules::Action<GameState>
 {
     public:
         ActionMove(int id, position dest, int player);
+        ActionMove();
 
         virtual int check(const GameState* st) const;
         virtual void handle_buffer(utils::Buffer& buf);

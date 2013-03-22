@@ -10,6 +10,11 @@
 #include "api.hh"
 
 #include "action-ack.hh"
+#include "action-charge.hh"
+#include "action-colonize.hh"
+#include "action-construct.hh"
+#include "action-discharge.hh"
+#include "action-move.hh"
 
 Rules::Rules(const rules::Options opt)
     : opt_(opt)
@@ -48,6 +53,19 @@ Rules::Rules(const rules::Options opt)
     players_ = opt.players;
     spectators_ = opt.spectators;
     timeout_ = opt.time;
+
+    api_->actions()->register_action(ID_ACTION_ACK,
+            []() -> rules::IAction* { return new ActionAck(); });
+    api_->actions()->register_action(ID_ACTION_CHARGE,
+            []() -> rules::IAction* { return new ActionCharge(); });
+    api_->actions()->register_action(ID_ACTION_COLONIZE,
+            []() -> rules::IAction* { return new ActionColonize(); });
+    api_->actions()->register_action(ID_ACTION_CONSTRUCT,
+            []() -> rules::IAction* { return new ActionConstruct(); });
+    api_->actions()->register_action(ID_ACTION_DISCHARGE,
+            []() -> rules::IAction* { return new ActionDischarge(); });
+    api_->actions()->register_action(ID_ACTION_MOVE,
+            []() -> rules::IAction* { return new ActionMove(); });
 }
 
 Rules::Rules(rules::Players_sptr players, Api* api)

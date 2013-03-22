@@ -10,6 +10,7 @@ class ActionCharge : public rules::Action<GameState>
 {
     public:
         ActionCharge(int id_boat, int amount, int player);
+        ActionCharge();
 
         virtual int check(const GameState* st) const;
         virtual void handle_buffer(utils::Buffer& buf);

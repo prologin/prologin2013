@@ -9,6 +9,12 @@ ActionColonize::ActionColonize(position pos, int player)
 {
 }
 
+ActionColonize::ActionColonize()
+    : pos_({-1, -1}),
+      player_id_(-1)
+{
+}
+
 int ActionColonize::check(const GameState* st) const
 {
     Cell* island;

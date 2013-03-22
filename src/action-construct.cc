@@ -10,6 +10,13 @@ ActionConstruct::ActionConstruct(bateau_type btype, position pos, int player)
 {
 }
 
+ActionConstruct::ActionConstruct()
+    : btype_(BATEAU_ERREUR),
+      pos_({-1, -1}),
+      player_id_(-1)
+{
+}
+
 int ActionConstruct::check(const GameState* st) const
 {
     Cell* island;

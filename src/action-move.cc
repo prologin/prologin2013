@@ -10,6 +10,13 @@ ActionMove::ActionMove(int id_boat, position dest, int player)
 {
 }
 
+ActionMove::ActionMove()
+    : dest_({-1, -1}),
+      id_boat_(-1),
+      player_id_(-1)
+{
+}
+
 int ActionMove::check(const GameState* st) const
 {
     const bateau* boat = const_cast<GameState*>(st)->get_boat(id_boat_);
