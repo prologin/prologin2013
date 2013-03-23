@@ -37,7 +37,8 @@ GameState::GameState(const GameState& st)
     : rules::GameState(st),
       map_(new Map(*st.map_)),
       players_(st.players_),
-      current_turn_(st.current_turn_)
+      current_turn_(st.current_turn_),
+      boat_next_id_(st.boat_next_id_)
 {
     boats_.insert(st.boats_.begin(), st.boats_.end());
     player_ids_.insert(st.player_ids_.begin(), st.player_ids_.end());
@@ -99,15 +100,7 @@ bool GameState::add_boat(position origin, int player, bateau_type btype)
     if (boats_.count(id))
         return false;
 
-    bateau boat;
-    boat.id = id;
-    boat.pos = origin;
-    boat.joueur = player;
-    boat.btype = btype;
-    boat.nb_or = 0;
-    boat.deplacable = false;
-    boats_[id] = boat;
-
+    boats_[id] = { id, origin, player, btype, 0, false };
     map_->get_cell(origin)->add_boat(id);
 
     return true;
@@ -207,7 +200,13 @@ void GameState::resolve_score(position pos)
     if (owner != -1)
         player_ids_[owner]->score += c->get_gold();
     for (auto& i : c->get_id_boats())
+    {
         player_ids_[boats_[i].joueur]->score += boats_[i].nb_or;
+        if (boats_[i].btype == BATEAU_GALION)
+            player_ids_[boats_[i].joueur]->score += GALION_COUT;
+        else if (boats_[i].btype == BATEAU_CARAVELLE)
+            player_ids_[boats_[i].joueur]->score += CARAVELLE_COUT;
+    }
 }
 
 void GameState::resolve_all_scores()

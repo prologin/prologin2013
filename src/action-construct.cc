@@ -47,6 +47,5 @@ void ActionConstruct::apply_on(GameState* st) const
     int cost = (btype_ == BATEAU_GALION) ? GALION_COUT : CARAVELLE_COUT;
     Cell* island = st->get_map()->get_cell(pos_);
     island->set_gold(island->get_gold() - cost);
-
     st->add_boat(pos_, player_id_, btype_);
 }
