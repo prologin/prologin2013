@@ -54,6 +54,12 @@ class GameState : public rules::GameState
         void update_gold();
         void update_boats();
 
+        /* Accessors used by the dumper. */
+        rules::Players_sptr get_players() const
+        { return players_; }
+
+        const std::map<int, bateau>& get_boats() const
+        { return boats_; }
     private:
         Map* map_;
         rules::Players_sptr players_;

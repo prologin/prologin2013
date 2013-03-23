@@ -23,6 +23,7 @@ def build(bld):
             src/action-construct.cc
             src/action-discharge.cc
             src/action-move.cc
+            src/dumper.cc
         ''',
         target = 'prologin2013',
         use = ['stechec2-net', 'stechec2-rules', 'stechec2-utils'],

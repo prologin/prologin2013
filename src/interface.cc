@@ -437,3 +437,7 @@ extern "C" void api_afficher_bateau(bateau v)
   std::cerr << v << std::endl;
 }
 
+extern "C" char* api_get_dump()
+{
+  return api->get_dump();
+}

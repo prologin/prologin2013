@@ -14,6 +14,7 @@
 #include <algorithm>
 
 #include "api.hh"
+#include "dumper.hh"
 #include "tools.hh"
 
 #include "action-charge.hh"
@@ -255,4 +256,12 @@ int Api::score(int id_joueur)
 int Api::tour_actuel()
 {
     return game_state_->get_current_turn();
+}
+
+///
+// Return un dump JSON de l’état complet du jeu.
+//
+char* Api::get_dump()
+{
+    return dump_game_state(*game_state_, actions_);
 }

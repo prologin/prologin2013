@@ -130,6 +130,10 @@ class Api
         // Retourne le numéro du tour actuel
         //
         int tour_actuel();
+        ///
+        // Return un dump JSON de l’état complet du jeu.
+        //
+        char* get_dump();
 };
 
 
