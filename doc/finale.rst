@@ -21,8 +21,7 @@ Règles
 Nombre de joueurs
 =================
 
-Une partie peut voir s'affronter entre 2 et ``n`` joueurs. Les cartes seront
-cependant en général plus équilibrées pour des combats entre 2 et 5 joueurs.
+Une partie voit s'affronter 2 joueurs à la fois seulement.
 
 Or
 ==
@@ -48,7 +47,7 @@ La Caravelle
 La Caravelle peut coloniser des îles et déplacer de l'or. Elle doit être
 utilisée sur chaque île vierge pour la coloniser.
 
-* Coût : 25 or
+* Coût : 3 or
 * Déplacement : 4 cases
 
 Le Galion
@@ -57,7 +56,7 @@ Le Galion
 Le Galion est un navire de combat. Il peut attaquer une flotte ou une île si
 celle-ci se trouve sur la même case que lui.
 
-* Coût : 10 or
+* Coût : 1 or
 * Déplacement : 6 cases
 
 La carte
@@ -102,7 +101,9 @@ l'attaquant qui gagne si on est en mer, et le défenseur si on est sur une
 un. Le perdant perd tout (galions, caravelles et contrôle de l'île).
 
 Si le combat se déroule sur une île, l'île est attribuée au vainqueur et il
-récupère l'or qui s'y trouvait.
+récupère l'or qui s'y trouvait. Si le combat se déroule en mer, l'or contenu
+dans les caravelles du perdant est ajouté dans la caravelle du gagnant ayant
+l'ID la plus petite. Si le gagnant n'a aucune caravelle, cet or est perdu.
 
 -----
 Score
@@ -126,7 +127,6 @@ suivante :
 +-------+------------+
 | ``^`` | Volcan     |
 +-------+------------+
-
 
 Le fichier doit suivre le format suivant : ::
 
