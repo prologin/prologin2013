@@ -240,8 +240,9 @@ void Rules::server_loop(rules::ServerMessenger_sptr msgr)
         for (unsigned int i = 0; i < spectators_->players.size(); i++)
         {
             msgr->push_id(spectators_->players[i]->id);
+            api_->actions()->clear();
             rules::Actions actions;
-            msgr->recv_actions(&actions);
+            msgr->recv_actions(api_->actions());
             msgr->ack();
         }
 
