@@ -25,7 +25,7 @@ def build(bld):
             src/action-move.cc
         ''',
         target = 'prologin2013',
-        use = ['net', 'rules', 'utils'],
+        use = ['stechec2-net', 'stechec2-rules', 'stechec2-utils'],
         defines = ['MODULE_COLOR=ANSI_COL_PURPLE',
             'MODULE_NAME="prologin2013"'],
         lib = ['dl'],
@@ -36,7 +36,7 @@ def build(bld):
             features = 'gtest',
             source = 'src/tests/test-%s.cc' % test,
             target = 'prologin2013-test-%s' % test,
-            use = ['prologin2013', 'utils'],
+            use = ['prologin2013', 'stechec2-utils'],
             includes = ['.'],
             defines = ['MODULE_COLOR=ANSI_COL_PURPLE',
                 'MODULE_NAME="prologin2013"'],
