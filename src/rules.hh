@@ -46,7 +46,8 @@ class Rules : public rules::TurnBasedRules
         // Called each time a player has finished its turn
         virtual void end_of_player_turn(uint32_t player_id);
 
-        // Called once every player has played
+        // Called before/after every player has played
+        virtual void start_of_turn();
         virtual void end_of_turn();
 
     protected:

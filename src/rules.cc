@@ -61,7 +61,8 @@ Rules::Rules(const rules::Options opt)
 }
 
 Rules::Rules(rules::Players_sptr players, Api* api)
-    : TurnBasedRules(rules::Options({"", "", 0, 0, rules::Player_sptr(), players, rules::Players_sptr(), 5})),
+    : TurnBasedRules(rules::Options({"", "", 0, 0, rules::Player_sptr(),
+                players, rules::Players_sptr(), 5})),
     api_(api),
     sandbox_()
 {
@@ -77,7 +78,6 @@ Rules::~Rules()
 void Rules::at_start()
 {
     api_->game_state()->increment_turn();
-    INFO("TURN %d", api_->game_state()->get_current_turn());
 }
 
 void Rules::at_client_start()
@@ -137,5 +137,9 @@ void Rules::end_of_turn()
     api_->game_state()->resolve_all_scores();
     api_->game_state()->update_gold();
     api_->game_state()->increment_turn();
+}
+
+void Rules::start_of_turn()
+{
     INFO("TURN %d", api_->game_state()->get_current_turn());
 }
