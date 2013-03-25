@@ -4,9 +4,7 @@
 #include <utils/dll.hh>
 #include <utils/sandbox.hh>
 #include <rules/options.hh>
-#include <rules/client-messenger.hh>
-#include <rules/server-messenger.hh>
-#include <rules/player.hh>
+#include <rules/rules.hh>
 
 #include "api.hh"
 
@@ -14,21 +12,39 @@ typedef void (*f_champion_partie_init)();
 typedef void (*f_champion_jouer_tour)();
 typedef void (*f_champion_partie_fin)();
 
-class Rules
+class Rules : public rules::TurnBasedRules
 {
     public:
         explicit Rules(const rules::Options opt);
         Rules(rules::Players_sptr players, Api* api);
         virtual ~Rules();
 
-        bool is_spectator(uint32_t id);
+        // Function executed at the start of the game
+        virtual void at_start();
 
-        void end_of_move(uint32_t id);
-        void end_of_turn();
+        // Function executed at the end of the game
+        virtual void at_end();
 
-        void client_loop(rules::ClientMessenger_sptr msgr);
-        void spectator_loop(rules::ClientMessenger_sptr msgr);
-        void server_loop(rules::ServerMessenger_sptr msgr);
+        // Check whether the game is over
+        virtual bool is_finished();
+
+        // Get the actions structure with registered actions
+        virtual rules::Actions* get_actions();
+
+        // Apply an action to the game state
+        virtual void apply_action(const rules::IAction_sptr& action);
+
+        // Player's turn: call the champion within a sandbox
+        virtual void player_turn();
+
+        // Spectator's turn: call the champion wihout any sandbox
+        virtual void spectator_turn();
+
+        // Called each time a player has finished its turn
+        virtual void end_of_player_turn(uint32_t player_id);
+
+        // Called once every player has played
+        virtual void end_of_turn();
 
     protected:
         f_champion_partie_init champion_partie_init;
@@ -36,15 +52,8 @@ class Rules
         f_champion_partie_fin champion_partie_fin;
 
     private:
-        rules::Options opt_;
-
         utils::DLL* champion_;
         Api* api_;
-
-        rules::Players_sptr players_;
-        rules::Players_sptr spectators_;
-
-        int timeout_;
 
         utils::Sandbox sandbox_;
 };

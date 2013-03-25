@@ -17,7 +17,8 @@
 #include "action-move.hh"
 
 Rules::Rules(const rules::Options opt)
-    : opt_(opt)
+    : TurnBasedRules(opt),
+      sandbox_(opt.time)
 {
     if (!opt.champion_lib.empty())
         champion_ = new utils::DLL(opt.champion_lib);
@@ -50,10 +51,6 @@ Rules::Rules(const rules::Options opt)
             sandbox_.execute(champion_partie_init);
     }
 
-    players_ = opt.players;
-    spectators_ = opt.spectators;
-    timeout_ = opt.time;
-
     api_->actions()->register_action(ID_ACTION_ACK,
             []() -> rules::IAction* { return new ActionAck(); });
     api_->actions()->register_action(ID_ACTION_CHARGE,
@@ -69,9 +66,8 @@ Rules::Rules(const rules::Options opt)
 }
 
 Rules::Rules(rules::Players_sptr players, Api* api)
-    : champion_(nullptr),
+    : TurnBasedRules(rules::Options({"", "", 0, 0, rules::Player_sptr(), players, rules::Players_sptr(), 5})),
       api_(api),
-      players_(players),
       sandbox_()
 {
 }
@@ -91,15 +87,44 @@ Rules::~Rules()
     delete api_;
 }
 
-bool Rules::is_spectator(uint32_t id)
+void Rules::at_start()
 {
-    for (rules::Player_sptr spectator : spectators_->players)
-        if (spectator->id == id)
-            return true;
-    return false;
+  api_->game_state()->increment_turn();
+  INFO("TURN %d", api_->game_state()->get_current_turn());
 }
 
-void Rules::end_of_move(uint32_t player_id)
+void Rules::at_end()
+{
+}
+
+bool Rules::is_finished()
+{
+  return api_->game_state()->is_finished();
+}
+
+rules::Actions* Rules::get_actions()
+{
+  return api_->actions();
+}
+
+void Rules::apply_action(const rules::IAction_sptr& action)
+{
+  api_->game_state_set(action->apply(api_->game_state()));
+}
+
+void Rules::player_turn()
+{
+  sandbox_.execute(champion_jouer_tour);
+}
+
+void Rules::spectator_turn()
+{
+  champion_jouer_tour();
+  api_->actions()->add(
+      rules::IAction_sptr(new ActionAck(api_->player()->id)));
+}
+
+void Rules::end_of_player_turn(uint32_t player_id)
 {
     api_->game_state()->resolve_all_fights(player_id);
 }
@@ -110,141 +135,4 @@ void Rules::end_of_turn()
     api_->game_state()->update_gold();
     api_->game_state()->increment_turn();
     INFO("TURN %d", api_->game_state()->get_current_turn());
-}
-
-void Rules::client_loop(rules::ClientMessenger_sptr msgr)
-{
-    CHECK(champion_ != nullptr);
-
-    uint32_t last_player_id;
-    msgr->pull_id(&last_player_id);
-
-    api_->game_state()->increment_turn();
-    INFO("TURN %d", api_->game_state()->get_current_turn());
-    while (!api_->game_state()->is_finished())
-    {
-
-        uint32_t playing_id;
-
-        /* Other players turns */
-        if (msgr->wait_for_turn(opt_.player->id, &playing_id))
-        {
-            if (is_spectator(playing_id))
-              continue;
-
-            /* Get current player actions */
-            api_->actions()->clear();
-            msgr->pull_actions(api_->actions());
-
-            /* Apply them onto the gamestate */
-            for (auto action : api_->actions()->actions())
-                if (action->player_id() != api_->player()->id)
-                    api_->game_state_set(action->apply(api_->game_state()));
-        }
-        else /* Current player turn */
-        {
-            api_->actions()->clear();
-            sandbox_.execute(champion_jouer_tour);
-            msgr->send_actions(*api_->actions());
-            msgr->wait_for_ack();
-            msgr->pull_actions(api_->actions());
-            api_->actions()->clear();
-        }
-
-        /* End of each move */
-        end_of_move(playing_id);
-
-        /* End of each turn */
-        if (last_player_id == playing_id)
-            end_of_turn();
-    }
-}
-
-void Rules::spectator_loop(rules::ClientMessenger_sptr msgr)
-{
-    CHECK(champion_ != nullptr);
-
-    uint32_t last_player_id;
-    msgr->pull_id(&last_player_id);
-
-    api_->game_state()->increment_turn();
-    INFO("TURN %d", api_->game_state()->get_current_turn());
-    while (!api_->game_state()->is_finished())
-    {
-
-        uint32_t playing_id;
-
-        /* Other players turns */
-        if (msgr->wait_for_turn(opt_.player->id, &playing_id))
-        {
-            if (is_spectator(playing_id))
-              continue;
-
-            /* Get current player actions */
-            api_->actions()->clear();
-            msgr->pull_actions(api_->actions());
-
-            /* Apply them onto the gamestate */
-            for (auto action : api_->actions()->actions())
-                if (action->player_id() != api_->player()->id)
-                    api_->game_state_set(action->apply(api_->game_state()));
-
-            /* End of each move */
-            end_of_move(playing_id);
-
-            /* End of each turn */
-            if (last_player_id == playing_id)
-                end_of_turn();
-        }
-        else /* Current player turn */
-        {
-            api_->actions()->clear();
-            champion_jouer_tour();
-            /* Send the ACK to the server (client can only send actions) */
-            api_->actions()->add(
-                    rules::IAction_sptr(new ActionAck(api_->player()->id)));
-            msgr->send_actions(*api_->actions());
-            msgr->wait_for_ack();
-        }
-    }
-}
-
-void Rules::server_loop(rules::ServerMessenger_sptr msgr)
-{
-    CHECK(champion_ == nullptr);
-
-    /* Pushing the last player ID to inform clients of the end of a turn */
-    msgr->push_id(players_->players[players_->players.size() - 1]->id);
-
-    api_->game_state()->increment_turn();
-    INFO("TURN %d", api_->game_state()->get_current_turn());
-    while (!api_->game_state()->is_finished())
-    {
-        for (unsigned int i = 0; i < players_->players.size(); i++)
-        {
-            msgr->push_id(players_->players[i]->id);
-            if (!msgr->poll(timeout_))
-                continue;
-
-            api_->actions()->clear();
-            msgr->recv_actions(api_->actions());
-            msgr->ack();
-
-            for (auto action : api_->actions()->actions())
-                api_->game_state_set(action->apply(api_->game_state()));
-
-            msgr->push_actions(*api_->actions());
-            end_of_move(players_->players[i]->id);
-        }
-
-        for (unsigned int i = 0; i < spectators_->players.size(); i++)
-        {
-            msgr->push_id(spectators_->players[i]->id);
-            api_->actions()->clear();
-            msgr->recv_actions(api_->actions());
-            msgr->ack();
-        }
-
-        end_of_turn();
-    }
 }
