@@ -17,8 +17,8 @@
 #include "action-move.hh"
 
 Rules::Rules(const rules::Options opt)
-    : TurnBasedRules(opt),
-      sandbox_(opt.time)
+  : TurnBasedRules(opt),
+    sandbox_(opt.time)
 {
     if (!opt.champion_lib.empty())
         champion_ = new utils::DLL(opt.champion_lib);
@@ -44,11 +44,6 @@ Rules::Rules(const rules::Options opt)
             champion_->get<f_champion_jouer_tour>("jouer_tour");
         champion_partie_fin =
             champion_->get<f_champion_partie_fin>("partie_fin");
-
-        if (opt.player->type == rules::SPECTATOR)
-            champion_partie_init();
-        else
-            sandbox_.execute(champion_partie_init);
     }
 
     api_->actions()->register_action(ID_ACTION_ACK,
@@ -67,61 +62,69 @@ Rules::Rules(const rules::Options opt)
 
 Rules::Rules(rules::Players_sptr players, Api* api)
     : TurnBasedRules(rules::Options({"", "", 0, 0, rules::Player_sptr(), players, rules::Players_sptr(), 5})),
-      api_(api),
-      sandbox_()
+    api_(api),
+    sandbox_()
 {
 }
 
 Rules::~Rules()
 {
     if (champion_)
-    {
-        if (opt_.player->type == rules::SPECTATOR)
-            champion_partie_fin();
-        else
-            sandbox_.execute(champion_partie_fin);
-
         delete champion_;
-    }
-
     delete api_;
 }
 
 void Rules::at_start()
 {
-  api_->game_state()->increment_turn();
-  INFO("TURN %d", api_->game_state()->get_current_turn());
+    api_->game_state()->increment_turn();
+    INFO("TURN %d", api_->game_state()->get_current_turn());
 }
 
-void Rules::at_end()
+void Rules::at_client_start()
 {
+    sandbox_.execute(champion_partie_init);
+}
+
+void Rules::at_spectator_start()
+{
+    champion_partie_init();
+}
+
+void Rules::at_client_end()
+{
+    sandbox_.execute(champion_partie_fin);
+}
+
+void Rules::at_spectator_end()
+{
+    champion_partie_fin();
 }
 
 bool Rules::is_finished()
 {
-  return api_->game_state()->is_finished();
+    return api_->game_state()->is_finished();
 }
 
 rules::Actions* Rules::get_actions()
 {
-  return api_->actions();
+    return api_->actions();
 }
 
 void Rules::apply_action(const rules::IAction_sptr& action)
 {
-  api_->game_state_set(action->apply(api_->game_state()));
+    api_->game_state_set(action->apply(api_->game_state()));
 }
 
 void Rules::player_turn()
 {
-  sandbox_.execute(champion_jouer_tour);
+    sandbox_.execute(champion_jouer_tour);
 }
 
 void Rules::spectator_turn()
 {
-  champion_jouer_tour();
-  api_->actions()->add(
-      rules::IAction_sptr(new ActionAck(api_->player()->id)));
+    champion_jouer_tour();
+    api_->actions()->add(
+            rules::IAction_sptr(new ActionAck(api_->player()->id)));
 }
 
 void Rules::end_of_player_turn(uint32_t player_id)
