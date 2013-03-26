@@ -233,3 +233,9 @@ void GameState::update_gold()
         }
     }
 }
+
+void GameState::update_boats()
+{
+    for (auto& b : boats_)
+        b.second.deplacable = true;
+}

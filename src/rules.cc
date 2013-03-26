@@ -136,6 +136,7 @@ void Rules::end_of_turn()
 {
     api_->game_state()->resolve_all_scores();
     api_->game_state()->update_gold();
+    api_->game_state()->update_boats();
     api_->game_state()->increment_turn();
 }
 

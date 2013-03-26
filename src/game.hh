@@ -52,6 +52,8 @@ class GameState : public rules::GameState
         void resolve_all_scores();
 
         void update_gold();
+        void update_boats();
+
     private:
         Map* map_;
         rules::Players_sptr players_;
