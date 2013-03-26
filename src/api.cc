@@ -107,11 +107,11 @@ std::vector<bateau> Api::liste_bateaux_position(position pos)
 std::vector<int> Api::liste_id_bateaux_position(position pos)
 {
     Cell* c = game_state_->get_map()->get_cell(pos);
-    std::vector<int> r;
+    std::set<int> i = c->get_id_boats();
+    std::vector<int> r(i.size());
     if (!c)
         return r;
-    std::set<int> i = c->get_id_boats();
-    std::copy(i.begin(), i.end(), std::back_inserter(r));
+    std::copy(i.begin(), i.end(), r.begin());
     return r;
 }
 
@@ -157,6 +157,7 @@ erreur Api::construire(bateau_type btype, position pos)
         return err;
 
     actions_.add(action);
+    game_state_set(action->apply(game_state()));
     return OK;
 }
 
@@ -172,6 +173,7 @@ erreur Api::deplacer(int id, position pos)
         return err;
 
     actions_.add(action);
+    game_state_set(action->apply(game_state()));
     return OK;
 }
 
@@ -187,6 +189,7 @@ erreur Api::coloniser(position pos)
         return err;
 
     actions_.add(action);
+    game_state_set(action->apply(game_state()));
     return OK;
 }
 
@@ -202,6 +205,7 @@ erreur Api::charger(int id, int nb_or)
         return err;
 
     actions_.add(action);
+    game_state_set(action->apply(game_state()));
     return OK;
 }
 
@@ -217,6 +221,7 @@ erreur Api::decharger(int id, int nb_or)
         return err;
 
     actions_.add(action);
+    game_state_set(action->apply(game_state()));
     return OK;
 }
 
