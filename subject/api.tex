@@ -1,0 +1,791 @@
+
+
+%
+% This file was generated using gen/make_tex.rtex
+% Do not modify unless you are absolutely sure of what you are doing
+%
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & TAILLE\_TERRAIN \\
+\textbf{Valeur:} & 32 \\
+\textbf{Description:} & Taille du terrain (longueur et largeur) \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & FIN\_PARTIE \\
+\textbf{Valeur:} & 200 \\
+\textbf{Description:} & Nombre de tours par partie \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & MAX\_JOUEURS \\
+\textbf{Valeur:} & 2 \\
+\textbf{Description:} & Nombre maximum de joueurs dans la partie \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & REVENU\_ILE \\
+\textbf{Valeur:} & 10 \\
+\textbf{Description:} & Revenu en or par île à chaque tour \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & REVENU\_VOLCAN \\
+\textbf{Valeur:} & 20 \\
+\textbf{Description:} & Revenu en or par volcan à chaque tour \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & CARAVELLE\_COUT \\
+\textbf{Valeur:} & 3 \\
+\textbf{Description:} & Coût de construction d'une Caravelle \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & GALION\_COUT \\
+\textbf{Valeur:} & 1 \\
+\textbf{Description:} & Coût de construction d'un Galion \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & CARAVELLE\_DEPLACEMENT \\
+\textbf{Valeur:} & 4 \\
+\textbf{Description:} & Déplacement de la Caravelle \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & GALION\_DEPLACEMENT \\
+\textbf{Valeur:} & 6 \\
+\textbf{Description:} & Déplacement du Galion \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+
+
+\functitle{bateau\_type} \\
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Type de bateau \\
+Valeurs~: &
+\small
+\begin{tabular}[t]{@{\extracolsep{0pt}}lp{7cm}}
+    
+        \textsl{BATEAU\_CARAVELLE}~: & Caravelle \\
+    
+        \textsl{BATEAU\_GALION}~: & Galion \\
+    
+        \textsl{BATEAU\_ERREUR}~: & Bateau inexistant \\
+    
+\end{tabular} \\
+\end{tabular}
+
+
+
+\functitle{terrain} \\
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Type de terrain \\
+Valeurs~: &
+\small
+\begin{tabular}[t]{@{\extracolsep{0pt}}lp{7cm}}
+    
+        \textsl{TERRAIN\_ILE}~: & Île \\
+    
+        \textsl{TERRAIN\_VOLCAN}~: & Volcan \\
+    
+        \textsl{TERRAIN\_MER}~: & Mer \\
+    
+        \textsl{TERRAIN\_ERREUR}~: & Erreur, case impossible \\
+    
+\end{tabular} \\
+\end{tabular}
+
+
+
+\functitle{erreur} \\
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Erreurs possibles \\
+Valeurs~: &
+\small
+\begin{tabular}[t]{@{\extracolsep{0pt}}lp{7cm}}
+    
+        \textsl{OK}~: & L'action a été exécutée avec succès \\
+    
+        \textsl{OR\_INSUFFISANT}~: & Vous ne possédez pas assez d'or pour cette action \\
+    
+        \textsl{ILE\_INVALIDE}~: & La position spécifiée n'est pas une île \\
+    
+        \textsl{POSITION\_INVALIDE}~: & La position spécifiée n'est pas valide \\
+    
+        \textsl{TROP\_LOIN}~: & La destination est trop éloignée \\
+    
+        \textsl{ILE\_COLONISEE}~: & L'île est déjà colonisée \\
+    
+        \textsl{ILE\_ENNEMIE}~: & L'île ne vous appartient pas \\
+    
+        \textsl{BATEAU\_ENNEMI}~: & L'île ne vous appartient pas \\
+    
+        \textsl{ID\_INVALIDE}~: & L'ID spécifiée n'est pas valide \\
+    
+        \textsl{NON\_DEPLACABLE}~: & Le bateau n'est pas déplaçable \\
+    
+        \textsl{AUCUNE\_CARAVELLE}~: & Il n'y a aucune caravelle susceptible de coloniser l'île \\
+    
+\end{tabular} \\
+\end{tabular}
+
+
+
+
+
+\functitle{position}
+
+\begin{lst-c++}
+struct position {
+    int x;
+    int y;
+};
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Représente la position sur la carte \\
+Champs~: &
+\small
+\begin{tabular}[t]{@{\extracolsep{0pt}}lp{7cm}}
+    
+        \textsl{x}~: & Coordonnée en X \\
+    
+        \textsl{y}~: & Coordonnée en Y \\
+    
+\end{tabular} \\
+\end{tabular}
+
+
+
+\functitle{bateau}
+
+\begin{lst-c++}
+struct bateau {
+    int id;
+    position pos;
+    int joueur;
+    bateau_type btype;
+    int nb_or;
+    bool deplacable;
+};
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Représente un bateau \\
+Champs~: &
+\small
+\begin{tabular}[t]{@{\extracolsep{0pt}}lp{7cm}}
+    
+        \textsl{id}~: & Identifiant unique du bateau \\
+    
+        \textsl{pos}~: & Position \\
+    
+        \textsl{joueur}~: & Joueur \\
+    
+        \textsl{btype}~: & Type \\
+    
+        \textsl{nb\_or}~: & Or contenu dans le bateau \\
+    
+        \textsl{deplacable}~: & Le bateau n'a pas encore été déplacé ce tour-ci \\
+    
+\end{tabular} \\
+\end{tabular}
+
+
+
+
+\begin{minipage}{\linewidth}
+\functitle{info\_terrain}
+
+\begin{lst-c++}
+terrain info_terrain(position pos)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne la nature du terrain désigné par ``pos``. \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{pos}~: & Position \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{info\_ile\_joueur}
+
+\begin{lst-c++}
+int info_ile_joueur(position pos)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le joueur qui possède l'île à l'emplacement ``pos``. Retourne -1 si l'île est libre ou si la position indiquée n'est pas une île \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{pos}~: & Position \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{info\_ile\_or}
+
+\begin{lst-c++}
+int info_ile_or(position pos)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne l'or contenu sur l'île à l'emplacement ``pos``. Retourne -1 si la case spécifiée n'est pas une île. \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{pos}~: & Position \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{info\_bateau}
+
+\begin{lst-c++}
+bateau info_bateau(int id)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le bateau ayant pour identifiant ``id`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{id}~: & Identifiant \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{bateau\_existe}
+
+\begin{lst-c++}
+bool bateau_existe(int id)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne vrai si le bateau ayant pour identifiant ``id`` existe et est encore à flots \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{id}~: & Identifiant \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{liste\_bateaux\_position}
+
+\begin{lst-c++}
+bateau array liste_bateaux_position(position pos)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne la liste de bateaux à la position ``pos`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{pos}~: & Position \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{liste\_id\_bateaux\_position}
+
+\begin{lst-c++}
+int array liste_id_bateaux_position(position pos)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne la liste des ID des bateaux à la position ``pos`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{pos}~: & Position \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{liste\_iles}
+
+\begin{lst-c++}
+position array liste_iles()
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne la liste des positions des îles de la carte \\
+
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{mes\_iles}
+
+\begin{lst-c++}
+position array mes_iles()
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne la liste des positions des îles qui vous appartiennent \\
+
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{distance}
+
+\begin{lst-c++}
+int distance(position depart, position arrivee)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne la distance entre deux positions \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{depart}~: & Départ \\
+      
+    
+      
+        \textsl{arrivee}~: & Arrivée \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{construire}
+
+\begin{lst-c++}
+erreur construire(bateau_type btype, position pos)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Construire un bateau de type ``btype`` sur l'île à la position ``pos`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{btype}~: & Type de bateau à construire \\
+      
+    
+      
+        \textsl{pos}~: & Position \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{deplacer}
+
+\begin{lst-c++}
+erreur deplacer(int id, position pos)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Déplace le bateau représenté par l'identifiant ``id`` jusqu'à la position `pos`` (si elle est dans la portée du bateau) \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{id}~: & Identifiant du bateau \\
+      
+    
+      
+        \textsl{pos}~: & Position sur laquelle déplacer le bateau \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{coloniser}
+
+\begin{lst-c++}
+erreur coloniser(position pos)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Colonise l'île à la position ``pos`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{pos}~: & Position de l'île à coloniser \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{charger}
+
+\begin{lst-c++}
+erreur charger(int id, int nb_or)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Charge la caravelle identifiée par ``id`` de ``nb\_or`` d'or. \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{id}~: & Identifiant de la caravelle \\
+      
+    
+      
+        \textsl{nb\_or}~: & Quantité d'or à charger \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{decharger}
+
+\begin{lst-c++}
+erreur decharger(int id, int nb_or)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Décharge la caravelle identifiée par ``id`` de ``nb\_or`` d'or. \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{id}~: & Identifiant de la caravelle \\
+      
+    
+      
+        \textsl{nb\_or}~: & Quantité d'or à décharger \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{mon\_joueur}
+
+\begin{lst-c++}
+int mon_joueur()
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le numéro de votre joueur \\
+
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{adversaire}
+
+\begin{lst-c++}
+int adversaire()
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le numéro de votre adversaire \\
+
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{score}
+
+\begin{lst-c++}
+int score(int id_joueur)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne les scores du joueur désigné par l'identifiant ``id`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{id\_joueur}~: & Identifiant du joueur \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{tour\_actuel}
+
+\begin{lst-c++}
+int tour_actuel()
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le numéro du tour actuel \\
+
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
