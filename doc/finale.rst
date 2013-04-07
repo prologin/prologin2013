@@ -64,12 +64,11 @@ La carte
 
 La carte est constituée de plusieurs éléments
 
-* La mer : de grandes étendues d'eau sur lesquelles les vaisseaux peuvent se
-  déplacer.
+* La mer : de grandes étendues d'eau ouverte à la navigation pour tous.
 * Les îles : des morceaux de terre sur lesquels vous pouvez construire une
   colonie et construire des navires.
 * Les volcans : des îles qui rapportent plus d'or que les îles classiques, mais
-  ils sont trop dangereux pour y construire des bateaux.
+  elles sont trop dangereuse pour y installer un chantier naval.
 
 Vous possédez au départ une île, votre point de départ. Vous pouvez coloniser
 les autres îles de la carte.
