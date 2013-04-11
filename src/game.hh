@@ -18,6 +18,7 @@ enum action_id
     ID_ACTION_CONSTRUCT,
     ID_ACTION_DISCHARGE,
     ID_ACTION_MOVE,
+    ID_ACTION_TRANSFER,
 };
 
 

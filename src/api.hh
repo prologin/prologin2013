@@ -115,6 +115,11 @@ class Api
         //
         erreur decharger(int id, int nb_or);
         ///
+        // Transfère ``montant`` or de la caravelle ``id_source`` à la
+        // caravelle ``id_dest``
+        //
+        erreur transferer(int montant, int id_source, int id_dest);
+        ///
         // Retourne le numéro de votre joueur
         //
         int mon_joueur();

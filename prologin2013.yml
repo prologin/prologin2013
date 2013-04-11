@@ -215,7 +215,16 @@ function:
     fct_arg:
       - [id, int, "Identifiant de la caravelle"]
       - [nb_or, int, "Quantité d'or à décharger"]
-
+  -
+    fct_name: transferer
+    fct_summary:
+      "Transfère ``montant`` or de la caravelle ``id_source`` à la caravelle
+      ``id_dest``"
+    fct_ret_type: erreur
+    fct_arg:
+      - [montant, int, "Montant d'or à transférer"]
+      - [id_source, int, "Caravelle d'origine"]
+      - [id_dest, int, "Caravelle de destination"]
 
 # Autre
   -

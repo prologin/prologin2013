@@ -304,6 +304,14 @@ extern "C" erreur api_decharger(int id, int nb_or)
 }
 
 ///
+// Transfère ``montant`` or de la caravelle ``id_source`` à la caravelle ``id_dest``
+//
+extern "C" erreur api_transferer(int montant, int id_source, int id_dest)
+{
+  return api->transferer(montant, id_source, id_dest);
+}
+
+///
 // Retourne le numéro de votre joueur
 //
 extern "C" int api_mon_joueur()

@@ -22,6 +22,7 @@
 #include "action-colonize.hh"
 #include "action-discharge.hh"
 #include "action-move.hh"
+#include "action-transfer.hh"
 
 // global used in interface.cc
 Api* api;
@@ -152,7 +153,7 @@ int Api::distance(position depart, position arrivee)
 erreur Api::construire(bateau_type btype, position pos)
 {
     rules::IAction_sptr action(new ActionConstruct(btype, pos, player_->id));
-    
+
     erreur err;
     if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
         return err;
@@ -168,7 +169,7 @@ erreur Api::construire(bateau_type btype, position pos)
 erreur Api::deplacer(int id, position pos)
 {
     rules::IAction_sptr action(new ActionMove(id, pos, player_->id));
-    
+
     erreur err;
     if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
         return err;
@@ -184,7 +185,7 @@ erreur Api::deplacer(int id, position pos)
 erreur Api::coloniser(position pos)
 {
     rules::IAction_sptr action(new ActionColonize(pos, player_->id));
-    
+
     erreur err;
     if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
         return err;
@@ -200,7 +201,7 @@ erreur Api::coloniser(position pos)
 erreur Api::charger(int id, int nb_or)
 {
     rules::IAction_sptr action(new ActionCharge(id, nb_or, player_->id));
-    
+
     erreur err;
     if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
         return err;
@@ -216,7 +217,7 @@ erreur Api::charger(int id, int nb_or)
 erreur Api::decharger(int id, int nb_or)
 {
     rules::IAction_sptr action(new ActionDischarge(id, nb_or, player_->id));
-    
+
     erreur err;
     if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
         return err;
@@ -225,6 +226,24 @@ erreur Api::decharger(int id, int nb_or)
     game_state_set(action->apply(game_state()));
     return OK;
 }
+
+///
+// Transfère ``montant`` or de la caravelle ``id_source`` à la caravelle ``id_dest``
+//
+erreur Api::transferer(int montant, int id_source, int id_dest)
+{
+    rules::IAction_sptr action(new ActionTransfer(montant, id_source, id_dest,
+                player_->id));
+
+    erreur err;
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    game_state_set(action->apply(game_state()));
+    return OK;
+}
+
 
 ///
 // Retourne le numéro de votre joueur

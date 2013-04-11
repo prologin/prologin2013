@@ -15,6 +15,7 @@
 #include "action-construct.hh"
 #include "action-discharge.hh"
 #include "action-move.hh"
+#include "action-transfer.hh"
 
 Rules::Rules(const rules::Options opt)
   : TurnBasedRules(opt),
@@ -58,6 +59,8 @@ Rules::Rules(const rules::Options opt)
             []() -> rules::IAction* { return new ActionDischarge(); });
     api_->actions()->register_action(ID_ACTION_MOVE,
             []() -> rules::IAction* { return new ActionMove(); });
+    api_->actions()->register_action(ID_ACTION_TRANSFER,
+            []() -> rules::IAction* { return new ActionTransfer(); });
 }
 
 Rules::Rules(rules::Players_sptr players, Api* api)
