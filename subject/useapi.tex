@@ -1,18 +1,14 @@
 \subsection{C}
 
 \begin{itemize}
-\item{Les booléens sont représentés par des entiers. \texttt{false} est
-      représenté par la valeur 0, tous les autres entiers sont équivalents
-      à \texttt{true} ;}
-\item{Les fonctions prenant des tableaux en paramètres prennent à la place
-      de ce tableau deux paramètres : \texttt{type* tableau}, le tableau,
-      et \texttt{size\_t size}, la taille du tableau ;}
-\item{Les fonctions retournant des tableaux retournent à la place le type
-      \texttt{void}, et prennent deux paramètres supplémentaires :
-      \texttt{type** tableau} ou sera placé le tableau résultant (dont
-      l'allocation n'est pas à votre charge), et \texttt{size\_t* size} ou
-      sera placée la taille du tableau résultant. La libération du tableau
-      est laissée au soin du candidat ;}
+\item{Les booléens sont représentés par le type \texttt{bool}, défini par le
+      standard du C99, et que l'on retrouve dans le header \texttt{stdbool.h};}
+\item{Les fonctions prenant des tableaux en paramètres et retournant des
+      tableaux utilisent à la place de ces tableaux une structure
+      \texttt{type\_array}, où \texttt{type} est le type des données dans le
+      tableau. Ces structures contiennent deux élèments : les données,
+      \texttt{type* datas}, et la taille, \texttt{size\_t size}. Dans tous les
+      cas, la libération des données est laissée au soin du candidat ;}
 \item{Tout le reste est comme indiqué dans le sujet.}
 \end{itemize}
 
