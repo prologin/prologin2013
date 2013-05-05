@@ -52,5 +52,5 @@ void ActionTransfer::apply_on(GameState* st) const
     bateau* source = st->get_boat(id_source_);
     bateau* dest = st->get_boat(id_dest_);
     source->nb_or -= amount_;
-    dest->nb_or -= amount_;
+    dest->nb_or += amount_;
 }
