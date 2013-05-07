@@ -21,6 +21,7 @@ class Map
 {
     public:
         Map();
+        Map(const Map& map);
         ~Map();
 
         int load(std::istream& s);

@@ -14,6 +14,15 @@ Map::Map()
 {
 }
 
+Map::Map(const Map& map)
+  : start_positions_(map.start_positions_),
+    islands_(map.islands_)
+{
+    for (int y = 0; y < TAILLE_TERRAIN; ++y)
+        for (int x = 0; x < TAILLE_TERRAIN; ++x)
+            map_[x][y] = new Cell(*map.map_[x][y]);
+}
+
 Map::~Map()
 {
     for (int y = 0; y < TAILLE_TERRAIN; ++y)
