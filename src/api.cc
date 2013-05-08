@@ -109,10 +109,10 @@ std::vector<bateau> Api::liste_bateaux_position(position pos)
 std::vector<int> Api::liste_id_bateaux_position(position pos)
 {
     Cell* c = game_state_->get_map()->get_cell(pos);
+    if (!c)
+        return std::vector<int>();
     std::set<int> i = c->get_id_boats();
     std::vector<int> r(i.size());
-    if (!c)
-        return r;
     std::copy(i.begin(), i.end(), r.begin());
     return r;
 }
