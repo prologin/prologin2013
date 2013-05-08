@@ -144,7 +144,7 @@ std::vector<position> Api::mes_iles()
 //
 int Api::distance(position depart, position arrivee)
 {
-    return distance(depart, arrivee);
+    return ::distance(depart, arrivee);
 }
 
 ///
