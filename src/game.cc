@@ -188,6 +188,7 @@ void GameState::resolve_fight(position pos, int id_attacker)
             gold_move += boats_[*it].nb_or;
             boats_.erase(*it);
             c->remove_boat(*it);
+            nb_boats_[id_loser]--;
         }
         /* Winner loses some galions ... */
         else if (boats_[*it].btype == BATEAU_GALION && galions_lost > 0)
@@ -195,6 +196,7 @@ void GameState::resolve_fight(position pos, int id_attacker)
             boats_.erase(*it);
             c->remove_boat(*it);
             galions_lost--;
+            nb_boats_[id_winner]--;
         }
     }
     /* ... and get the loser's gold */
