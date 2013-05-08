@@ -29,6 +29,7 @@ GameState::GameState(Map* map, rules::Players_sptr players)
         if (c->get_type() != TERRAIN_ILE)
             FATAL("starting position for player %d is not an island", i+1);
         c->set_player(player_ids_[p.first]->id);
+        c->set_gold(OR_INITIAL);
         i++;
     }
 }
