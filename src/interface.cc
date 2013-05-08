@@ -256,6 +256,14 @@ extern "C" std::vector<position> api_mes_iles()
 }
 
 ///
+// Retourne l'ID du dernier bateau construit. Son comportement n'est pas défini si vous n'avez pas encore créé de bateau à ce tour-ci.
+//
+extern "C" int api_id_dernier_bateau_construit()
+{
+  return api->id_dernier_bateau_construit();
+}
+
+///
 // Retourne la distance entre deux positions
 //
 extern "C" int api_distance(position depart, position arrivee)
