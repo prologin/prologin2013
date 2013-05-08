@@ -36,7 +36,7 @@
 
 \noindent \begin{tabular}{lp{15cm}}
 \textbf{Constante:} & REVENU\_ILE \\
-\textbf{Valeur:} & 10 \\
+\textbf{Valeur:} & 5 \\
 \textbf{Description:} & Revenu en or par île à chaque tour \\
 \end{tabular} 
 \vspace{0.2cm} \\
@@ -45,7 +45,7 @@
 
 \noindent \begin{tabular}{lp{15cm}}
 \textbf{Constante:} & REVENU\_VOLCAN \\
-\textbf{Valeur:} & 20 \\
+\textbf{Valeur:} & 10 \\
 \textbf{Description:} & Revenu en or par volcan à chaque tour \\
 \end{tabular} 
 \vspace{0.2cm} \\
@@ -53,8 +53,17 @@
 
 
 \noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & OR\_INITIAL \\
+\textbf{Valeur:} & 20 \\
+\textbf{Description:} & Or initialement possédé par chaque joueur \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
 \textbf{Constante:} & CARAVELLE\_COUT \\
-\textbf{Valeur:} & 3 \\
+\textbf{Valeur:} & 15 \\
 \textbf{Description:} & Coût de construction d'une Caravelle \\
 \end{tabular} 
 \vspace{0.2cm} \\
@@ -63,7 +72,7 @@
 
 \noindent \begin{tabular}{lp{15cm}}
 \textbf{Constante:} & GALION\_COUT \\
-\textbf{Valeur:} & 1 \\
+\textbf{Valeur:} & 4 \\
 \textbf{Description:} & Coût de construction d'un Galion \\
 \end{tabular} 
 \vspace{0.2cm} \\
@@ -83,6 +92,15 @@
 \textbf{Constante:} & GALION\_DEPLACEMENT \\
 \textbf{Valeur:} & 6 \\
 \textbf{Description:} & Déplacement du Galion \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & LIMITE\_BATEAUX \\
+\textbf{Valeur:} & 500 \\
+\textbf{Description:} & Limite du nombre de bateaux pour chaque joueur \\
 \end{tabular} 
 \vspace{0.2cm} \\
 
@@ -152,13 +170,15 @@ Valeurs~: &
     
         \textsl{ILE\_ENNEMIE}~: & L'île ne vous appartient pas \\
     
-        \textsl{BATEAU\_ENNEMI}~: & L'île ne vous appartient pas \\
+        \textsl{BATEAU\_ENNEMI}~: & Le bateau ne vous appartient pas \\
     
         \textsl{ID\_INVALIDE}~: & L'ID spécifiée n'est pas valide \\
     
         \textsl{NON\_DEPLACABLE}~: & Le bateau n'est pas déplaçable \\
     
         \textsl{AUCUNE\_CARAVELLE}~: & Il n'y a aucune caravelle susceptible de coloniser l'île \\
+    
+        \textsl{LIMITE\_ATTEINTE}~: & La limite de bateaux est atteinte \\
     
 \end{tabular} \\
 \end{tabular}
@@ -478,6 +498,27 @@ position array mes_iles()
 \noindent
 \begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
 Description~: & Retourne la liste des positions des îles qui vous appartiennent \\
+
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{id\_dernier\_bateau\_construit}
+
+\begin{lst-c++}
+int id_dernier_bateau_construit()
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne l'ID du dernier bateau construit. Son comportement n'est pas défini si vous n'avez pas encore créé de bateau à ce tour-ci. \\
 
 
 
@@ -818,6 +859,37 @@ int tour_actuel()
 \begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
 Description~: & Retourne le numéro du tour actuel \\
 
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{nombre\_bateaux}
+
+\begin{lst-c++}
+int nombre_bateaux(int id_joueur)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le nombre de bateaux que possède le joueur désigné par l'identifiant ``id`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{id\_joueur}~: & Identifiant du joueur \\
+      
+    
+  \end{tabular} \\
 
 
 
