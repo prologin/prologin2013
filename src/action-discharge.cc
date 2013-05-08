@@ -37,7 +37,7 @@ int ActionDischarge::check(const GameState* st) const
     if (boat->joueur != player_id_)
         return BATEAU_ENNEMI;
 
-    if (boat->nb_or < amount_)
+    if (amount_ < 0 || boat->nb_or < amount_)
         return OR_INSUFFISANT;
 
     return OK;

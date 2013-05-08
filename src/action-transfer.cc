@@ -33,7 +33,7 @@ int ActionTransfer::check(const GameState* st) const
     if (source->joueur != player_id_ || dest->joueur != player_id_)
         return BATEAU_ENNEMI;
 
-    if (source->nb_or < amount_)
+    if (amount_ < 0 || source->nb_or < amount_)
         return OR_INSUFFISANT;
 
     return OK;

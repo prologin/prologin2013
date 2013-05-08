@@ -34,7 +34,7 @@ int ActionCharge::check(const GameState* st) const
     if (island->get_player() != player_id_)
         return ILE_ENNEMIE;
 
-    if (island->get_gold() < amount_)
+    if (amount_ < 0 || island->get_gold() < amount_)
         return OR_INSUFFISANT;
 
     if (boat->joueur != player_id_)
