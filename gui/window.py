@@ -24,6 +24,7 @@ class State:
         self.display_help = False
         self.disabled_widgets = set()
         self.is_closed = False
+        self.selected_widget = None
 
     def plug(self, widgets):
         self.help_widget = widgets['help']
@@ -45,6 +46,16 @@ class State:
                 self.disabled_widgets.remove(widget)
             except KeyError:
                 pass
+
+    def select_widget(self, widget):
+        self.selected_widget = widget
+
+    def unselect_widget(self):
+        self.selected_widget = None
+
+    def mouse_moved(self, *args):
+        if self.selected_widget:
+            self.selected_widget.handle_move(*args)
 
     def check_loop(self):
         if not self.looping:
@@ -193,7 +204,15 @@ class Window(object):
                     if widget.handle_click(*(
                         pygame.mouse.get_pos() + pygame.mouse.get_pressed()
                     )):
+                        self.state.select_widget(widget)
                         break
+
+            elif event.type == pygame.MOUSEMOTION:
+                self.state.mouse_moved(*(
+                    pygame.mouse.get_pos() + pygame.mouse.get_pressed()
+                ))
+            elif event.type == pygame.MOUSEBUTTONUP:
+                self.state.unselect_widget()
 
     def go_next_turn(self):
         self.state_reader.go_next()

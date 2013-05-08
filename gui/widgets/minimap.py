@@ -17,9 +17,9 @@ class MinimapWidget(BaseWidget):
             self.map_widget.map_surface,
             (self.width, self.height)
         )
-        great_map = self.map_widget.map_surface.get_size()
-        self.ratio_x = float(self.width) / great_map[0]
-        self.ratio_y = float(self.height) / great_map[1]
+        self.great_w, self.great_h = self.map_widget.map_surface.get_size()
+        self.ratio_x = float(self.width) / self.great_w
+        self.ratio_y = float(self.height) / self.great_h
         self.update_view()
 
     def update_view(self):
@@ -61,14 +61,33 @@ class MinimapWidget(BaseWidget):
         self.surface.blit(self.map_surface, (0, 0))
         self.surface.blit(frame, (view[0], view[1]))
 
-    def handle_click(self, x, y, *buts):
-        coords = self.is_click_inside(x, y)
-        if not coords:
-            return False
+    def pos_to_coords(self, x, y):
+        '''Convert pixed coordinates into map coordinates. Take care of bounds.
+        '''
+        x, y = (
+            int(x / self.ratio_x),
+            int(y / self.ratio_y),
+        )
+        return (
+            max(0, min(x, self.great_w)),
+            max(0, min(y, self.great_h)),
+        )
+
+    def move_from_mouse(self, x, y):
+        x, y = self.pos_to_coords(x, y)
         self.map_widget.handle_view_click(
-            int(coords[0] / self.ratio_x),
-            int(coords[1] / self.ratio_y),
+            x, y,
             False, False, True,
             absolute=True
         )
+
+    def handle_click(self, x, y, *buts):
+        pos = self.is_click_inside(x, y)
+        if not pos:
+            return False
+        self.move_from_mouse(*pos)
         return True
+
+    def handle_move(self, x, y, *buts):
+        x, y = self.rebase_coordinates(x, y)
+        self.move_from_mouse(x, y)

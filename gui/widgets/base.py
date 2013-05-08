@@ -19,6 +19,14 @@ class BaseWidget(object):
     def display(self, surface):
         surface.blit(self.surface, (self.x, self.y))
 
+    def rebase_coordinates(self, x, y):
+        '''
+        Rebase given coordinates to be relative to the widget's position.  Be
+        careful, this computation is valid even if the coordinates are outside
+        the widget (result can be negative, etc.).
+        '''
+        return (x - self.x, y - self.y)
+
     def is_click_inside(self, x, y):
         '''
         If the given coordinates matches the widget's bounding box, return the
@@ -29,7 +37,7 @@ class BaseWidget(object):
             self.x <= x and x < self.x + self.width and
             self.y <= y and y < self.y + self.height
         ):
-            return (x - self.x, y - self.y)
+            return self.rebase_coordinates(x, y)
         else:
             return None
 
@@ -39,3 +47,10 @@ class BaseWidget(object):
         override this method to do some action.
         '''
         return bool(self.is_click_inside(x, y))
+
+    def handle_move(self, x, y, but1, but2, but3):
+        '''
+        Called when the widget is selected and the cursor has moved. Subclasses
+        should override this method to perform some action.
+        '''
+        pass
