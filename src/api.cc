@@ -275,6 +275,8 @@ int Api::adversaire()
 //
 int Api::score(int id_joueur)
 {
+    if (!game_state_->player_exists(id_joueur))
+        return 0;
     return game_state_->get_score(id_joueur);
 }
 
@@ -287,9 +289,23 @@ int Api::tour_actuel()
 }
 
 ///
+// Retourne le nombre de bateaux que possède le joueur désigné par
+// l'identifiant ``id``
+//
+int Api::nombre_bateaux(int id_joueur)
+{
+    if (!game_state_->player_exists(id_joueur))
+        return 0;
+    return game_state_->get_nb_boats(id_joueur);
+}
+
+
+///
 // Return un dump JSON de l’état complet du jeu.
 //
 char* Api::get_dump()
 {
+    if (player_->type != rules::SPECTATOR)
+        return NULL;
     return dump_game_state(*game_state_, actions_);
 }

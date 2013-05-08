@@ -264,6 +264,13 @@ function:
     fct_summary: Retourne le numéro du tour actuel
     fct_ret_type: int
     fct_arg: []
+  -
+    fct_name: nombre_bateaux
+    fct_summary: "Retourne le nombre de bateaux que possède le joueur désigné
+      par l'identifiant ``id``"
+    fct_ret_type: int
+    fct_arg:
+      - [id_joueur, int, "Identifiant du joueur"]
 
 
 user_function:

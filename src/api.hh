@@ -140,6 +140,11 @@ class Api
         //
         int tour_actuel();
         ///
+        // Retourne le nombre de bateaux que possède le joueur désigné par
+        // l'identifiant ``id``
+        //
+        int nombre_bateaux(int id_joueur);
+        ///
         // Return un dump JSON de l’état complet du jeu.
         //
         char* get_dump();

@@ -353,6 +353,14 @@ extern "C" int api_tour_actuel()
 }
 
 ///
+// Retourne le nombre de bateaux que possède le joueur désigné par l'identifiant ``id``
+//
+extern "C" int api_nombre_bateaux(int id_joueur)
+{
+  return api->nombre_bateaux(id_joueur);
+}
+
+///
 // Affiche le contenu d'une valeur de type bateau_type
 //
 std::ostream& operator<<(std::ostream& os, bateau_type v)

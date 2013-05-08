@@ -64,6 +64,8 @@ class GameState : public rules::GameState
 
         const std::map<int, bateau>& get_boats() const
         { return boats_; }
+
+        bool player_exists(int player_id);
     private:
         Map* map_;
         rules::Players_sptr players_;

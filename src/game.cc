@@ -255,3 +255,8 @@ void GameState::update_boats()
     for (auto& b : boats_)
         b.second.deplacable = true;
 }
+
+bool GameState::player_exists(int player_id)
+{
+    return player_ids_.find(player_id) != player_ids_.end();
+}
