@@ -64,6 +64,11 @@
 # define GALION_DEPLACEMENT        6
 
 ///
+// Limite du nombre de bateaux pour chaque joueur
+//
+# define LIMITE_BATEAUX            500
+
+///
 // Type de bateau
 //
 typedef enum bateau_type {
@@ -95,10 +100,11 @@ typedef enum erreur {
   TROP_LOIN, /* <- La destination est trop éloignée */
   ILE_COLONISEE, /* <- L'île est déjà colonisée */
   ILE_ENNEMIE, /* <- L'île ne vous appartient pas */
-  BATEAU_ENNEMI, /* <- L'île ne vous appartient pas */
+  BATEAU_ENNEMI, /* <- Le bateau ne vous appartient pas */
   ID_INVALIDE, /* <- L'ID spécifiée n'est pas valide */
   NON_DEPLACABLE, /* <- Le bateau n'est pas déplaçable */
   AUCUNE_CARAVELLE, /* <- Il n'y a aucune caravelle susceptible de coloniser l'île */
+  LIMITE_ATTEINTE, /* <- La limite de bateaux est atteinte */
 } erreur;
 
 

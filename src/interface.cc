@@ -115,6 +115,7 @@ std::string convert_to_string(erreur in){
     case ID_INVALIDE: return "\"id_invalide\"";
     case NON_DEPLACABLE: return "\"non_deplacable\"";
     case AUCUNE_CARAVELLE: return "\"aucune_caravelle\"";
+    case LIMITE_ATTEINTE: return "\"limite_atteinte\"";
   }
   return "bad value";
 }
@@ -403,6 +404,7 @@ std::ostream& operator<<(std::ostream& os, erreur v)
   case ID_INVALIDE: os << "ID_INVALIDE"; break;
   case NON_DEPLACABLE: os << "NON_DEPLACABLE"; break;
   case AUCUNE_CARAVELLE: os << "AUCUNE_CARAVELLE"; break;
+  case LIMITE_ATTEINTE: os << "LIMITE_ATTEINTE"; break;
   }
   return os;
 }

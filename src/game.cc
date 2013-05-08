@@ -17,7 +17,10 @@ GameState::GameState(Map* map, rules::Players_sptr players)
 {
     for (auto& p : players_->players)
         if (p->type == rules::PLAYER)
+        {
             player_ids_[p->id] = p;
+            nb_boats_[p->id] = 0;
+        }
 
     int i = 0;
     Cell* c;
@@ -43,6 +46,7 @@ GameState::GameState(const GameState& st)
 {
     boats_.insert(st.boats_.begin(), st.boats_.end());
     player_ids_.insert(st.player_ids_.begin(), st.player_ids_.end());
+    nb_boats_.insert(st.nb_boats_.begin(), st.nb_boats_.end());
 }
 
 rules::GameState* GameState::copy() const
@@ -103,6 +107,7 @@ bool GameState::add_boat(position origin, int player, bateau_type btype)
 
     boats_[id] = { id, origin, player, btype, 0, false };
     map_->get_cell(origin)->add_boat(id);
+    nb_boats_[player]++;
 
     return true;
 }
@@ -115,9 +120,14 @@ bateau* GameState::get_boat(int id)
     return &(it->second);
 }
 
-int GameState::get_last_id()
+int GameState::get_last_id() const
 {
     return boat_next_id_ - 1;
+}
+
+int GameState::get_nb_boats(int player_id) const
+{
+    return nb_boats_.at(player_id);
 }
 
 void GameState::resolve_fight(position pos, int id_attacker)

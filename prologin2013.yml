@@ -46,6 +46,10 @@ constant:
     cst_name: GALION_DEPLACEMENT
     cst_val: 6
     cst_comment: Déplacement du Galion
+  -
+    cst_name: LIMITE_BATEAUX
+    cst_val: 500
+    cst_comment: Limite du nombre de bateaux pour chaque joueur
 
 
 enum:
@@ -75,11 +79,12 @@ enum:
       - [trop_loin, "La destination est trop éloignée"]
       - [ile_colonisee, "L'île est déjà colonisée"]
       - [ile_ennemie, "L'île ne vous appartient pas"]
-      - [bateau_ennemi, "L'île ne vous appartient pas"]
+      - [bateau_ennemi, "Le bateau ne vous appartient pas"]
       - [id_invalide, "L'ID spécifiée n'est pas valide"]
       - [non_deplacable, "Le bateau n'est pas déplaçable"]
       - [aucune_caravelle,
             "Il n'y a aucune caravelle susceptible de coloniser l'île"]
+      - [limite_atteinte, "La limite de bateaux est atteinte"]
 
 struct:
   -

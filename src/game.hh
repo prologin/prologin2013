@@ -46,7 +46,8 @@ class GameState : public rules::GameState
         bool add_boat(position origin, int player, bateau_type btype);
         bateau* get_boat(int id);
 
-        int get_last_id();
+        int get_last_id() const;
+        int get_nb_boats(int player_id) const;
 
         void resolve_fight(position pos, int id_attacker);
         void resolve_all_fights(int id_attacker);
@@ -71,6 +72,7 @@ class GameState : public rules::GameState
 
         int boat_next_id_;
         std::map<int, bateau> boats_;
+        std::map<int, int> nb_boats_;
 };
 
 #endif // !GAME_HH_

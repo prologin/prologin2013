@@ -32,6 +32,9 @@ int ActionConstruct::check(const GameState* st) const
     if (island->get_gold() < cost || btype_ == BATEAU_ERREUR)
         return OR_INSUFFISANT;
 
+    if (st->get_nb_boats(player_id_) >= LIMITE_BATEAUX)
+        return LIMITE_ATTEINTE;
+
     return OK;
 }
 
