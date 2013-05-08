@@ -29,7 +29,7 @@ constant:
   -
     cst_name: OR_INITIAL
     cst_val: 20
-    cst_comment: Or initialement possedé par chaque joueur
+    cst_comment: Or initialement possédé par chaque joueur
   -
     cst_name: CARAVELLE_COUT
     cst_val: 15

@@ -39,7 +39,7 @@
 # define REVENU_VOLCAN             10
 
 ///
-// Or initialement possedé par chaque joueur
+// Or initialement possédé par chaque joueur
 //
 # define OR_INITIAL                20
 
