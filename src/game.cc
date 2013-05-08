@@ -115,6 +115,11 @@ bateau* GameState::get_boat(int id)
     return &(it->second);
 }
 
+int GameState::get_last_id()
+{
+    return boat_next_id_ - 1;
+}
+
 void GameState::resolve_fight(position pos, int id_attacker)
 {
     Cell* c = map_->get_cell(pos);

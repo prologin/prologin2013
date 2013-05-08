@@ -140,6 +140,15 @@ std::vector<position> Api::mes_iles()
 }
 
 ///
+// Retourne l'ID du dernier bateau construit. Son comportement n'est pas défini
+// si vous n'avez pas encore créé de bateau à ce tour-ci.
+//
+int Api::id_dernier_bateau_construit()
+{
+    return game_state_->get_last_id();
+}
+
+///
 // Retourne la distance entre deux positions
 //
 int Api::distance(position depart, position arrivee)

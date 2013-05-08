@@ -46,6 +46,8 @@ class GameState : public rules::GameState
         bool add_boat(position origin, int player, bateau_type btype);
         bateau* get_boat(int id);
 
+        int get_last_id();
+
         void resolve_fight(position pos, int id_attacker);
         void resolve_all_fights(int id_attacker);
 
