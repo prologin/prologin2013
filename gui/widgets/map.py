@@ -17,8 +17,8 @@ class MapWidget(BaseWidget):
         super(MapWidget, self).__init__(*args)
         self.game_state = None
         self.position = None
+        self.static_map_surface = None
         self.map_surface = None
-        self.path_surface = None
         self.font = pygame.font.Font(data.get_font_path('font.ttf'), 12)
         self.cells_width = self.width / data.TILE_WIDTH
         self.cells_height = (self.height - data.TILE_OVERLAY) / (data.TILE_HEIGHT - data.TILE_OVERLAY)
@@ -50,6 +50,36 @@ class MapWidget(BaseWidget):
         self.handle_view_click(coords[0], coords[1], but1, but2, but3)
         return True
 
+    def make_map_surface(self, game_state):
+        surf_size = (
+            game_state.map_width * data.TILE_WIDTH,
+            game_state.map_height * (data.TILE_HEIGHT - data.TILE_OVERLAY) + data.TILE_OVERLAY
+        )
+        return utils.make_surface(*surf_size)
+
+    def update_static_map(self, game_state):
+        self.static_map_surface = self.make_map_surface(game_state)
+
+        water_pix = data.tiles['water']
+        cell_pix = {
+            TERRAIN_ILE:    data.tiles['island'],
+            TERRAIN_VOLCAN: data.tiles['volcano'],
+        }
+
+        coord_y = 0
+        for y, row in enumerate(game_state.cells):
+            coord_x = 0
+            for x, cell in enumerate(row):
+                coords = (coord_x, coord_y)
+                self.static_map_surface.blit(water_pix, coords)
+                # Display the kind of the cell, if different than WATER.
+                try:
+                    self.static_map_surface.blit(cell_pix[cell.type], coords)
+                except KeyError:
+                    pass
+                coord_x += data.TILE_WIDTH
+            coord_y += data.TILE_HEIGHT - data.TILE_OVERLAY
+
     def update_game(self, game_state):
         self.game_state = game_state
         self.position_max = (
@@ -60,34 +90,22 @@ class MapWidget(BaseWidget):
         if self.game_state is None:
             return
         if not self.position:
-            surf_size = (
-                game_state.map_width * data.TILE_WIDTH,
-                game_state.map_height * (data.TILE_HEIGHT - data.TILE_OVERLAY) + data.TILE_OVERLAY
-            )
-            self.map_surface = utils.make_surface(*surf_size)
-            self.path_surface = utils.make_surface(*surf_size)
+            self.map_surface = self.make_map_surface(game_state)
             self.position = (0, 0)
+        if self.static_map_surface is None:
+            self.update_static_map(game_state)
 
-        water_pix = data.tiles['water']
         boat_pix = data.tiles['boat']
-        cell_pix = {
-            TERRAIN_ILE:    data.tiles['island'],
-            TERRAIN_VOLCAN: data.tiles['volcano'],
-        }
 
         # Collect the count of boats to display it on top of everything else.
         boat_counts = []
         players = self.game_state.players
 
+        coord_y = 0
         for y, row in enumerate(game_state.cells):
+            coord_x = 0
             for x, cell in enumerate(row):
-                coords = (data.TILE_WIDTH * x, (data.TILE_HEIGHT - data.TILE_OVERLAY) * y)
-                self.map_surface.blit(water_pix, coords)
-                # Display the kind of the cell, if different than WATER.
-                try:
-                    self.map_surface.blit(cell_pix[cell.type], coords)
-                except KeyError:
-                    pass
+                coords = (coord_x, coord_y)
                 # Display settlement information, if any.
                 if cell.player != game.NO_PLAYER:
                     self.map_surface.blit(
@@ -114,6 +132,9 @@ class MapWidget(BaseWidget):
                             coords[0] + data.TILE_WIDTH - boat_count_w,
                             count_y
                         )))
+                coord_x += data.TILE_WIDTH
+            coord_y += data.TILE_HEIGHT - data.TILE_OVERLAY
+
         for args in boat_counts:
             self.map_surface.blit(*args)
 
@@ -124,6 +145,7 @@ class MapWidget(BaseWidget):
 
     def update_display(self, position=None):
         self.surface.fill(utils.BLACK)
+        update_minimap = position
         if position:
             x = utils.set_between(
                 position[0],
@@ -135,10 +157,14 @@ class MapWidget(BaseWidget):
             )
             self.position = (x, y)
 
-        self.surface.blit(self.map_surface, (0, 0), (
-                self.position[0] * data.TILE_WIDTH,
-                self.position[1] * (data.TILE_HEIGHT - data.TILE_OVERLAY),
-                self.width, self.height
-        ))
+        view_shift = (
+            self.position[0] * data.TILE_WIDTH,
+            self.position[1] * (data.TILE_HEIGHT - data.TILE_OVERLAY),
+            self.width, self.height
+        )
 
-        self.minimap.update_view()
+        self.surface.blit(self.static_map_surface, (0, 0), view_shift)
+        self.surface.blit(self.map_surface, (0, 0), view_shift)
+
+        if update_minimap:
+            self.minimap.update_view()

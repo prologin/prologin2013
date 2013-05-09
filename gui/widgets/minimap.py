@@ -9,10 +9,19 @@ from widgets.base import BaseWidget
 
 class MinimapWidget(BaseWidget):
 
+    def __init__(self, *args, **kwargs):
+        super(MinimapWidget, self).__init__(*args, **kwargs)
+        self.static_map_surface = None
+
     def plug(self, widgets):
         self.map_widget = widgets['map']
 
     def update_game(self, game_state):
+        if self.static_map_surface is None:
+            self.static_map_surface = pygame.transform.smoothscale(
+                self.map_widget.static_map_surface,
+                (self.width, self.height)
+            )
         self.map_surface = pygame.transform.smoothscale(
             self.map_widget.map_surface,
             (self.width, self.height)
@@ -58,6 +67,7 @@ class MinimapWidget(BaseWidget):
         frame.fill(utils.BLACK, (1, 1, width - 3, 1))
         frame.fill(utils.BLACK, (1, 1, 1, height - 3))
         frame.fill((0, 0, 0, 0), (2, 2, width - 4, height - 4))
+        self.surface.blit(self.static_map_surface, (0, 0))
         self.surface.blit(self.map_surface, (0, 0))
         self.surface.blit(frame, (view[0], view[1]))
 

@@ -144,7 +144,8 @@ class Window(object):
             not self.state.is_closed and
             not self.state_reader.is_ended()
         ):
-            self.clock.tick(self.FPS)
+            if not self.state.looping:
+                self.clock.tick(self.FPS)
             self.update_state()
             self.handle_events()
             self.update_window()
