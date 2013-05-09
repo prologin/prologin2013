@@ -63,4 +63,5 @@ void ActionMove::apply_on(GameState* st) const
     st->get_map()->get_cell(boat->pos)->remove_boat(id_boat_);
     dest->add_boat(id_boat_);
     boat->pos = dest_;
+    boat->deplacable = false;
 }
