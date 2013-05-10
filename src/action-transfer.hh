@@ -17,7 +17,7 @@ class ActionTransfer : public rules::Action<GameState>
         virtual void apply_on(GameState* gameState) const;
 
         uint32_t player_id() const { return player_id_; }
-        uint32_t id() const { return ID_ACTION_DISCHARGE; }
+        uint32_t id() const { return ID_ACTION_TRANSFER; }
 
     private:
         int id_source_;
