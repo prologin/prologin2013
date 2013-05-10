@@ -1,5 +1,5 @@
 all:
-	pandoc -s -t beamer slides.markdown -o slides.pdf
+	pandoc -i -s -t beamer slides.markdown -o slides.pdf
 
 view:
 	evince slides.pdf

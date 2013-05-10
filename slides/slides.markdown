@@ -1,4 +1,4 @@
-% Archipel
+% Island Quest
 % Finale Prologin 2013
 % Jeudi 9 mai 2013
 
@@ -33,12 +33,11 @@
 
 ![Volcan](img/volcano.png)
 
-# La carte
-
 # Construction
 
 * Chaque navire a un coût
 * Vous devez posséder assez d'or sur l'île 
+* Limite globale du nombre de bateaux
 
 # Déplacement
 
@@ -49,6 +48,7 @@
 
 # Attaque
 
+* Automatique
 * Le vainqueur est celui qui a le plus de galions
 * Égalité : le gagnant est l'attaquant en mer, le défenseur sur une île
 * bateaux du gagnant coulés = bateaux de l'attaquant - 1
@@ -61,13 +61,11 @@
 # Score
 
 * Tout l'or possédé sur toutes les îles
-* + tous les bateaux * leurs coups respectifs
-* + tout l'or transporté par les caravelles
+* \+ tous les bateaux * leurs coups respectifs
+* \+ tout l'or transporté par les caravelles
 
 # Bonne chance !
 
-* Apprenez à réguler vos horaires
 * N'hésitez pas à demander de l'aide
 * Profitez des activités
-* Ne dérangez pas l'équipe serveur
 * Amusez vous bien !

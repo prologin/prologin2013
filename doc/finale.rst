@@ -1,6 +1,6 @@
-================================================
-Finale Prologin 2013 − La conquête de l'archipel
-================================================
+===================================
+Finale Prologin 2013 − Island Quest
+===================================
 
 ------------
 Introduction
@@ -47,17 +47,11 @@ La Caravelle
 La Caravelle peut coloniser des îles et déplacer de l'or. Elle doit être
 utilisée sur chaque île vierge pour la coloniser.
 
-* Coût : 3 or
-* Déplacement : 4 cases
-
 Le Galion
 ---------
 
 Le Galion est un navire de combat. Il peut attaquer une flotte ou une île si
 celle-ci se trouve sur la même case que lui.
-
-* Coût : 1 or
-* Déplacement : 6 cases
 
 La carte
 ========
@@ -81,6 +75,9 @@ Construction
 
 Vous pouvez construire sur chaque île des bateaux si vous possédez assez d'or
 sur l'île en question. Vous ne pouvez les déplacer qu'au tour suivant.
+
+Il y a une limite globale du nombre de bateaux, vous ne pourrez plus en
+construire au delà de cette limite.
 
 Déplacement
 ===========
@@ -136,7 +133,7 @@ Le fichier doit suivre le format suivant : ::
 Voici un exemple : ::
 
   1 1
-  31 31
+  30 30
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ~o~~~~~~~~~~~~~~o~~~~~~~~~~~~~~~
   ~~~~~~o~~~~o~~~~~~~~~~~~~~~~~~~~
