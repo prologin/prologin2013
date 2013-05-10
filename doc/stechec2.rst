@@ -2,6 +2,40 @@
 Stechec 2
 =========
 
+Site
+====
+
+Champion
+--------
+
+Pour lancer un match il va vous falloir plusieurs composants. Le premier
+est un champion. Pour envoyer vos champion sur le site, vous pouvez aller sur
+la rubrique appropriée.
+
+Attention, il ne faut pas envoyé le fichier .so mais une archive du dossier
+dans lequel vous travaillez. Pour ce faire il vous suffit de taper la
+commande suivante :
+
+    make tar
+
+Cela va créer un fichier `champion.tgz`. C'est ce fichier que vous devez
+donner au site sur la page « Envoyer un champion ».
+
+Match
+-----
+
+Une fois cette étape réalisée, vous aller pouvoir lancer un match. Sur la
+dédiée, vous aller devoir préciser les identifiants de deux champions que vous
+souhaitez utiliser. Vous pouvez les trouver dans « Mes champions » pour les
+votre, et dans « Tous les champions » si vous souhaitez vous mesurer au
+candidat d'un autre champion.
+
+Cartes
+------
+
+Vous pouvez aussi uploader des cartes si jamais vous ne souhaitez pas utiliser
+les cartes déjà présentes.
+
 Fichier de configuration
 ========================
 
