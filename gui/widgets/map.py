@@ -92,6 +92,8 @@ class MapWidget(BaseWidget):
         if not self.position:
             self.map_surface = self.make_map_surface(game_state)
             self.position = (0, 0)
+        else:
+            self.map_surface.fill((0, 0, 0, 0))
         if self.static_map_surface is None:
             self.update_static_map(game_state)
 
