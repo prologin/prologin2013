@@ -9,7 +9,7 @@ url="http://prologin.org/"
 license=('GPL')
 provides=('stechec2' 'prologin2013')
 depends=('google-gflags' 'python' 'python2' 'zeromq')
-makedepends=('python2' 'google-gflags' 'git' 'zeromq' 'gcc>=4.7')
+makedepends=('git')
 
 _gitroot_stechec2="https://bitbucket.org/prologin/stechec2"
 _gitroot_prologin2013="https://bitbucket.org/prologin/prologin2013"
