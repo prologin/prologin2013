@@ -29,5 +29,5 @@ build() {
 
 package() {
     cd stechec2
-    python2 waf.py install --destdir=$pkgdir
+    python2 waf.py install --destdir="$pkgdir"
 }
