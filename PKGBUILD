@@ -33,7 +33,7 @@ build() {
     fi
 
     python2 waf.py configure build --prefix=/usr      \
-        --with-games=prologin2013 --checkall || return 1
+        --with-games=prologin2013 --checkall
 }
 
 package() {
