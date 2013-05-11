@@ -8,7 +8,7 @@ arch=('x86' 'x86_64')
 url="http://prologin.org/"
 license=('GPL')
 provides=('stechec2' 'prologin2013')
-depends=('google-gflags' 'python' 'python2' 'zeromq')
+depends=('google-gflags' 'python2' 'zeromq')
 makedepends=('git')
 
 _gitroot_stechec2="https://bitbucket.org/prologin/stechec2"
