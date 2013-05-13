@@ -7,7 +7,7 @@
 #
 
 # Path of the Makefile, relative to where it was included from.
-MFPATH ?= ../includes
+MFPATH ?= includes
 
 # ==============================================================================
 # verbose settings
