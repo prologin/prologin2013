@@ -13,4 +13,4 @@ pc = $(shell which python2-config >/dev/null 2>&1 && echo python2-config || echo
 champion-cxxflags = -fPIC $(shell $(pc) --includes)
 champion-ldflags = -s $(shell $(pc) --ldflags)
 
-include includes/rules.mk
+include ../includes/rules.mk
