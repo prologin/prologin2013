@@ -27,7 +27,7 @@ def build(bld):
             src/dumper.cc
         ''',
         target = 'prologin2013',
-        use = ['stechec2-net', 'stechec2-rules', 'stechec2-utils'],
+        use = ['stechec2'],
         defines = ['MODULE_COLOR=ANSI_COL_PURPLE',
             'MODULE_NAME="prologin2013"'],
         lib = ['dl'],
