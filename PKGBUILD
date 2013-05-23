@@ -22,9 +22,7 @@ prepare() {
 
 build() {
     cd stechec2
-
-    python2 waf.py configure build --prefix=/usr      \
-        --with-games=prologin2013 --checkall
+    python2 waf.py configure build --prefix=/usr --with-games=prologin2013
 }
 
 package() {
