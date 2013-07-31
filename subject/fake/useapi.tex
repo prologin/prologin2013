@@ -6,7 +6,7 @@
 \item{Les fonctions prenant des tableaux en paramètres et retournant des
       tableaux utilisent à la place de ces tableaux une structure
       \texttt{type\_array}, où \texttt{type} est le type des données dans le
-      tableau. Ces structures contiennent deux éléments : les données,
+      tableau. Ces structures contiennent deux élèments : les données,
       \texttt{type* datas}, et la taille, \texttt{size\_t size}. Dans tous les
       cas, la libération des données est laissée au soin du candidat ;}
 \item{Tout le reste est comme indiqué dans le sujet.}
@@ -59,9 +59,9 @@
 \item{Les constantes sont définies via des \texttt{define} et doivent donc être
       utilisées sans les précéder d'un signe dollar ;}
 \item{Les énumérations sont définies comme des séries de constantes. Se référer
-      à la puce au-dessus ;}
+      à la puce au dessus ;}
 \item{Les structures sont gérées sous forme de tableaux associatifs. Ainsi, une
-      structure contenant un champ \texttt{x} et un champ \texttt{y} sera créée
+      structure contenant un champ \texttt{x} et un champ \texttt{y} sera crée
       comme ceci : \texttt{array('x' => 42, 'y' => 1337)}.}
 \end{itemize}
 
@@ -72,7 +72,7 @@
       importé par défaut par le code à compléter ;}
 \item{Les constantes des énumérations sont représentées par des entiers ;}
 \item{Les structures sont représentés par des \texttt{namedtuple} Python, dont
-      on peut accéder aux champs via la notation pointée habituelle, et
+      les champs peuvent être accèdés via la notation pointée habituelle, et
       qui peuvent être créés comme ceci : \texttt{foo(bar=42, x=3)}, sauf pour
       la structure \texttt{position} qui est représentée par un couple (x, y).}
 \end{itemize}

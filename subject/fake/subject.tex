@@ -2,6 +2,8 @@
 \documentclass[a4paper,twoside,12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{soul}
+\usepackage{url}
+\usepackage{amssymb}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%         BEGIN FIXME         %
@@ -11,8 +13,8 @@
 \def\pmonth{mai}
 \def\pyear{2013}
 
-\def\ptitle{Island Quest\footnote{IQ in a nutshell.}} %% Subject's main title
-\def\psubtitle{La Malédiction du Black Perl} %% Subject's sub title
+\def\ptitle{La Planète Zugma} %% Subject's main title
+\def\psubtitle{Visa d'exploitation \no{} 27972} %% Subject's sub title
 
 \def\plogo{prologin2013.pdf} %% Logo
 \def\psubjectpicture{image.png} %% Picture to be displayed
@@ -113,12 +115,10 @@ $\bullet$ \underline{\textbf{#1}}
 \parskip=6pt plus 3pt
 
 \newpage
-\begin{center}\includegraphics[scale=1]{\psubjectpicture}\end{center}
+%\begin{center}\includegraphics[scale=1]{\psubjectpicture}\end{center}
 \newpage
 
 \input{subject_content.tex}
-
-\input{../doc/finale.tex}
 
 \newpage
 \section{API}
@@ -127,15 +127,5 @@ $\bullet$ \underline{\textbf{#1}}
 \newpage
 \section{Notes sur l'utilisation de l'API}
 \input{useapi.tex}
-
-\newpage
-
-~\vspace{-1cm}
-
-\begin{center}
-\it Cette page est volontairement laissée vierge, modulo un cul-de-lampe.
-\end{center}
-
-\culdelampe
 
 \end{document}

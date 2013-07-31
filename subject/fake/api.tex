@@ -1,0 +1,505 @@
+
+
+%
+% This file was generated using gen/make_tex.rtex
+% Do not modify unless you are absolutely sure of what you are doing
+%
+
+\begin{minipage}{\linewidth}
+\functitle{qi\_candidat}
+
+\begin{lst-c++}
+int qi_candidat(string nom, string prenom)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le QI du candidat s'il est inférieur ou égal à 42 et IMPOSSIBLE sinon. \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{nom}~: & Nom du candidat \\
+      
+    
+      
+        \textsl{prenom}~: & Prénom du candidat \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & FIN\_PARTIE \\
+\textbf{Valeur:} & 500 \\
+\textbf{Description:} & Nombre de tours par partie \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & MAX\_JOUEURS \\
+\textbf{Valeur:} & 2 \\
+\textbf{Description:} & Nombre maximum de joueurs dans la partie \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & LIMITE\_VAISSEAU \\
+\textbf{Valeur:} & 5000 \\
+\textbf{Description:} & Limite du nombre de vaisseaux pour chaque joueur \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+
+
+\functitle{erreur} \\
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Erreurs possibles \\
+Valeurs~: &
+\small
+\begin{tabular}[t]{@{\extracolsep{0pt}}lp{7cm}}
+    
+        \textsl{OK}~: & L'action a été exécutée avec succès \\
+    
+        \textsl{PLANETE\_INVALIDE}~: & La position spécifiée n'est pas une planète \\
+    
+        \textsl{POSITION\_INVALIDE}~: & La position spécifiée n'est pas valide \\
+    
+        \textsl{PLANETE\_ENNEMIE}~: & La planète ne vous appartient pas \\
+    
+        \textsl{MANQUE\_VAISSEAU}~: & Il n'y a pas assez de vaisseaux pour un déplacement \\
+    
+        \textsl{LIMITE\_ATTEINTE}~: & La limite de vaisseaux est atteinte \\
+    
+\end{tabular} \\
+\end{tabular}
+
+
+
+
+
+\functitle{position}
+
+\begin{lst-c++}
+struct position {
+    double x;
+    double y;
+};
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Représente la position sur la carte \\
+Champs~: &
+\small
+\begin{tabular}[t]{@{\extracolsep{0pt}}lp{7cm}}
+    
+        \textsl{x}~: & Coordonnée en X \\
+    
+        \textsl{y}~: & Coordonnée en Y \\
+    
+\end{tabular} \\
+\end{tabular}
+
+
+
+\functitle{planete}
+
+\begin{lst-c++}
+struct planete {
+    int id;
+    position pos;
+    int joueur;
+    int production;
+};
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Représente une planète \\
+Champs~: &
+\small
+\begin{tabular}[t]{@{\extracolsep{0pt}}lp{7cm}}
+    
+        \textsl{id}~: & Identifiant unique de la planète \\
+    
+        \textsl{pos}~: & Position \\
+    
+        \textsl{joueur}~: & Joueur \\
+    
+        \textsl{production}~: & Nombre de vaisseaux construits par tour \\
+    
+\end{tabular} \\
+\end{tabular}
+
+
+\begin{minipage}{\linewidth}
+\functitle{info\_planete\_joueur}
+
+\begin{lst-c++}
+int info_planete_joueur(int id)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le joueur qui possède la planète d'identifiant ``id``. Retourne -1 si la planète est libre ou si l'identifiant indiquée n'est pas une planète \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{id}~: & Identifiant de la planète \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{info\_planete\_taille}
+
+\begin{lst-c++}
+int info_planete_taille(int id)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne la taille de la planète ayant pour identifiant ``id``. Retourne -1 si l'identifiant indiqué n'est pas une planète \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{id}~: & Identifiant de la planète \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{info\_planete\_position}
+
+\begin{lst-c++}
+int info_planete_position(int id)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne la position de la planète ayant pour identifiant ``id`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{id}~: & Identifiant de la planète \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{info\_planete\_vaisseaux}
+
+\begin{lst-c++}
+int info_planete_vaisseaux(int id)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le nombre de vaisseaux sur la planète ayant pour identifiant ``id``. Retourne -1 si l'identifiant indiqué n'est pas une planète \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{id}~: & Identifiant de la planète \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{nombre\_planetes}
+
+\begin{lst-c++}
+id array nombre_planetes()
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le nombre de planètes sur l'ensemble de la carte \\
+
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{liste\_planetes}
+
+\begin{lst-c++}
+id array liste_planetes()
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne la liste des identifiants des planètes de la carte \\
+
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{mes\_planetes}
+
+\begin{lst-c++}
+id array mes_planetes()
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne la liste des identifiants des planètes qui vous appartiennent \\
+
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{deplacer}
+
+\begin{lst-c++}
+erreur deplacer(position depart, position arrivee, int nb)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Déplace un nombre ``nb`` de vaisseaux de la planète de départ à la planète d'arrivée \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{depart}~: & Départ \\
+      
+    
+      
+        \textsl{arrivee}~: & Arrivée \\
+      
+    
+      
+        \textsl{nb}~: & Nombre de vaisseau \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{mon\_joueur}
+
+\begin{lst-c++}
+int mon_joueur()
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le numéro de votre joueur \\
+
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{adversaire}
+
+\begin{lst-c++}
+int adversaire()
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le numéro de votre adversaire \\
+
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{score}
+
+\begin{lst-c++}
+int score(int id_joueur)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le score du joueur désigné par l'identifiant ``id`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{id\_joueur}~: & Identifiant du joueur \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{tour\_actuel}
+
+\begin{lst-c++}
+int tour_actuel()
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le numéro du tour actuel \\
+
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{nombre\_vaisseaux}
+
+\begin{lst-c++}
+int nombre_vaisseaux(int id_joueur)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le nombre de vaisseaux que possède le joueur désigné par l'identifiant ``id`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{id\_joueur}~: & Identifiant du joueur \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
