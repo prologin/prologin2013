@@ -4,10 +4,8 @@
 #include "tools.hh"
 #include "cell.hh"
 
-Cell::Cell(int y, int x, terrain type)
-    : x_(x),
-      y_(y),
-      type_(type),
+Cell::Cell(terrain type)
+    : type_(type),
       player_(-1)
 {
     if (type_ == TERRAIN_ILE || type_ == TERRAIN_VOLCAN)

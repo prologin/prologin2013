@@ -12,10 +12,10 @@ class CellTest : public ::testing::Test
     {
         utils::Logger::get().level() = utils::Logger::DEBUG_LEVEL;
 
-        sea_cell = new Cell(5, 10, TERRAIN_MER);
-        island_cell = new Cell(5, 10, TERRAIN_ILE);
-        volcano_cell = new Cell(5, 10, TERRAIN_VOLCAN);
-        decoy_cell = new Cell(5, 10, TERRAIN_ERREUR);
+        sea_cell = new Cell(TERRAIN_MER);
+        island_cell = new Cell(TERRAIN_ILE);
+        volcano_cell = new Cell(TERRAIN_VOLCAN);
+        decoy_cell = new Cell(TERRAIN_ERREUR);
 
         pos_ = {10, 5};
     }

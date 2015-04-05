@@ -9,7 +9,7 @@
 class Cell
 {
     public:
-        Cell(int y, int x, terrain type);
+        Cell(terrain type);
 
         terrain get_type() const;
 
@@ -25,8 +25,6 @@ class Cell
         std::set<int>& get_id_boats();
 
     private:
-        int x_;
-        int y_;
         terrain type_;
         int gold_;
         int player_;

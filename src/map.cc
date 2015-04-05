@@ -62,7 +62,7 @@ int Map::load(std::istream& s)
             if (type_chars.find(line[x]) == type_chars.end())
                 FATAL("Invalid cell at y=%d x=%d", y, x);
 
-            map_[y][x] = new Cell(y, x, type_chars[line[x]]);
+            map_[y][x] = new Cell(type_chars[line[x]]);
             if (type_chars[line[x]] == TERRAIN_VOLCAN ||
                 type_chars[line[x]] == TERRAIN_ILE)
                 islands_.push_back({x, y});
