@@ -38,8 +38,8 @@ class GameState : public rules::GameState
 
         int get_opponent(int player) const;
 
-        int get_current_turn() const;
-        void increment_turn();
+        int get_current_round() const;
+        void increment_round();
 
         bool is_finished();
 
@@ -70,7 +70,7 @@ class GameState : public rules::GameState
         Map* map_;
         rules::Players_sptr players_;
         std::map<int, rules::Player_sptr> player_ids_;
-        int current_turn_;
+        int current_round_;
 
         int boat_next_id_;
         std::map<int, bateau> boats_;

@@ -137,7 +137,7 @@ char* dump_game_state(const GameState& st, rules::Actions& acts)
      */
 
     ss << "\"turn\": ["
-       << st.get_current_turn() << ", "
+       << st.get_current_round() << ", "
        << FIN_PARTIE
        << "], ";
 

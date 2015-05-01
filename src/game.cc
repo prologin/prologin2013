@@ -12,7 +12,7 @@ GameState::GameState(Map* map, rules::Players_sptr players)
     : rules::GameState(),
       map_(map),
       players_(players),
-      current_turn_(0),
+      current_round_(0),
       boat_next_id_(0)
 {
     for (auto& p : players_->players)
@@ -41,7 +41,7 @@ GameState::GameState(const GameState& st)
     : rules::GameState(st),
       map_(new Map(*st.map_)),
       players_(st.players_),
-      current_turn_(st.current_turn_),
+      current_round_(st.current_round_),
       boat_next_id_(st.boat_next_id_)
 {
     boats_.insert(st.boats_.begin(), st.boats_.end());
@@ -84,19 +84,19 @@ int GameState::get_opponent(int player_id) const
     return -1;
 }
 
-int GameState::get_current_turn() const
+int GameState::get_current_round() const
 {
-    return current_turn_;
+    return current_round_;
 }
 
-void GameState::increment_turn()
+void GameState::increment_round()
 {
-    current_turn_++;
+    current_round_++;
 }
 
 bool GameState::is_finished()
 {
-    return current_turn_ > FIN_PARTIE;
+    return current_round_ > FIN_PARTIE;
 }
 
 bool GameState::add_boat(position origin, int player, bateau_type btype)

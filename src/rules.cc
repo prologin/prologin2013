@@ -80,7 +80,7 @@ Rules::~Rules()
 
 void Rules::at_start()
 {
-    api_->game_state()->increment_turn();
+    api_->game_state()->increment_round();
 }
 
 void Rules::at_client_start()
@@ -130,21 +130,21 @@ void Rules::spectator_turn()
             rules::IAction_sptr(new ActionAck(api_->player()->id)));
 }
 
-void Rules::end_of_player_turn(uint32_t player_id)
+void Rules::end_of_turn(uint32_t player_id)
 {
     api_->game_state()->resolve_all_fights(player_id);
 }
 
-void Rules::end_of_turn()
+void Rules::end_of_round()
 {
     api_->game_state()->resolve_all_scores();
     api_->game_state()->update_gold();
     api_->game_state()->update_boats();
-    api_->game_state()->increment_turn();
+    api_->game_state()->increment_round();
     api_->game_state()->clear_old_version();
 }
 
-void Rules::start_of_turn()
+void Rules::start_of_round()
 {
-    INFO("TURN %d", api_->game_state()->get_current_turn());
+    INFO("ROUND %d", api_->game_state()->get_current_round());
 }
