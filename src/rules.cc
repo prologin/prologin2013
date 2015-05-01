@@ -130,7 +130,7 @@ void Rules::spectator_turn()
             rules::IAction_sptr(new ActionAck(api_->player()->id)));
 }
 
-void Rules::end_of_turn(uint32_t player_id)
+void Rules::end_of_player_turn(uint32_t player_id)
 {
     api_->game_state()->resolve_all_fights(player_id);
 }
