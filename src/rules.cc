@@ -63,14 +63,6 @@ Rules::Rules(const rules::Options opt)
             []() -> rules::IAction* { return new ActionTransfer(); });
 }
 
-Rules::Rules(rules::Players_sptr players, Api* api)
-    : TurnBasedRules(rules::Options({"", "", 0, 0, rules::Player_sptr(),
-                players, rules::Players_sptr(), 5})),
-    api_(api),
-    sandbox_()
-{
-}
-
 Rules::~Rules()
 {
     if (champion_)
