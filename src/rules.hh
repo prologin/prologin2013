@@ -50,6 +50,8 @@ class Rules : public rules::TurnBasedRules
         virtual void start_of_round();
         virtual void end_of_round();
 
+        virtual void dump_state(std::ostream& out);
+
     protected:
         f_champion_partie_init champion_partie_init;
         f_champion_jouer_tour champion_jouer_tour;

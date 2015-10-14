@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <fstream>
 
 #include <utils/log.hh>
@@ -139,4 +140,11 @@ void Rules::end_of_round()
 void Rules::start_of_round()
 {
     INFO("ROUND %d", api_->game_state()->get_current_round());
+}
+
+void Rules::dump_state(std::ostream& out)
+{
+    char* line = api_->get_dump();
+    out << line << std::endl;
+    free(line);
 }
