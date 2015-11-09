@@ -21,12 +21,12 @@ class Rules : public rules::TurnBasedRules
 
         // Function executed at the start of the game
         virtual void at_start();
-        virtual void at_player_start();
-        virtual void at_spectator_start();
+        virtual void at_player_start(rules::ClientMessenger_sptr);
+        virtual void at_spectator_start(rules::ClientMessenger_sptr);
 
         // Functions executed at the end of the game
-        virtual void at_player_end();
-        virtual void at_spectator_end();
+        virtual void at_player_end(rules::ClientMessenger_sptr);
+        virtual void at_spectator_end(rules::ClientMessenger_sptr);
 
         // Check whether the game is over
         virtual bool is_finished();
