@@ -103,6 +103,11 @@ class ActionsTest : public ::testing::Test
 
         }
 
+        virtual void TearDown()
+        {
+            delete gamestate_;
+        }
+
         std::stringstream f;
         Map* map_;
         GameState* gamestate_;

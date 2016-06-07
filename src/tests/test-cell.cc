@@ -19,6 +19,13 @@ class CellTest : public ::testing::Test
 
         pos_ = {10, 5};
     }
+    virtual void TearDown()
+    {
+        delete sea_cell;
+        delete island_cell;
+        delete volcano_cell;
+        delete decoy_cell;
+    }
 
     std::map<int, bateau> make_boats(
         int j1_galions, int j1_caravelles, int j2_galions, int j2_caravelles,

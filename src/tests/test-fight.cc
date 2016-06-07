@@ -71,6 +71,11 @@ class GameTest : public ::testing::Test
 
     }
 
+    virtual void TearDown()
+    {
+        delete gamestate_;
+    }
+
     int count_boats(position pos, int player_id)
     {
         Cell* cell = gamestate_->get_map()->get_cell(pos);
