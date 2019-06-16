@@ -1,14 +1,14 @@
 #include <cstdlib>
 #include <fstream>
 
-#include <utils/log.hh>
-#include <rules/player.hh>
 #include <rules/actions.hh>
+#include <rules/player.hh>
+#include <utils/log.hh>
 
-#include "rules.hh"
+#include "api.hh"
 #include "game.hh"
 #include "map.hh"
-#include "api.hh"
+#include "rules.hh"
 
 #include "action-ack.hh"
 #include "action-charge.hh"
@@ -18,9 +18,7 @@
 #include "action-move.hh"
 #include "action-transfer.hh"
 
-Rules::Rules(const rules::Options opt)
-  : TurnBasedRules(opt),
-    sandbox_(opt.time)
+Rules::Rules(const rules::Options opt) : TurnBasedRules(opt), sandbox_(opt.time)
 {
     if (!opt.champion_lib.empty())
         champion_ = new utils::DLL(opt.champion_lib);
@@ -48,20 +46,25 @@ Rules::Rules(const rules::Options opt)
             champion_->get<f_champion_partie_fin>("partie_fin");
     }
 
-    api_->actions()->register_action(ID_ACTION_ACK,
-            []() -> rules::IAction* { return new ActionAck(); });
-    api_->actions()->register_action(ID_ACTION_CHARGE,
-            []() -> rules::IAction* { return new ActionCharge(); });
-    api_->actions()->register_action(ID_ACTION_COLONIZE,
-            []() -> rules::IAction* { return new ActionColonize(); });
-    api_->actions()->register_action(ID_ACTION_CONSTRUCT,
-            []() -> rules::IAction* { return new ActionConstruct(); });
-    api_->actions()->register_action(ID_ACTION_DISCHARGE,
-            []() -> rules::IAction* { return new ActionDischarge(); });
-    api_->actions()->register_action(ID_ACTION_MOVE,
-            []() -> rules::IAction* { return new ActionMove(); });
-    api_->actions()->register_action(ID_ACTION_TRANSFER,
-            []() -> rules::IAction* { return new ActionTransfer(); });
+    api_->actions()->register_action(
+        ID_ACTION_ACK, []() -> rules::IAction* { return new ActionAck(); });
+    api_->actions()->register_action(ID_ACTION_CHARGE, []() -> rules::IAction* {
+        return new ActionCharge();
+    });
+    api_->actions()->register_action(
+        ID_ACTION_COLONIZE,
+        []() -> rules::IAction* { return new ActionColonize(); });
+    api_->actions()->register_action(
+        ID_ACTION_CONSTRUCT,
+        []() -> rules::IAction* { return new ActionConstruct(); });
+    api_->actions()->register_action(
+        ID_ACTION_DISCHARGE,
+        []() -> rules::IAction* { return new ActionDischarge(); });
+    api_->actions()->register_action(
+        ID_ACTION_MOVE, []() -> rules::IAction* { return new ActionMove(); });
+    api_->actions()->register_action(
+        ID_ACTION_TRANSFER,
+        []() -> rules::IAction* { return new ActionTransfer(); });
 }
 
 Rules::~Rules()
@@ -120,7 +123,7 @@ void Rules::spectator_turn()
 {
     champion_jouer_tour();
     api_->actions()->add(
-            rules::IAction_sptr(new ActionAck(api_->player()->id)));
+        rules::IAction_sptr(new ActionAck(api_->player()->id)));
 }
 
 void Rules::end_of_player_turn(uint32_t player_id)

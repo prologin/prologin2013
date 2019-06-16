@@ -3,26 +3,26 @@
 
 #include <rules/action.hh>
 
-#include "game.hh"
 #include "constant.hh"
+#include "game.hh"
 
 class ActionMove : public rules::Action<GameState>
 {
-    public:
-        ActionMove(int id, position dest, int player);
-        ActionMove();
+public:
+    ActionMove(int id, position dest, int player);
+    ActionMove();
 
-        virtual int check(const GameState* st) const;
-        virtual void handle_buffer(utils::Buffer& buf);
-        virtual void apply_on(GameState* gameState) const;
+    virtual int check(const GameState* st) const;
+    virtual void handle_buffer(utils::Buffer& buf);
+    virtual void apply_on(GameState* gameState) const;
 
-        uint32_t player_id() const { return player_id_; }
-        uint32_t id() const { return ID_ACTION_MOVE; }
+    uint32_t player_id() const { return player_id_; }
+    uint32_t id() const { return ID_ACTION_MOVE; }
 
-    private:
-        position dest_;
-        int id_boat_;
-        int player_id_;
+private:
+    position dest_;
+    int id_boat_;
+    int player_id_;
 };
 
 #endif

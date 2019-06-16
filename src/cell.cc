@@ -1,12 +1,10 @@
 #include <map>
 
+#include "cell.hh"
 #include "constant.hh"
 #include "tools.hh"
-#include "cell.hh"
 
-Cell::Cell(terrain type)
-    : type_(type),
-      player_(-1)
+Cell::Cell(terrain type) : type_(type), player_(-1)
 {
     if (type_ == TERRAIN_ILE || type_ == TERRAIN_VOLCAN)
         gold_ = 0;

@@ -1,13 +1,13 @@
 #include <gtest/gtest.h>
 
+#include "../cell.hh"
+#include "../constant.hh"
 #include <map>
 #include <utils/log.hh>
-#include "../constant.hh"
-#include "../cell.hh"
 
 class CellTest : public ::testing::Test
 {
-    protected:
+protected:
     virtual void SetUp()
     {
         utils::Logger::get().level() = utils::Logger::DEBUG_LEVEL;
@@ -27,9 +27,9 @@ class CellTest : public ::testing::Test
         delete decoy_cell;
     }
 
-    std::map<int, bateau> make_boats(
-        int j1_galions, int j1_caravelles, int j2_galions, int j2_caravelles,
-        Cell* cell_)
+    std::map<int, bateau> make_boats(int j1_galions, int j1_caravelles,
+                                     int j2_galions, int j2_caravelles,
+                                     Cell* cell_)
     {
         std::map<int, bateau> boats_;
 
@@ -70,7 +70,6 @@ class CellTest : public ::testing::Test
     Cell* decoy_cell; // For using make_boats without adding boats to a cell
 };
 
-
 TEST_F(CellTest, AddRemoveBoats)
 {
     std::map<int, bateau> boats_ = make_boats(1, 0, 0, 0, decoy_cell);
@@ -93,5 +92,6 @@ TEST_F(CellTest, AddRemoveBoats)
 
     INFO("add_boat (caravelle)");
     EXPECT_TRUE(sea_cell->exists_boat(1)) << "A Caravelle should be there";
-    EXPECT_EQ(BATEAU_CARAVELLE, boats_[1].btype) << "A Caravelle should be there";
+    EXPECT_EQ(BATEAU_CARAVELLE, boats_[1].btype)
+        << "A Caravelle should be there";
 }

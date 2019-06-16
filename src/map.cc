@@ -1,22 +1,19 @@
-#include <istream>
-#include <string>
-#include <map>
 #include <array>
+#include <istream>
+#include <map>
+#include <string>
 
-#include <utils/log.hh>
 #include <rules/player.hh>
+#include <utils/log.hh>
 
-#include "constant.hh"
 #include "cell.hh"
+#include "constant.hh"
 #include "map.hh"
 
-Map::Map()
-{
-}
+Map::Map() {}
 
 Map::Map(const Map& map)
-  : start_positions_(map.start_positions_),
-    islands_(map.islands_)
+    : start_positions_(map.start_positions_), islands_(map.islands_)
 {
     for (int y = 0; y < TAILLE_TERRAIN; ++y)
         for (int x = 0; x < TAILLE_TERRAIN; ++x)
@@ -38,25 +35,25 @@ int Map::load(std::istream& s)
     for (int i = 0; i < MAX_JOUEURS; i++)
     {
         s >> start_positions_[i].x >> start_positions_[i].y;
-        INFO("Player %d starting position is x=%d, y=%d",
-                i, start_positions_[i].x, start_positions_[i].y);
+        INFO("Player %d starting position is x=%d, y=%d", i,
+             start_positions_[i].x, start_positions_[i].y);
     }
 
     for (int y = 0; y < TAILLE_TERRAIN; ++y)
     {
         s >> line;
 
-        if (line.length() != (size_t) TAILLE_TERRAIN)
+        if (line.length() != (size_t)TAILLE_TERRAIN)
             FATAL("map: line %d is too short or too long "
                   "(is %d long, should be %d)",
-                    y + MAX_JOUEURS, line.length(), TAILLE_TERRAIN);
+                  y + MAX_JOUEURS, line.length(), TAILLE_TERRAIN);
 
         for (int x = 0; x < TAILLE_TERRAIN; ++x)
         {
             static std::map<char, terrain> type_chars = {
-                { '~', TERRAIN_MER },
-                { 'o', TERRAIN_ILE },
-                { '^', TERRAIN_VOLCAN },
+                {'~', TERRAIN_MER},
+                {'o', TERRAIN_ILE},
+                {'^', TERRAIN_VOLCAN},
             };
 
             if (type_chars.find(line[x]) == type_chars.end())
@@ -74,8 +71,7 @@ int Map::load(std::istream& s)
 
 bool Map::valid_position(position p) const
 {
-    return 0 <= p.x && p.x < TAILLE_TERRAIN &&
-           0 <= p.y && p.y < TAILLE_TERRAIN;
+    return 0 <= p.x && p.x < TAILLE_TERRAIN && 0 <= p.y && p.y < TAILLE_TERRAIN;
 }
 
 Cell* Map::get_cell(position p) const
@@ -92,7 +88,7 @@ std::vector<position> Map::get_islands() const
 
 position Map::get_start_position(int i)
 {
-    if (i < (int) start_positions_.size())
+    if (i < (int)start_positions_.size())
         return start_positions_[i];
-    return { -1, -1 };
+    return {-1, -1};
 }

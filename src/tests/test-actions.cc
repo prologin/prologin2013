@@ -1,124 +1,112 @@
-#include <sstream>
 #include <iostream>
+#include <sstream>
 
 #include <gtest/gtest.h>
 
-#include <utils/log.hh>
-#include "../constant.hh"
-#include "../map.hh"
 #include "../cell.hh"
+#include "../constant.hh"
 #include "../game.hh"
+#include "../map.hh"
+#include <utils/log.hh>
 
-#include "../action-move.hh"
+#include "../action-charge.hh"
 #include "../action-colonize.hh"
 #include "../action-construct.hh"
-#include "../action-charge.hh"
 #include "../action-discharge.hh"
+#include "../action-move.hh"
 
 class ActionsTest : public ::testing::Test
 {
-    protected:
-        virtual void SetUp()
-        {
-            utils::Logger::get().level() = utils::Logger::DEBUG_LEVEL;
+protected:
+    virtual void SetUp()
+    {
+        utils::Logger::get().level() = utils::Logger::DEBUG_LEVEL;
 
+        f << "2 0\n";
+        f << "7 7\n";
+        f << "~~o~~~~~~~~~~~~~~~~~~~~~~~o~~~~~\n";
+        f << "~~~~~~~~~~~~~~~~~~~~~~~~o~~~~~~~\n";
+        f << "~~o~~~~~~~~~~~~~~~~~~~~~~~o~~~~~\n";
+        f << "~~~~^~~~~~~~~~~~~~~~~~~~~~o~~~~~\n";
+        f << "~~o~~~~~~~~~~~~~~~~~~~~~~~o~~~~~\n";
+        f << "~~~~~~~~~~~~^~~~~~~~~~~~o~~~~~~~\n";
+        f << "~~~~~~~~~~~~^~~~~~~~~~~~o~~~~~~~\n";
+        f << "~~o~~~~o~~~~~~~~~~~~~~~~~~o~~~~~\n";
+        f << "~~~~~~~~~~~~o~~~~~~~~~~~~~o~~~~~\n";
+        f << "~~~^~~~~~~~~~~~^~~~~~~~~o~~~~~~~\n";
+        f << "~~~~~~~~~~o~~~~~~~~~~~~~~~~o~~~~\n";
+        f << "~~~o~~~~~~~~~o~~~~~~~o~~~~~~~~~~\n";
+        f << "~^~~~~~~~~o~~~~~~~~~~~~~~~o~~~~~\n";
+        f << "~~~~~~~~~~~~~~~~~o~~~~~~~~~o~~~~\n";
+        f << "~~~~~~~~~~~~~~~~~o~~~~~~~~~o~~~~\n";
+        f << "~~~~~~~~~~~~^~~~~~~~~~~~o~~~~~~~\n";
+        f << "~~o~~~~o~~~~~~~~~~~~~~~~~~o~~~~~\n";
+        f << "~~~~~~~~~~~~o~~~~~~~~~~~~~o~~~~~\n";
+        f << "~~~^~~~~~~~~~~~^~~~~~~~~o~~~~~~~\n";
+        f << "~~~~~~~~~~o~~~~~~~~~~~~~~~~o~~~~\n";
+        f << "~~~o~~~~~~~~~o~~~~~~~o~~~~~~~~~~\n";
+        f << "~^~~~~~~~~o~~~~~~~~~~~~~~~o~~~~~\n";
+        f << "~~~~~~~~~~~~~~~~~o~~~~~~~~~o~~~~\n";
+        f << "~~~~~~~~~~~~~~~~~o~~~~~~~~~o~~~~\n";
+        f << "~~o~~~~o~~~~~~~~~~~~~~~~~~o~~~~~\n";
+        f << "~~~~~~~~~~~~o~~~~~~~~~~~~~o~~~~~\n";
+        f << "~~~^~~~~~~~~~~~^~~~~~~~~o~~~~~~~\n";
+        f << "~~~~~~~~~~o~~~~~~~~~~~~~~~~o~~~~\n";
+        f << "~~~o~~~~~~~~~o~~~~~~~o~~~~~~~~~~\n";
+        f << "~^~~~~~~~~o~~~~~~~~~~~~~~~o~~~~~\n";
+        f << "~~~~~~~~~~~~~~~~~o~~~~~~~~~~~~~~\n";
+        f << "~~~~~~~~~~~~~~~~~o~~~~~~~~~o~~~~\n";
 
-            f << "2 0\n";
-            f << "7 7\n";
-            f << "~~o~~~~~~~~~~~~~~~~~~~~~~~o~~~~~\n";
-            f << "~~~~~~~~~~~~~~~~~~~~~~~~o~~~~~~~\n";
-            f << "~~o~~~~~~~~~~~~~~~~~~~~~~~o~~~~~\n";
-            f << "~~~~^~~~~~~~~~~~~~~~~~~~~~o~~~~~\n";
-            f << "~~o~~~~~~~~~~~~~~~~~~~~~~~o~~~~~\n";
-            f << "~~~~~~~~~~~~^~~~~~~~~~~~o~~~~~~~\n";
-            f << "~~~~~~~~~~~~^~~~~~~~~~~~o~~~~~~~\n";
-            f << "~~o~~~~o~~~~~~~~~~~~~~~~~~o~~~~~\n";
-            f << "~~~~~~~~~~~~o~~~~~~~~~~~~~o~~~~~\n";
-            f << "~~~^~~~~~~~~~~~^~~~~~~~~o~~~~~~~\n";
-            f << "~~~~~~~~~~o~~~~~~~~~~~~~~~~o~~~~\n";
-            f << "~~~o~~~~~~~~~o~~~~~~~o~~~~~~~~~~\n";
-            f << "~^~~~~~~~~o~~~~~~~~~~~~~~~o~~~~~\n";
-            f << "~~~~~~~~~~~~~~~~~o~~~~~~~~~o~~~~\n";
-            f << "~~~~~~~~~~~~~~~~~o~~~~~~~~~o~~~~\n";
-            f << "~~~~~~~~~~~~^~~~~~~~~~~~o~~~~~~~\n";
-            f << "~~o~~~~o~~~~~~~~~~~~~~~~~~o~~~~~\n";
-            f << "~~~~~~~~~~~~o~~~~~~~~~~~~~o~~~~~\n";
-            f << "~~~^~~~~~~~~~~~^~~~~~~~~o~~~~~~~\n";
-            f << "~~~~~~~~~~o~~~~~~~~~~~~~~~~o~~~~\n";
-            f << "~~~o~~~~~~~~~o~~~~~~~o~~~~~~~~~~\n";
-            f << "~^~~~~~~~~o~~~~~~~~~~~~~~~o~~~~~\n";
-            f << "~~~~~~~~~~~~~~~~~o~~~~~~~~~o~~~~\n";
-            f << "~~~~~~~~~~~~~~~~~o~~~~~~~~~o~~~~\n";
-            f << "~~o~~~~o~~~~~~~~~~~~~~~~~~o~~~~~\n";
-            f << "~~~~~~~~~~~~o~~~~~~~~~~~~~o~~~~~\n";
-            f << "~~~^~~~~~~~~~~~^~~~~~~~~o~~~~~~~\n";
-            f << "~~~~~~~~~~o~~~~~~~~~~~~~~~~o~~~~\n";
-            f << "~~~o~~~~~~~~~o~~~~~~~o~~~~~~~~~~\n";
-            f << "~^~~~~~~~~o~~~~~~~~~~~~~~~o~~~~~\n";
-            f << "~~~~~~~~~~~~~~~~~o~~~~~~~~~~~~~~\n";
-            f << "~~~~~~~~~~~~~~~~~o~~~~~~~~~o~~~~\n";
+        map_ = new Map();
+        if (map_->load(f))
+            FAIL() << "Map::load() failed";
 
+        rules::Players_sptr players(
+            new rules::Players{std::vector<rules::Player_sptr>{
+                rules::Player_sptr(new rules::Player(0, 0)),
+                rules::Player_sptr(new rules::Player(1, 0)),
+            }});
 
-            map_ = new Map();
-            if (map_->load(f))
-                FAIL() << "Map::load() failed";
+        gamestate_ = new GameState(map_, players);
+        gamestate_->init();
 
-            rules::Players_sptr players(
-                new rules::Players {
-                    std::vector<rules::Player_sptr>
-                    {
-                        rules::Player_sptr(new rules::Player(0, 0)),
-                        rules::Player_sptr(new rules::Player(1, 0)),
-                    }
-                }
-            );
+        gamestate_->add_boat({3, 3}, 0, BATEAU_GALION); // 0
+        gamestate_->get_boat(0)->deplacable = true;
 
-            gamestate_ = new GameState(map_, players);
-            gamestate_->init();
+        gamestate_->add_boat({3, 6}, 1, BATEAU_GALION); // 1
+        gamestate_->get_boat(1)->deplacable = true;
 
+        gamestate_->add_boat({5, 8}, 0, BATEAU_GALION); // 2
+        gamestate_->get_boat(2)->deplacable = false;
 
-            gamestate_->add_boat({3, 3}, 0, BATEAU_GALION); // 0
-            gamestate_->get_boat(0)->deplacable = true;
+        gamestate_->add_boat({31, 31}, 0, BATEAU_GALION); // 3
+        gamestate_->get_boat(3)->deplacable = true;
 
-            gamestate_->add_boat({3, 6}, 1, BATEAU_GALION); // 1
-            gamestate_->get_boat(1)->deplacable = true;
+        gamestate_->add_boat({3, 3}, 0, BATEAU_CARAVELLE); // 4
+        gamestate_->get_boat(4)->deplacable = true;
 
-            gamestate_->add_boat({5, 8}, 0, BATEAU_GALION); // 2
-            gamestate_->get_boat(2)->deplacable = false;
+        gamestate_->add_boat({2, 4}, 0, BATEAU_CARAVELLE); // 5
+        gamestate_->get_boat(4)->deplacable = true;
 
-            gamestate_->add_boat({31, 31}, 0, BATEAU_GALION); // 3
-            gamestate_->get_boat(3)->deplacable = true;
+        gamestate_->add_boat({2, 4}, 1, BATEAU_CARAVELLE); // 6
+        gamestate_->get_boat(4)->deplacable = true;
 
-            gamestate_->add_boat({3, 3}, 0, BATEAU_CARAVELLE); // 4
-            gamestate_->get_boat(4)->deplacable = true;
+        gamestate_->add_boat({2, 5}, 0, BATEAU_CARAVELLE); // 7
+        gamestate_->get_boat(4)->deplacable = true;
+    }
 
-            gamestate_->add_boat({2, 4}, 0, BATEAU_CARAVELLE); // 5
-            gamestate_->get_boat(4)->deplacable = true;
+    virtual void TearDown() { delete gamestate_; }
 
-            gamestate_->add_boat({2, 4}, 1, BATEAU_CARAVELLE); // 6
-            gamestate_->get_boat(4)->deplacable = true;
-
-            gamestate_->add_boat({2, 5}, 0, BATEAU_CARAVELLE); // 7
-            gamestate_->get_boat(4)->deplacable = true;
-
-        }
-
-        virtual void TearDown()
-        {
-            delete gamestate_;
-        }
-
-        std::stringstream f;
-        Map* map_;
-        GameState* gamestate_;
+    std::stringstream f;
+    Map* map_;
+    GameState* gamestate_;
 };
 
 TEST_F(ActionsTest, ChargeCheckTest)
 {
     gamestate_->get_map()->get_cell({2, 4})->set_player(1);
     ActionCharge a4(5, 1, 0);
-    EXPECT_EQ(ILE_ENNEMIE, a4.check(gamestate_))
-        << "Island should be enemy";
+    EXPECT_EQ(ILE_ENNEMIE, a4.check(gamestate_)) << "Island should be enemy";
 
     gamestate_->get_map()->get_cell({2, 4})->set_player(0);
     gamestate_->get_map()->get_cell({2, 4})->set_gold(0);
@@ -133,13 +121,11 @@ TEST_F(ActionsTest, ChargeCheckTest)
 
     gamestate_->get_map()->get_cell({2, 4})->set_gold(5);
     ActionCharge a7(6, 1, 0);
-    EXPECT_EQ(BATEAU_ENNEMI, a7.check(gamestate_))
-        << "Boat should be enemy";
+    EXPECT_EQ(BATEAU_ENNEMI, a7.check(gamestate_)) << "Boat should be enemy";
 
     gamestate_->get_map()->get_cell({2, 4})->set_gold(5);
     ActionCharge a9(5, 5, 0);
-    EXPECT_EQ(OK, a9.check(gamestate_))
-        << "Should be OK";
+    EXPECT_EQ(OK, a9.check(gamestate_)) << "Should be OK";
 }
 
 TEST_F(ActionsTest, ChargeTest)
@@ -150,19 +136,15 @@ TEST_F(ActionsTest, ChargeTest)
     c->set_gold(5);
     ActionCharge a1(5, 3, 0);
     a1.apply_on(gamestate_);
-    EXPECT_EQ(2, c->get_gold())
-        << "Only 2 gold should remain";
-    EXPECT_EQ(3, gamestate_->get_boat(5)->nb_or)
-        << "Only 3 gold should remain";
+    EXPECT_EQ(2, c->get_gold()) << "Only 2 gold should remain";
+    EXPECT_EQ(3, gamestate_->get_boat(5)->nb_or) << "Only 3 gold should remain";
 }
-
 
 TEST_F(ActionsTest, DischargeCheckTest)
 {
     gamestate_->get_map()->get_cell({2, 4})->set_player(1);
     ActionDischarge a4(5, 1, 0);
-    EXPECT_EQ(ILE_ENNEMIE, a4.check(gamestate_))
-        << "Island should be enemy";
+    EXPECT_EQ(ILE_ENNEMIE, a4.check(gamestate_)) << "Island should be enemy";
 
     gamestate_->get_map()->get_cell({2, 4})->set_player(0);
     gamestate_->get_boat(5)->nb_or = 0;
@@ -177,13 +159,11 @@ TEST_F(ActionsTest, DischargeCheckTest)
 
     gamestate_->get_boat(6)->nb_or = 4;
     ActionDischarge a7(6, 1, 0);
-    EXPECT_EQ(BATEAU_ENNEMI, a7.check(gamestate_))
-        << "Boat should be enemy";
+    EXPECT_EQ(BATEAU_ENNEMI, a7.check(gamestate_)) << "Boat should be enemy";
 
     gamestate_->get_boat(5)->nb_or = 5;
     ActionDischarge a9(5, 5, 0);
-    EXPECT_EQ(OK, a9.check(gamestate_))
-        << "Should be OK";
+    EXPECT_EQ(OK, a9.check(gamestate_)) << "Should be OK";
 }
 
 TEST_F(ActionsTest, DischargeTest)
@@ -196,12 +176,9 @@ TEST_F(ActionsTest, DischargeTest)
 
     ActionDischarge a1(5, 3, 0);
     a1.apply_on(gamestate_);
-    EXPECT_EQ(8, c->get_gold())
-        << "Only 2 gold should remain";
-    EXPECT_EQ(1, gamestate_->get_boat(5)->nb_or)
-        << "Only 1 gold should remain";
+    EXPECT_EQ(8, c->get_gold()) << "Only 2 gold should remain";
+    EXPECT_EQ(1, gamestate_->get_boat(5)->nb_or) << "Only 1 gold should remain";
 }
-
 
 TEST_F(ActionsTest, ConstructCheckTest)
 {
@@ -214,13 +191,11 @@ TEST_F(ActionsTest, ConstructCheckTest)
         << "Position should be invalid";
 
     ActionConstruct a3(BATEAU_GALION, {0, 0}, 0);
-    EXPECT_EQ(ILE_INVALIDE, a3.check(gamestate_))
-        << "Island should be invalid";
+    EXPECT_EQ(ILE_INVALIDE, a3.check(gamestate_)) << "Island should be invalid";
 
     gamestate_->get_map()->get_cell({2, 0})->set_player(1);
     ActionConstruct a4(BATEAU_GALION, {2, 0}, 0);
-    EXPECT_EQ(ILE_ENNEMIE, a4.check(gamestate_))
-        << "Island should be enemy";
+    EXPECT_EQ(ILE_ENNEMIE, a4.check(gamestate_)) << "Island should be enemy";
 
     gamestate_->get_map()->get_cell({2, 0})->set_player(0);
     gamestate_->get_map()->get_cell({2, 0})->set_gold(0);
@@ -235,8 +210,7 @@ TEST_F(ActionsTest, ConstructCheckTest)
 
     gamestate_->get_map()->get_cell({2, 0})->set_gold(GALION_COUT);
     ActionConstruct a7(BATEAU_GALION, {2, 0}, 0);
-    EXPECT_EQ(OK, a7.check(gamestate_))
-        << "Should be OK";
+    EXPECT_EQ(OK, a7.check(gamestate_)) << "Should be OK";
 
     gamestate_->get_map()->get_cell({2, 0})->set_gold(0);
     ActionConstruct a8(BATEAU_CARAVELLE, {2, 0}, 0);
@@ -246,12 +220,11 @@ TEST_F(ActionsTest, ConstructCheckTest)
     gamestate_->get_map()->get_cell({2, 0})->set_gold(CARAVELLE_COUT - 1);
     ActionConstruct a9(BATEAU_CARAVELLE, {2, 0}, 0);
     EXPECT_EQ(OR_INSUFFISANT, a9.check(gamestate_))
-        << "There shouldn't be enough gold"; 
+        << "There shouldn't be enough gold";
 
     gamestate_->get_map()->get_cell({2, 0})->set_gold(CARAVELLE_COUT);
     ActionConstruct a10(BATEAU_CARAVELLE, {2, 0}, 0);
-    EXPECT_EQ(OK, a10.check(gamestate_))
-        << "Should be OK";
+    EXPECT_EQ(OK, a10.check(gamestate_)) << "Should be OK";
 }
 
 TEST_F(ActionsTest, ConstructTest)
@@ -263,10 +236,8 @@ TEST_F(ActionsTest, ConstructTest)
     c->set_gold(CARAVELLE_COUT + 3);
     ActionConstruct a1(BATEAU_CARAVELLE, {2, 2}, 0);
     a1.apply_on(gamestate_);
-    EXPECT_EQ(3, c->get_gold())
-        << "Only 3 gold should remain";
-    EXPECT_EQ(o + 1, (int) c->get_id_boats().size())
-        << "No boat created";
+    EXPECT_EQ(3, c->get_gold()) << "Only 3 gold should remain";
+    EXPECT_EQ(o + 1, (int)c->get_id_boats().size()) << "No boat created";
 }
 
 TEST_F(ActionsTest, ColonizeCheckTest)
@@ -280,8 +251,7 @@ TEST_F(ActionsTest, ColonizeCheckTest)
         << "Position should be invalid";
 
     ActionColonize a3({0, 0}, 0);
-    EXPECT_EQ(ILE_INVALIDE, a3.check(gamestate_))
-        << "Island should be invalid";
+    EXPECT_EQ(ILE_INVALIDE, a3.check(gamestate_)) << "Island should be invalid";
 
     gamestate_->get_map()->get_cell({2, 0})->set_player(0);
     ActionColonize a4({2, 0}, 0);
@@ -300,8 +270,7 @@ TEST_F(ActionsTest, ColonizeCheckTest)
 
     gamestate_->add_boat({2, 0}, 0, BATEAU_CARAVELLE);
     ActionColonize a7({2, 0}, 0);
-    EXPECT_EQ(OK, a7.check(gamestate_))
-        << "Should be OK";
+    EXPECT_EQ(OK, a7.check(gamestate_)) << "Should be OK";
 }
 
 TEST_F(ActionsTest, ColonizeTest)
@@ -316,31 +285,28 @@ TEST_F(ActionsTest, ColonizeTest)
 
 TEST_F(ActionsTest, MoveCheckTest)
 {
-    ActionMove a1(672324, { 3, 4 }, 0);
+    ActionMove a1(672324, {3, 4}, 0);
     EXPECT_EQ(ID_INVALIDE, a1.check(gamestate_)) << "ID should be invalid";
 
-    ActionMove a2(1, { 3, 4 }, 0);
+    ActionMove a2(1, {3, 4}, 0);
     EXPECT_EQ(BATEAU_ENNEMI, a2.check(gamestate_)) << "Boat should be enemy";
 
-    ActionMove a3(2, { 3, 4 }, 0);
+    ActionMove a3(2, {3, 4}, 0);
     EXPECT_EQ(NON_DEPLACABLE, a3.check(gamestate_))
         << "Boat shouldn't be movable";
 
-    ActionMove a6(3, { TAILLE_TERRAIN, 31 }, 0);
+    ActionMove a6(3, {TAILLE_TERRAIN, 31}, 0);
     EXPECT_EQ(POSITION_INVALIDE, a6.check(gamestate_))
         << "Destination position should be invalid";
 
     ActionMove a7(0, {3 + GALION_DEPLACEMENT, 3}, 0);
-    EXPECT_EQ(OK, a7.check(gamestate_))
-        << "Should be OK";
+    EXPECT_EQ(OK, a7.check(gamestate_)) << "Should be OK";
 
     ActionMove a8(0, {3, 3 + GALION_DEPLACEMENT}, 0);
-    EXPECT_EQ(OK, a8.check(gamestate_))
-        << "Should be OK";
+    EXPECT_EQ(OK, a8.check(gamestate_)) << "Should be OK";
 
     ActionMove a9(0, {3 + 2, 3 + 2}, 0);
-    EXPECT_EQ(OK, a9.check(gamestate_))
-        << "Should be OK";
+    EXPECT_EQ(OK, a9.check(gamestate_)) << "Should be OK";
 
     ActionMove a10(0, {3 + GALION_DEPLACEMENT, 3 + GALION_DEPLACEMENT}, 0);
     EXPECT_EQ(TROP_LOIN, a10.check(gamestate_))
@@ -351,18 +317,16 @@ TEST_F(ActionsTest, MoveCheckTest)
         << "Destination should be too far";
 
     ActionMove a12(4, {3 + CARAVELLE_DEPLACEMENT, 3}, 0);
-    EXPECT_EQ(OK, a7.check(gamestate_))
-        << "Should be OK";
+    EXPECT_EQ(OK, a7.check(gamestate_)) << "Should be OK";
 
     ActionMove a13(4, {3, 3 + CARAVELLE_DEPLACEMENT}, 0);
-    EXPECT_EQ(OK, a8.check(gamestate_))
-        << "Should be OK";
+    EXPECT_EQ(OK, a8.check(gamestate_)) << "Should be OK";
 
     ActionMove a14(4, {3 + 2, 3 + 2}, 0);
-    EXPECT_EQ(OK, a9.check(gamestate_))
-        << "Should be OK";
+    EXPECT_EQ(OK, a9.check(gamestate_)) << "Should be OK";
 
-    ActionMove a15(4, {3+CARAVELLE_DEPLACEMENT, 3+CARAVELLE_DEPLACEMENT}, 0);
+    ActionMove a15(4, {3 + CARAVELLE_DEPLACEMENT, 3 + CARAVELLE_DEPLACEMENT},
+                   0);
     EXPECT_EQ(TROP_LOIN, a10.check(gamestate_))
         << "Destination should be too far";
 
@@ -394,5 +358,5 @@ TEST_F(ActionsTest, MoveTest)
     EXPECT_TRUE(c->exists_boat(0)) << "Not in the destination position";
 
     bateau* boat = gamestate_->get_boat(0);
-    EXPECT_EQ(boat->pos, (position {4, 3})) << "bateau.pos hasn't been updated";
+    EXPECT_EQ(boat->pos, (position{4, 3})) << "bateau.pos hasn't been updated";
 }

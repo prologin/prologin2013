@@ -3,17 +3,17 @@
 #include <rules/player.hh>
 #include <utils/log.hh>
 
+#include "cell.hh"
 #include "constant.hh"
 #include "game.hh"
 #include "map.hh"
-#include "cell.hh"
 
 GameState::GameState(Map* map, rules::Players_sptr players)
-    : rules::GameState(),
-      map_(map),
-      players_(players),
-      current_round_(0),
-      boat_next_id_(0)
+    : rules::GameState()
+    , map_(map)
+    , players_(players)
+    , current_round_(0)
+    , boat_next_id_(0)
 {
     for (auto& p : players_->players)
         if (p->type == rules::PLAYER)
@@ -28,9 +28,9 @@ GameState::GameState(Map* map, rules::Players_sptr players)
     {
         c = map->get_cell(map->get_start_position(i));
         if (!c)
-            FATAL("starting position for player %d is invalid", i+1);
+            FATAL("starting position for player %d is invalid", i + 1);
         if (c->get_type() != TERRAIN_ILE)
-            FATAL("starting position for player %d is not an island", i+1);
+            FATAL("starting position for player %d is not an island", i + 1);
         c->set_player(player_ids_[p.first]->id);
         c->set_gold(OR_INITIAL);
         i++;
@@ -38,11 +38,11 @@ GameState::GameState(Map* map, rules::Players_sptr players)
 }
 
 GameState::GameState(const GameState& st)
-    : rules::GameState(st),
-      map_(new Map(*st.map_)),
-      players_(st.players_),
-      current_round_(st.current_round_),
-      boat_next_id_(st.boat_next_id_)
+    : rules::GameState(st)
+    , map_(new Map(*st.map_))
+    , players_(st.players_)
+    , current_round_(st.current_round_)
+    , boat_next_id_(st.boat_next_id_)
 {
     boats_.insert(st.boats_.begin(), st.boats_.end());
     player_ids_.insert(st.player_ids_.begin(), st.player_ids_.end());
@@ -79,7 +79,7 @@ int GameState::get_score(int player_id) const
 int GameState::get_opponent(int player_id) const
 {
     for (auto i : players_->players)
-        if ((int) i->id != player_id)
+        if ((int)i->id != player_id)
             return i->id;
     return -1;
 }
@@ -105,7 +105,7 @@ bool GameState::add_boat(position origin, int player, bateau_type btype)
     if (boats_.count(id))
         return false;
 
-    boats_[id] = { id, origin, player, btype, 0, false };
+    boats_[id] = {id, origin, player, btype, 0, false};
     map_->get_cell(origin)->add_boat(id);
     nb_boats_[player]++;
 
@@ -116,7 +116,7 @@ bateau* GameState::get_boat(int id)
 {
     std::map<int, bateau>::iterator it = boats_.find(id);
     if (it == boats_.end())
-      return NULL;
+        return NULL;
     return &(it->second);
 }
 
@@ -140,7 +140,8 @@ void GameState::resolve_fight(position pos, int id_attacker)
     /* Getting the number of galions on each side */
     int galions_attacker = 0;
     int galions_defender = 0;
-    for (std::set<int>::iterator it = boat_ids.begin(); it != boat_ids.end(); ++it)
+    for (std::set<int>::iterator it = boat_ids.begin(); it != boat_ids.end();
+         ++it)
     {
         if (boats_[*it].joueur != id_attacker && id_defender == -1)
             id_defender = boats_[*it].joueur;
@@ -166,7 +167,8 @@ void GameState::resolve_fight(position pos, int id_attacker)
 
     /* In case of equality, island's owner wins, then attacker. */
     if (galions_attacker < galions_defender ||
-        (galions_attacker == galions_defender && c->get_player() == id_defender))
+        (galions_attacker == galions_defender &&
+         c->get_player() == id_defender))
         std::swap(id_winner, id_loser);
 
     /* Island change owner if the owner loses */
@@ -175,12 +177,15 @@ void GameState::resolve_fight(position pos, int id_attacker)
 
     /* Winner's caravelle with lowest id will get the gold of the looser */
     int caravelle_winner = -1;
-    for (std::set<int>::iterator i = boat_ids.begin(); i != boat_ids.end() && caravelle_winner == -1; ++i)
-        if (boats_[*i].btype == BATEAU_CARAVELLE && boats_[*i].joueur == id_winner)
+    for (std::set<int>::iterator i = boat_ids.begin();
+         i != boat_ids.end() && caravelle_winner == -1; ++i)
+        if (boats_[*i].btype == BATEAU_CARAVELLE &&
+            boats_[*i].joueur == id_winner)
             caravelle_winner = boats_[*i].id;
 
     int gold_move = 0;
-    for (std::set<int>::iterator it = boat_ids.begin(); it != boat_ids.end(); ++it)
+    for (std::set<int>::iterator it = boat_ids.begin(); it != boat_ids.end();
+         ++it)
     {
         /* Looser loses all of his boats and the gold inside the caravelles */
         if (boats_[*it].joueur == id_loser)

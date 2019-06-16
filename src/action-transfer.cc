@@ -3,21 +3,16 @@
 #include "game.hh"
 
 ActionTransfer::ActionTransfer(int amount, int id_source, int id_dest,
-        int player)
-    : id_source_(id_source),
-      id_dest_(id_dest),
-      amount_(amount),
-      player_id_(player)
-{
-}
+                               int player)
+    : id_source_(id_source)
+    , id_dest_(id_dest)
+    , amount_(amount)
+    , player_id_(player)
+{}
 
 ActionTransfer::ActionTransfer()
-    : id_source_(-1),
-      id_dest_(-1),
-      amount_(0),
-      player_id_(-1)
-{
-}
+    : id_source_(-1), id_dest_(-1), amount_(0), player_id_(-1)
+{}
 
 int ActionTransfer::check(const GameState* st) const
 {

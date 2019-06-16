@@ -22,190 +22,248 @@ extern Api* api;
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const std::vector<T>& arr)
 {
-  os << "[";
-  typename std::vector<T>::const_iterator it;
-  for (it = arr.begin(); it != arr.end(); ++it)
-  {
-    if (it != arr.begin())
-      os << ", ";
-    os << *it;
-  }
-  os << "]";
-  return os;
+    os << "[";
+    typename std::vector<T>::const_iterator it;
+    for (it = arr.begin(); it != arr.end(); ++it)
+    {
+        if (it != arr.begin())
+            os << ", ";
+        os << *it;
+    }
+    os << "]";
+    return os;
 }
-
 
 // todo avoir un ostringstream a la place de std::string
 
-std::string convert_to_string(int i){
-  std::ostringstream s;
-  s << i;
-  std::string result = s.str();
-  return result;
+std::string convert_to_string(int i)
+{
+    std::ostringstream s;
+    s << i;
+    std::string result = s.str();
+    return result;
 }
-std::string convert_to_string(std::string i){
-  return i;
+std::string convert_to_string(std::string i)
+{
+    return i;
 }
-std::string convert_to_string(bool i){
-  return i?"true":"false";
+std::string convert_to_string(bool i)
+{
+    return i ? "true" : "false";
 }
-std::string convert_to_string(std::vector<int> in){
-  if (in.size()){
-    std::string s = "[" + convert_to_string(in[0]);
-    for (int i = 1, l = in.size(); i < l; i++){
-      s = s + ", " + convert_to_string(in[i]);
+std::string convert_to_string(std::vector<int> in)
+{
+    if (in.size())
+    {
+        std::string s = "[" + convert_to_string(in[0]);
+        for (int i = 1, l = in.size(); i < l; i++)
+        {
+            s = s + ", " + convert_to_string(in[i]);
+        }
+        return s + "]";
     }
-    return s + "]";
-  }else{
-    return "[]";
-  }
-}
-std::string convert_to_string(bateau_type in){
-  switch (in)
-  {
-    case BATEAU_CARAVELLE: return "\"bateau_caravelle\"";
-    case BATEAU_GALION: return "\"bateau_galion\"";
-    case BATEAU_ERREUR: return "\"bateau_erreur\"";
-  }
-  return "bad value";
-}
-std::string convert_to_string(std::vector<bateau_type> in){
-  if (in.size()){
-    std::string s = "[" + convert_to_string(in[0]);
-    for (int i = 1, l = in.size(); i < l; i++){
-      s = s + ", " + convert_to_string(in[i]);
+    else
+    {
+        return "[]";
     }
-    return s + "]";
-  }else{
-    return "[]";
-  }
 }
-std::string convert_to_string(terrain in){
-  switch (in)
-  {
-    case TERRAIN_ILE: return "\"terrain_ile\"";
-    case TERRAIN_VOLCAN: return "\"terrain_volcan\"";
-    case TERRAIN_MER: return "\"terrain_mer\"";
-    case TERRAIN_ERREUR: return "\"terrain_erreur\"";
-  }
-  return "bad value";
-}
-std::string convert_to_string(std::vector<terrain> in){
-  if (in.size()){
-    std::string s = "[" + convert_to_string(in[0]);
-    for (int i = 1, l = in.size(); i < l; i++){
-      s = s + ", " + convert_to_string(in[i]);
+std::string convert_to_string(bateau_type in)
+{
+    switch (in)
+    {
+    case BATEAU_CARAVELLE:
+        return "\"bateau_caravelle\"";
+    case BATEAU_GALION:
+        return "\"bateau_galion\"";
+    case BATEAU_ERREUR:
+        return "\"bateau_erreur\"";
     }
-    return s + "]";
-  }else{
-    return "[]";
-  }
+    return "bad value";
 }
-std::string convert_to_string(erreur in){
-  switch (in)
-  {
-    case OK: return "\"ok\"";
-    case OR_INSUFFISANT: return "\"or_insuffisant\"";
-    case ILE_INVALIDE: return "\"ile_invalide\"";
-    case POSITION_INVALIDE: return "\"position_invalide\"";
-    case TROP_LOIN: return "\"trop_loin\"";
-    case ILE_COLONISEE: return "\"ile_colonisee\"";
-    case ILE_ENNEMIE: return "\"ile_ennemie\"";
-    case BATEAU_ENNEMI: return "\"bateau_ennemi\"";
-    case ID_INVALIDE: return "\"id_invalide\"";
-    case NON_DEPLACABLE: return "\"non_deplacable\"";
-    case AUCUNE_CARAVELLE: return "\"aucune_caravelle\"";
-    case LIMITE_ATTEINTE: return "\"limite_atteinte\"";
-  }
-  return "bad value";
-}
-std::string convert_to_string(std::vector<erreur> in){
-  if (in.size()){
-    std::string s = "[" + convert_to_string(in[0]);
-    for (int i = 1, l = in.size(); i < l; i++){
-      s = s + ", " + convert_to_string(in[i]);
+std::string convert_to_string(std::vector<bateau_type> in)
+{
+    if (in.size())
+    {
+        std::string s = "[" + convert_to_string(in[0]);
+        for (int i = 1, l = in.size(); i < l; i++)
+        {
+            s = s + ", " + convert_to_string(in[i]);
+        }
+        return s + "]";
     }
-    return s + "]";
-  }else{
-    return "[]";
-  }
+    else
+    {
+        return "[]";
+    }
 }
-std::string convert_to_string(position in){
-  std::string x = convert_to_string(in.x);
-  std::string y = convert_to_string(in.y);
-  std::string out = "{";
-  out += "x:" + x;
-  out += ", ";
-  out += "y:" + y;
-  return out + "}";
+std::string convert_to_string(terrain in)
+{
+    switch (in)
+    {
+    case TERRAIN_ILE:
+        return "\"terrain_ile\"";
+    case TERRAIN_VOLCAN:
+        return "\"terrain_volcan\"";
+    case TERRAIN_MER:
+        return "\"terrain_mer\"";
+    case TERRAIN_ERREUR:
+        return "\"terrain_erreur\"";
+    }
+    return "bad value";
+}
+std::string convert_to_string(std::vector<terrain> in)
+{
+    if (in.size())
+    {
+        std::string s = "[" + convert_to_string(in[0]);
+        for (int i = 1, l = in.size(); i < l; i++)
+        {
+            s = s + ", " + convert_to_string(in[i]);
+        }
+        return s + "]";
+    }
+    else
+    {
+        return "[]";
+    }
+}
+std::string convert_to_string(erreur in)
+{
+    switch (in)
+    {
+    case OK:
+        return "\"ok\"";
+    case OR_INSUFFISANT:
+        return "\"or_insuffisant\"";
+    case ILE_INVALIDE:
+        return "\"ile_invalide\"";
+    case POSITION_INVALIDE:
+        return "\"position_invalide\"";
+    case TROP_LOIN:
+        return "\"trop_loin\"";
+    case ILE_COLONISEE:
+        return "\"ile_colonisee\"";
+    case ILE_ENNEMIE:
+        return "\"ile_ennemie\"";
+    case BATEAU_ENNEMI:
+        return "\"bateau_ennemi\"";
+    case ID_INVALIDE:
+        return "\"id_invalide\"";
+    case NON_DEPLACABLE:
+        return "\"non_deplacable\"";
+    case AUCUNE_CARAVELLE:
+        return "\"aucune_caravelle\"";
+    case LIMITE_ATTEINTE:
+        return "\"limite_atteinte\"";
+    }
+    return "bad value";
+}
+std::string convert_to_string(std::vector<erreur> in)
+{
+    if (in.size())
+    {
+        std::string s = "[" + convert_to_string(in[0]);
+        for (int i = 1, l = in.size(); i < l; i++)
+        {
+            s = s + ", " + convert_to_string(in[i]);
+        }
+        return s + "]";
+    }
+    else
+    {
+        return "[]";
+    }
+}
+std::string convert_to_string(position in)
+{
+    std::string x = convert_to_string(in.x);
+    std::string y = convert_to_string(in.y);
+    std::string out = "{";
+    out += "x:" + x;
+    out += ", ";
+    out += "y:" + y;
+    return out + "}";
 }
 
-std::string convert_to_string(std::vector<position> in){
-  if (in.size()){
-    std::string s = "[" + convert_to_string(in[0]);
-    for (int i = 1, l = in.size(); i < l; i++){
-      s = s + ", " + convert_to_string(in[i]);
+std::string convert_to_string(std::vector<position> in)
+{
+    if (in.size())
+    {
+        std::string s = "[" + convert_to_string(in[0]);
+        for (int i = 1, l = in.size(); i < l; i++)
+        {
+            s = s + ", " + convert_to_string(in[i]);
+        }
+        return s + "]";
     }
-    return s + "]";
-  }else{
-    return "[]";
-  }
+    else
+    {
+        return "[]";
+    }
 }
-std::string convert_to_string(bateau in){
-  std::string id = convert_to_string(in.id);
-  std::string pos = convert_to_string(in.pos);
-  std::string joueur = convert_to_string(in.joueur);
-  std::string btype = convert_to_string(in.btype);
-  std::string nb_or = convert_to_string(in.nb_or);
-  std::string deplacable = convert_to_string(in.deplacable);
-  std::string out = "{";
-  out += "id:" + id;
-  out += ", ";
-  out += "pos:" + pos;
-  out += ", ";
-  out += "joueur:" + joueur;
-  out += ", ";
-  out += "btype:" + btype;
-  out += ", ";
-  out += "nb_or:" + nb_or;
-  out += ", ";
-  out += "deplacable:" + deplacable;
-  return out + "}";
+std::string convert_to_string(bateau in)
+{
+    std::string id = convert_to_string(in.id);
+    std::string pos = convert_to_string(in.pos);
+    std::string joueur = convert_to_string(in.joueur);
+    std::string btype = convert_to_string(in.btype);
+    std::string nb_or = convert_to_string(in.nb_or);
+    std::string deplacable = convert_to_string(in.deplacable);
+    std::string out = "{";
+    out += "id:" + id;
+    out += ", ";
+    out += "pos:" + pos;
+    out += ", ";
+    out += "joueur:" + joueur;
+    out += ", ";
+    out += "btype:" + btype;
+    out += ", ";
+    out += "nb_or:" + nb_or;
+    out += ", ";
+    out += "deplacable:" + deplacable;
+    return out + "}";
 }
 
-std::string convert_to_string(std::vector<bateau> in){
-  if (in.size()){
-    std::string s = "[" + convert_to_string(in[0]);
-    for (int i = 1, l = in.size(); i < l; i++){
-      s = s + ", " + convert_to_string(in[i]);
+std::string convert_to_string(std::vector<bateau> in)
+{
+    if (in.size())
+    {
+        std::string s = "[" + convert_to_string(in[0]);
+        for (int i = 1, l = in.size(); i < l; i++)
+        {
+            s = s + ", " + convert_to_string(in[i]);
+        }
+        return s + "]";
     }
-    return s + "]";
-  }else{
-    return "[]";
-  }
+    else
+    {
+        return "[]";
+    }
 }
 ///
 // Retourne la nature du terrain désigné par ``pos``.
 //
 extern "C" terrain api_info_terrain(position pos)
 {
-  return api->info_terrain(pos);
+    return api->info_terrain(pos);
 }
 
 ///
-// Retourne le joueur qui possède l'île à l'emplacement ``pos``. Retourne -1 si l'île est libre ou si la position indiquée n'est pas une île
+// Retourne le joueur qui possède l'île à l'emplacement ``pos``. Retourne -1 si
+// l'île est libre ou si la position indiquée n'est pas une île
 //
 extern "C" int api_info_ile_joueur(position pos)
 {
-  return api->info_ile_joueur(pos);
+    return api->info_ile_joueur(pos);
 }
 
 ///
-// Retourne l'or contenu sur l'île à l'emplacement ``pos``. Retourne -1 si la case spécifiée n'est pas une île.
+// Retourne l'or contenu sur l'île à l'emplacement ``pos``. Retourne -1 si la
+// case spécifiée n'est pas une île.
 //
 extern "C" int api_info_ile_or(position pos)
 {
-  return api->info_ile_or(pos);
+    return api->info_ile_or(pos);
 }
 
 ///
@@ -213,15 +271,16 @@ extern "C" int api_info_ile_or(position pos)
 //
 extern "C" bateau api_info_bateau(int id)
 {
-  return api->info_bateau(id);
+    return api->info_bateau(id);
 }
 
 ///
-// Retourne vrai si le bateau ayant pour identifiant ``id`` existe et est encore à flots
+// Retourne vrai si le bateau ayant pour identifiant ``id`` existe et est encore
+// à flots
 //
 extern "C" bool api_bateau_existe(int id)
 {
-  return api->bateau_existe(id);
+    return api->bateau_existe(id);
 }
 
 ///
@@ -229,7 +288,7 @@ extern "C" bool api_bateau_existe(int id)
 //
 extern "C" std::vector<bateau> api_liste_bateaux_position(position pos)
 {
-  return api->liste_bateaux_position(pos);
+    return api->liste_bateaux_position(pos);
 }
 
 ///
@@ -237,7 +296,7 @@ extern "C" std::vector<bateau> api_liste_bateaux_position(position pos)
 //
 extern "C" std::vector<int> api_liste_id_bateaux_position(position pos)
 {
-  return api->liste_id_bateaux_position(pos);
+    return api->liste_id_bateaux_position(pos);
 }
 
 ///
@@ -245,7 +304,7 @@ extern "C" std::vector<int> api_liste_id_bateaux_position(position pos)
 //
 extern "C" std::vector<position> api_liste_iles()
 {
-  return api->liste_iles();
+    return api->liste_iles();
 }
 
 ///
@@ -253,15 +312,16 @@ extern "C" std::vector<position> api_liste_iles()
 //
 extern "C" std::vector<position> api_mes_iles()
 {
-  return api->mes_iles();
+    return api->mes_iles();
 }
 
 ///
-// Retourne l'ID du dernier bateau construit. Son comportement n'est pas défini si vous n'avez pas encore créé de bateau à ce tour-ci.
+// Retourne l'ID du dernier bateau construit. Son comportement n'est pas défini
+// si vous n'avez pas encore créé de bateau à ce tour-ci.
 //
 extern "C" int api_id_dernier_bateau_construit()
 {
-  return api->id_dernier_bateau_construit();
+    return api->id_dernier_bateau_construit();
 }
 
 ///
@@ -269,7 +329,7 @@ extern "C" int api_id_dernier_bateau_construit()
 //
 extern "C" int api_distance(position depart, position arrivee)
 {
-  return api->distance(depart, arrivee);
+    return api->distance(depart, arrivee);
 }
 
 ///
@@ -277,15 +337,16 @@ extern "C" int api_distance(position depart, position arrivee)
 //
 extern "C" erreur api_construire(bateau_type btype, position pos)
 {
-  return api->construire(btype, pos);
+    return api->construire(btype, pos);
 }
 
 ///
-// Déplace le bateau représenté par l'identifiant ``id`` jusqu'à la position `pos`` (si elle est dans la portée du bateau)
+// Déplace le bateau représenté par l'identifiant ``id`` jusqu'à la position
+// `pos`` (si elle est dans la portée du bateau)
 //
 extern "C" erreur api_deplacer(int id, position pos)
 {
-  return api->deplacer(id, pos);
+    return api->deplacer(id, pos);
 }
 
 ///
@@ -293,7 +354,7 @@ extern "C" erreur api_deplacer(int id, position pos)
 //
 extern "C" erreur api_coloniser(position pos)
 {
-  return api->coloniser(pos);
+    return api->coloniser(pos);
 }
 
 ///
@@ -301,7 +362,7 @@ extern "C" erreur api_coloniser(position pos)
 //
 extern "C" erreur api_charger(int id, int nb_or)
 {
-  return api->charger(id, nb_or);
+    return api->charger(id, nb_or);
 }
 
 ///
@@ -309,15 +370,16 @@ extern "C" erreur api_charger(int id, int nb_or)
 //
 extern "C" erreur api_decharger(int id, int nb_or)
 {
-  return api->decharger(id, nb_or);
+    return api->decharger(id, nb_or);
 }
 
 ///
-// Transfère ``montant`` or de la caravelle ``id_source`` à la caravelle ``id_dest``
+// Transfère ``montant`` or de la caravelle ``id_source`` à la caravelle
+// ``id_dest``
 //
 extern "C" erreur api_transferer(int montant, int id_source, int id_dest)
 {
-  return api->transferer(montant, id_source, id_dest);
+    return api->transferer(montant, id_source, id_dest);
 }
 
 ///
@@ -325,7 +387,7 @@ extern "C" erreur api_transferer(int montant, int id_source, int id_dest)
 //
 extern "C" int api_mon_joueur()
 {
-  return api->mon_joueur();
+    return api->mon_joueur();
 }
 
 ///
@@ -333,7 +395,7 @@ extern "C" int api_mon_joueur()
 //
 extern "C" int api_adversaire()
 {
-  return api->adversaire();
+    return api->adversaire();
 }
 
 ///
@@ -341,7 +403,7 @@ extern "C" int api_adversaire()
 //
 extern "C" int api_score(int id_joueur)
 {
-  return api->score(id_joueur);
+    return api->score(id_joueur);
 }
 
 ///
@@ -349,15 +411,16 @@ extern "C" int api_score(int id_joueur)
 //
 extern "C" int api_tour_actuel()
 {
-  return api->tour_actuel();
+    return api->tour_actuel();
 }
 
 ///
-// Retourne le nombre de bateaux que possède le joueur désigné par l'identifiant ``id``
+// Retourne le nombre de bateaux que possède le joueur désigné par l'identifiant
+// ``id``
 //
 extern "C" int api_nombre_bateaux(int id_joueur)
 {
-  return api->nombre_bateaux(id_joueur);
+    return api->nombre_bateaux(id_joueur);
 }
 
 ///
@@ -365,16 +428,23 @@ extern "C" int api_nombre_bateaux(int id_joueur)
 //
 std::ostream& operator<<(std::ostream& os, bateau_type v)
 {
-  switch (v) {
-  case BATEAU_CARAVELLE: os << "BATEAU_CARAVELLE"; break;
-  case BATEAU_GALION: os << "BATEAU_GALION"; break;
-  case BATEAU_ERREUR: os << "BATEAU_ERREUR"; break;
-  }
-  return os;
+    switch (v)
+    {
+    case BATEAU_CARAVELLE:
+        os << "BATEAU_CARAVELLE";
+        break;
+    case BATEAU_GALION:
+        os << "BATEAU_GALION";
+        break;
+    case BATEAU_ERREUR:
+        os << "BATEAU_ERREUR";
+        break;
+    }
+    return os;
 }
 extern "C" void api_afficher_bateau_type(bateau_type v)
 {
-  std::cerr << v << std::endl;
+    std::cerr << v << std::endl;
 }
 
 ///
@@ -382,17 +452,26 @@ extern "C" void api_afficher_bateau_type(bateau_type v)
 //
 std::ostream& operator<<(std::ostream& os, terrain v)
 {
-  switch (v) {
-  case TERRAIN_ILE: os << "TERRAIN_ILE"; break;
-  case TERRAIN_VOLCAN: os << "TERRAIN_VOLCAN"; break;
-  case TERRAIN_MER: os << "TERRAIN_MER"; break;
-  case TERRAIN_ERREUR: os << "TERRAIN_ERREUR"; break;
-  }
-  return os;
+    switch (v)
+    {
+    case TERRAIN_ILE:
+        os << "TERRAIN_ILE";
+        break;
+    case TERRAIN_VOLCAN:
+        os << "TERRAIN_VOLCAN";
+        break;
+    case TERRAIN_MER:
+        os << "TERRAIN_MER";
+        break;
+    case TERRAIN_ERREUR:
+        os << "TERRAIN_ERREUR";
+        break;
+    }
+    return os;
 }
 extern "C" void api_afficher_terrain(terrain v)
 {
-  std::cerr << v << std::endl;
+    std::cerr << v << std::endl;
 }
 
 ///
@@ -400,25 +479,50 @@ extern "C" void api_afficher_terrain(terrain v)
 //
 std::ostream& operator<<(std::ostream& os, erreur v)
 {
-  switch (v) {
-  case OK: os << "OK"; break;
-  case OR_INSUFFISANT: os << "OR_INSUFFISANT"; break;
-  case ILE_INVALIDE: os << "ILE_INVALIDE"; break;
-  case POSITION_INVALIDE: os << "POSITION_INVALIDE"; break;
-  case TROP_LOIN: os << "TROP_LOIN"; break;
-  case ILE_COLONISEE: os << "ILE_COLONISEE"; break;
-  case ILE_ENNEMIE: os << "ILE_ENNEMIE"; break;
-  case BATEAU_ENNEMI: os << "BATEAU_ENNEMI"; break;
-  case ID_INVALIDE: os << "ID_INVALIDE"; break;
-  case NON_DEPLACABLE: os << "NON_DEPLACABLE"; break;
-  case AUCUNE_CARAVELLE: os << "AUCUNE_CARAVELLE"; break;
-  case LIMITE_ATTEINTE: os << "LIMITE_ATTEINTE"; break;
-  }
-  return os;
+    switch (v)
+    {
+    case OK:
+        os << "OK";
+        break;
+    case OR_INSUFFISANT:
+        os << "OR_INSUFFISANT";
+        break;
+    case ILE_INVALIDE:
+        os << "ILE_INVALIDE";
+        break;
+    case POSITION_INVALIDE:
+        os << "POSITION_INVALIDE";
+        break;
+    case TROP_LOIN:
+        os << "TROP_LOIN";
+        break;
+    case ILE_COLONISEE:
+        os << "ILE_COLONISEE";
+        break;
+    case ILE_ENNEMIE:
+        os << "ILE_ENNEMIE";
+        break;
+    case BATEAU_ENNEMI:
+        os << "BATEAU_ENNEMI";
+        break;
+    case ID_INVALIDE:
+        os << "ID_INVALIDE";
+        break;
+    case NON_DEPLACABLE:
+        os << "NON_DEPLACABLE";
+        break;
+    case AUCUNE_CARAVELLE:
+        os << "AUCUNE_CARAVELLE";
+        break;
+    case LIMITE_ATTEINTE:
+        os << "LIMITE_ATTEINTE";
+        break;
+    }
+    return os;
 }
 extern "C" void api_afficher_erreur(erreur v)
 {
-  std::cerr << v << std::endl;
+    std::cerr << v << std::endl;
 }
 
 ///
@@ -426,16 +530,18 @@ extern "C" void api_afficher_erreur(erreur v)
 //
 std::ostream& operator<<(std::ostream& os, position v)
 {
-  os << "{ ";
-  os << "x" << "=" << v.x;
-  os << ", ";
-  os << "y" << "=" << v.y;
-  os << " }";
-  return os;
+    os << "{ ";
+    os << "x"
+       << "=" << v.x;
+    os << ", ";
+    os << "y"
+       << "=" << v.y;
+    os << " }";
+    return os;
 }
 extern "C" void api_afficher_position(position v)
 {
-  std::cerr << v << std::endl;
+    std::cerr << v << std::endl;
 }
 
 ///
@@ -443,27 +549,33 @@ extern "C" void api_afficher_position(position v)
 //
 std::ostream& operator<<(std::ostream& os, bateau v)
 {
-  os << "{ ";
-  os << "id" << "=" << v.id;
-  os << ", ";
-  os << "pos" << "=" << v.pos;
-  os << ", ";
-  os << "joueur" << "=" << v.joueur;
-  os << ", ";
-  os << "btype" << "=" << v.btype;
-  os << ", ";
-  os << "nb_or" << "=" << v.nb_or;
-  os << ", ";
-  os << "deplacable" << "=" << v.deplacable;
-  os << " }";
-  return os;
+    os << "{ ";
+    os << "id"
+       << "=" << v.id;
+    os << ", ";
+    os << "pos"
+       << "=" << v.pos;
+    os << ", ";
+    os << "joueur"
+       << "=" << v.joueur;
+    os << ", ";
+    os << "btype"
+       << "=" << v.btype;
+    os << ", ";
+    os << "nb_or"
+       << "=" << v.nb_or;
+    os << ", ";
+    os << "deplacable"
+       << "=" << v.deplacable;
+    os << " }";
+    return os;
 }
 extern "C" void api_afficher_bateau(bateau v)
 {
-  std::cerr << v << std::endl;
+    std::cerr << v << std::endl;
 }
 
 extern "C" char* api_get_dump()
 {
-  return api->get_dump();
+    return api->get_dump();
 }

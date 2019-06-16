@@ -4,18 +4,10 @@
 #include "tools.hh"
 
 ActionMove::ActionMove(int id_boat, position dest, int player)
-    : dest_(dest),
-      id_boat_(id_boat),
-      player_id_(player)
-{
-}
+    : dest_(dest), id_boat_(id_boat), player_id_(player)
+{}
 
-ActionMove::ActionMove()
-    : dest_({-1, -1}),
-      id_boat_(-1),
-      player_id_(-1)
-{
-}
+ActionMove::ActionMove() : dest_({-1, -1}), id_boat_(-1), player_id_(-1) {}
 
 int ActionMove::check(const GameState* st) const
 {

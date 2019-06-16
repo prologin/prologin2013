@@ -10,16 +10,16 @@
 ** Copyright (C) 2013 Prologin
 */
 
-#include <stdlib.h>
 #include <algorithm>
+#include <stdlib.h>
 
 #include "api.hh"
 #include "dumper.hh"
 #include "tools.hh"
 
 #include "action-charge.hh"
-#include "action-construct.hh"
 #include "action-colonize.hh"
+#include "action-construct.hh"
 #include "action-discharge.hh"
 #include "action-move.hh"
 #include "action-transfer.hh"
@@ -28,8 +28,7 @@
 Api* api;
 
 Api::Api(GameState* game_state, rules::Player_sptr player)
-    : game_state_(game_state),
-      player_(player)
+    : game_state_(game_state), player_(player)
 {
     api = this;
 }
@@ -98,7 +97,7 @@ std::vector<bateau> Api::liste_bateaux_position(position pos)
     std::vector<bateau> r;
     if (!c)
         return r;
-    for(auto& i: c->get_id_boats())
+    for (auto& i : c->get_id_boats())
         r.push_back(*game_state_->get_boat(i));
     return r;
 }
@@ -133,8 +132,8 @@ std::vector<position> Api::mes_iles()
     std::vector<position> r;
     std::vector<position> i = game_state_->get_map()->get_islands();
     for (auto c : i)
-        if (game_state_->get_map()->get_cell(c)->get_player() == (int)
-                player_->id)
+        if (game_state_->get_map()->get_cell(c)->get_player() ==
+            (int)player_->id)
             r.push_back(c);
     return r;
 }
@@ -173,7 +172,8 @@ erreur Api::construire(bateau_type btype, position pos)
 }
 
 ///
-// Déplace le bateau représenté par l'identifiant ``id`` jusqu'à la position `pos`` (si elle est dans la portée du bateau)
+// Déplace le bateau représenté par l'identifiant ``id`` jusqu'à la position
+// `pos`` (si elle est dans la portée du bateau)
 //
 erreur Api::deplacer(int id, position pos)
 {
@@ -237,12 +237,13 @@ erreur Api::decharger(int id, int nb_or)
 }
 
 ///
-// Transfère ``montant`` or de la caravelle ``id_source`` à la caravelle ``id_dest``
+// Transfère ``montant`` or de la caravelle ``id_source`` à la caravelle
+// ``id_dest``
 //
 erreur Api::transferer(int montant, int id_source, int id_dest)
 {
-    rules::IAction_sptr action(new ActionTransfer(montant, id_source, id_dest,
-                player_->id));
+    rules::IAction_sptr action(
+        new ActionTransfer(montant, id_source, id_dest, player_->id));
 
     erreur err;
     if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
@@ -252,7 +253,6 @@ erreur Api::transferer(int montant, int id_source, int id_dest)
     game_state_set(action->apply(game_state()));
     return OK;
 }
-
 
 ///
 // Retourne le numéro de votre joueur
@@ -298,7 +298,6 @@ int Api::nombre_bateaux(int id_joueur)
         return 0;
     return game_state_->get_nb_boats(id_joueur);
 }
-
 
 ///
 // Return un dump JSON de l’état complet du jeu.

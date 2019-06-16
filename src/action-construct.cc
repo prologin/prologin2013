@@ -4,18 +4,12 @@
 #include "tools.hh"
 
 ActionConstruct::ActionConstruct(bateau_type btype, position pos, int player)
-    : btype_(btype),
-      pos_(pos),
-      player_id_(player)
-{
-}
+    : btype_(btype), pos_(pos), player_id_(player)
+{}
 
 ActionConstruct::ActionConstruct()
-    : btype_(BATEAU_ERREUR),
-      pos_({-1, -1}),
-      player_id_(-1)
-{
-}
+    : btype_(BATEAU_ERREUR), pos_({-1, -1}), player_id_(-1)
+{}
 
 int ActionConstruct::check(const GameState* st) const
 {

@@ -4,16 +4,10 @@
 #include "tools.hh"
 
 ActionColonize::ActionColonize(position pos, int player)
-    : pos_(pos),
-      player_id_(player)
-{
-}
+    : pos_(pos), player_id_(player)
+{}
 
-ActionColonize::ActionColonize()
-    : pos_({-1, -1}),
-      player_id_(-1)
-{
-}
+ActionColonize::ActionColonize() : pos_({-1, -1}), player_id_(-1) {}
 
 int ActionColonize::check(const GameState* st) const
 {
@@ -29,7 +23,7 @@ int ActionColonize::check(const GameState* st) const
 
     std::set<int> list_boats = island->get_id_boats();
     for (std::set<int>::iterator it = list_boats.begin();
-            it != list_boats.end(); it++)
+         it != list_boats.end(); it++)
     {
         bateau* boat = const_cast<GameState*>(st)->get_boat(*it);
         if (boat->btype == BATEAU_CARAVELLE && boat->joueur == player_id_)

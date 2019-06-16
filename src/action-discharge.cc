@@ -3,18 +3,10 @@
 #include "game.hh"
 
 ActionDischarge::ActionDischarge(int id_boat, int amount, int player)
-    : id_boat_(id_boat),
-      amount_(amount),
-      player_id_(player)
-{
-}
+    : id_boat_(id_boat), amount_(amount), player_id_(player)
+{}
 
-ActionDischarge::ActionDischarge()
-    : id_boat_(-1),
-      amount_(0),
-      player_id_(-1)
-{
-}
+ActionDischarge::ActionDischarge() : id_boat_(-1), amount_(0), player_id_(-1) {}
 
 int ActionDischarge::check(const GameState* st) const
 {
