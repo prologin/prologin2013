@@ -49,7 +49,7 @@ GameState::GameState(const GameState& st)
     nb_boats_.insert(st.nb_boats_.begin(), st.nb_boats_.end());
 }
 
-rules::GameState* GameState::copy() const
+GameState* GameState::copy() const
 {
     return new GameState(*this);
 }
@@ -114,7 +114,15 @@ bool GameState::add_boat(position origin, int player, bateau_type btype)
 
 bateau* GameState::get_boat(int id)
 {
-    std::map<int, bateau>::iterator it = boats_.find(id);
+    auto it = boats_.find(id);
+    if (it == boats_.end())
+        return NULL;
+    return &(it->second);
+}
+
+const bateau* GameState::get_boat(int id) const
+{
+    auto it = boats_.find(id);
     if (it == boats_.end())
         return NULL;
     return &(it->second);

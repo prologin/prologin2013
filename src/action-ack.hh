@@ -7,21 +7,21 @@
 #include "constant.hh"
 #include "game.hh"
 
-class ActionAck : public rules::Action<GameState>
+class ActionAck final : public rules::Action<GameState>
 {
 public:
     ActionAck(int player);
 
     ActionAck();
 
-    virtual int check(const GameState*) const { return 0; }
-    virtual void handle_buffer(utils::Buffer&);
+    int check(const GameState&) const override { return 0; }
+    void handle_buffer(utils::Buffer&) override;
 
-    uint32_t player_id() const { return player_; }
-    uint32_t id() const { return ID_ACTION_ACK; }
+    uint32_t player_id() const override { return player_; }
+    uint32_t id() const override { return ID_ACTION_ACK; }
 
 protected:
-    virtual void apply_on(GameState*) const {}
+    void apply_on(GameState*) const override {}
 
 protected:
     int player_;

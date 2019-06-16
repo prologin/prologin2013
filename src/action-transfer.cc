@@ -14,10 +14,10 @@ ActionTransfer::ActionTransfer()
     : id_source_(-1), id_dest_(-1), amount_(0), player_id_(-1)
 {}
 
-int ActionTransfer::check(const GameState* st) const
+int ActionTransfer::check(const GameState& st) const
 {
-    const bateau* source = const_cast<GameState*>(st)->get_boat(id_source_);
-    const bateau* dest = const_cast<GameState*>(st)->get_boat(id_dest_);
+    const bateau* source = st.get_boat(id_source_);
+    const bateau* dest = st.get_boat(id_dest_);
 
     if (!(source && dest))
         return ID_INVALIDE;

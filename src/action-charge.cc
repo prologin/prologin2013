@@ -8,15 +8,15 @@ ActionCharge::ActionCharge(int id_boat, int amount, int player)
 
 ActionCharge::ActionCharge() : id_boat_(-1), amount_(0), player_id_(-1) {}
 
-int ActionCharge::check(const GameState* st) const
+int ActionCharge::check(const GameState& st) const
 {
     Cell* island;
-    const bateau* boat = const_cast<GameState*>(st)->get_boat(id_boat_);
+    const bateau* boat = st.get_boat(id_boat_);
 
     if (boat == NULL)
         return ID_INVALIDE;
 
-    if (!(island = st->get_map()->get_cell(boat->pos)))
+    if (!(island = st.get_map()->get_cell(boat->pos)))
         return POSITION_INVALIDE;
 
     if (island->get_type() != TERRAIN_ILE &&
