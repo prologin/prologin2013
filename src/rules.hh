@@ -12,12 +12,11 @@ typedef void (*f_champion_partie_init)();
 typedef void (*f_champion_jouer_tour)();
 typedef void (*f_champion_partie_fin)();
 
-class Rules : public rules::TurnBasedRules
+class Rules final : public rules::TurnBasedRules
 {
 public:
     explicit Rules(const rules::Options opt);
     Rules(rules::Players_sptr players, Api* api);
-    virtual ~Rules();
 
     // Function executed at the start of the game
     virtual void at_start();
@@ -58,9 +57,8 @@ protected:
     f_champion_partie_fin champion_partie_fin;
 
 private:
-    utils::DLL* champion_;
-    Api* api_;
-
+    std::unique_ptr<utils::DLL> champion_;
+    std::unique_ptr<Api> api_;
     utils::Sandbox sandbox_;
 };
 

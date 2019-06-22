@@ -27,8 +27,8 @@
 // global used in interface.cc
 Api* api;
 
-Api::Api(GameState* game_state, rules::Player_sptr player)
-    : game_state_(game_state), player_(player)
+Api::Api(std::unique_ptr<GameState> game_state, rules::Player_sptr player)
+    : rules::Api<GameState, erreur>(std::move(game_state), player)
 {
     api = this;
 }
@@ -153,105 +153,6 @@ int Api::id_dernier_bateau_construit()
 int Api::distance(position depart, position arrivee)
 {
     return ::distance(depart, arrivee);
-}
-
-///
-// Construire un bateau de type ``btype`` sur l'île à la position ``pos``
-//
-erreur Api::construire(bateau_type btype, position pos)
-{
-    rules::IAction_sptr action(new ActionConstruct(btype, pos, player_->id));
-
-    erreur err;
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state()));
-    return OK;
-}
-
-///
-// Déplace le bateau représenté par l'identifiant ``id`` jusqu'à la position
-// `pos`` (si elle est dans la portée du bateau)
-//
-erreur Api::deplacer(int id, position pos)
-{
-    rules::IAction_sptr action(new ActionMove(id, pos, player_->id));
-
-    erreur err;
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state()));
-    return OK;
-}
-
-///
-// Colonise l'île à la position ``pos``
-//
-erreur Api::coloniser(position pos)
-{
-    rules::IAction_sptr action(new ActionColonize(pos, player_->id));
-
-    erreur err;
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state()));
-    return OK;
-}
-
-///
-// Charge la caravelle identifiée par ``id`` de ``nb_or`` d'or.
-//
-erreur Api::charger(int id, int nb_or)
-{
-    rules::IAction_sptr action(new ActionCharge(id, nb_or, player_->id));
-
-    erreur err;
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state()));
-    return OK;
-}
-
-///
-// Décharge la caravelle identifiée par ``id`` de ``nb_or`` d'or.
-//
-erreur Api::decharger(int id, int nb_or)
-{
-    rules::IAction_sptr action(new ActionDischarge(id, nb_or, player_->id));
-
-    erreur err;
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state()));
-    return OK;
-}
-
-///
-// Transfère ``montant`` or de la caravelle ``id_source`` à la caravelle
-// ``id_dest``
-//
-erreur Api::transferer(int montant, int id_source, int id_dest)
-{
-    rules::IAction_sptr action(
-        new ActionTransfer(montant, id_source, id_dest, player_->id));
-
-    erreur err;
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state()));
-    return OK;
 }
 
 ///

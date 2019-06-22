@@ -13,42 +13,30 @@
 #ifndef API_HH_
 #define API_HH_
 
-#include <rules/actions.hh>
-#include <rules/game-state.hh>
-#include <rules/player.hh>
 #include <vector>
 
+#include <rules/actions.hh>
+#include <rules/api.hh>
+#include <rules/game-state.hh>
+#include <rules/player.hh>
+
+#include "action-charge.hh"
+#include "action-colonize.hh"
+#include "action-construct.hh"
+#include "action-discharge.hh"
+#include "action-move.hh"
+#include "action-transfer.hh"
 #include "constant.hh"
 #include "game.hh"
 
 /*!
  ** Method of this call are called by the candidat, throught 'interface.cc'
  */
-class Api
+class Api final : public ::rules::Api<GameState, erreur>
 {
-
 public:
-    Api(GameState* game_state, rules::Player_sptr player);
-    virtual ~Api() {}
+    Api(std::unique_ptr<GameState> game_state, rules::Player_sptr player);
 
-    const rules::Player_sptr player() const { return player_; }
-    void player_set(rules::Player_sptr player) { player_ = player; }
-
-    rules::Actions* actions() { return &actions_; }
-
-    const GameState* game_state() const { return game_state_; }
-    GameState* game_state() { return game_state_; }
-    void game_state_set(rules::GameState* gs)
-    {
-        game_state_ = dynamic_cast<GameState*>(gs);
-    }
-
-private:
-    GameState* game_state_;
-    rules::Player_sptr player_;
-    rules::Actions actions_;
-
-public:
     ///
     // Retourne la nature du terrain désigné par ``pos``.
     //
@@ -102,29 +90,29 @@ public:
     // Construire un bateau de type ``btype`` sur l'île à la position
     // ``pos``
     //
-    erreur construire(bateau_type btype, position pos);
+    ApiActionFunc<ActionConstruct> construire{this};
     ///
     // Déplace le bateau représenté par l'identifiant ``id`` jusqu'à la
     // position `pos`` (si elle est dans la portée du bateau)
     //
-    erreur deplacer(int id, position pos);
+    ApiActionFunc<ActionMove> deplacer{this};
     ///
     // Colonise l'île à la position ``pos``
     //
-    erreur coloniser(position pos);
+    ApiActionFunc<ActionColonize> coloniser{this};
     ///
     // Charge la caravelle identifiée par ``id`` de ``nb_or`` d'or.
     //
-    erreur charger(int id, int nb_or);
+    ApiActionFunc<ActionCharge> charger{this};
     ///
     // Décharge la caravelle identifiée par ``id`` de ``nb_or`` d'or.
     //
-    erreur decharger(int id, int nb_or);
+    ApiActionFunc<ActionDischarge> decharger{this};
     ///
     // Transfère ``montant`` or de la caravelle ``id_source`` à la
     // caravelle ``id_dest``
     //
-    erreur transferer(int montant, int id_source, int id_dest);
+    ApiActionFunc<ActionTransfer> transferer{this};
     ///
     // Retourne le numéro de votre joueur
     //

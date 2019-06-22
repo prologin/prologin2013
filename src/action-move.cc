@@ -9,9 +9,9 @@ ActionMove::ActionMove(int id_boat, position dest, int player)
 
 ActionMove::ActionMove() : dest_({-1, -1}), id_boat_(-1), player_id_(-1) {}
 
-int ActionMove::check(const GameState* st) const
+int ActionMove::check(const GameState& st) const
 {
-    const bateau* boat = const_cast<GameState*>(st)->get_boat(id_boat_);
+    const bateau* boat = st.get_boat(id_boat_);
 
     if (boat == NULL)
         return ID_INVALIDE;
@@ -23,11 +23,11 @@ int ActionMove::check(const GameState* st) const
         return NON_DEPLACABLE;
 
     Cell* cell_o;
-    if (!(cell_o = st->get_map()->get_cell(boat->pos)))
+    if (!(cell_o = st.get_map()->get_cell(boat->pos)))
         return POSITION_INVALIDE;
 
     Cell* cell_d;
-    if (!(cell_d = st->get_map()->get_cell(dest_)))
+    if (!(cell_d = st.get_map()->get_cell(dest_)))
         return POSITION_INVALIDE;
 
     int max_move = 0;

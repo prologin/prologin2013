@@ -9,10 +9,10 @@ ActionColonize::ActionColonize(position pos, int player)
 
 ActionColonize::ActionColonize() : pos_({-1, -1}), player_id_(-1) {}
 
-int ActionColonize::check(const GameState* st) const
+int ActionColonize::check(const GameState& st) const
 {
     Cell* island;
-    if (!(island = st->get_map()->get_cell(pos_)))
+    if (!(island = st.get_map()->get_cell(pos_)))
         return POSITION_INVALIDE;
 
     if (island->get_type() != TERRAIN_ILE &&
@@ -25,7 +25,7 @@ int ActionColonize::check(const GameState* st) const
     for (std::set<int>::iterator it = list_boats.begin();
          it != list_boats.end(); it++)
     {
-        bateau* boat = const_cast<GameState*>(st)->get_boat(*it);
+        const auto& boat = st.get_boat(*it);
         if (boat->btype == BATEAU_CARAVELLE && boat->joueur == player_id_)
             return OK;
     }

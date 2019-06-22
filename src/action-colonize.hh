@@ -6,18 +6,18 @@
 #include "constant.hh"
 #include "game.hh"
 
-class ActionColonize : public rules::Action<GameState>
+class ActionColonize final : public rules::Action<GameState>
 {
 public:
     ActionColonize(position pos, int player);
     ActionColonize();
 
-    virtual int check(const GameState* st) const;
-    virtual void handle_buffer(utils::Buffer& buf);
-    virtual void apply_on(GameState* gameState) const;
+    int check(const GameState& st) const override;
+    void handle_buffer(utils::Buffer& buf) override;
+    void apply_on(GameState* gameState) const override;
 
-    uint32_t player_id() const { return player_id_; }
-    uint32_t id() const { return ID_ACTION_COLONIZE; }
+    uint32_t player_id() const override { return player_id_; }
+    uint32_t id() const override { return ID_ACTION_COLONIZE; }
 
 private:
     bateau_type btype_;

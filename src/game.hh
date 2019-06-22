@@ -25,8 +25,7 @@ class GameState : public rules::GameState
 {
 public:
     GameState(Map* map, rules::Players_sptr players);
-    GameState(const GameState& st);
-    virtual rules::GameState* copy() const;
+    GameState* copy() const;
     ~GameState();
 
     void init();
@@ -44,6 +43,7 @@ public:
 
     bool add_boat(position origin, int player, bateau_type btype);
     bateau* get_boat(int id);
+    const bateau* get_boat(int id) const;
 
     int get_last_id() const;
     int get_nb_boats(int player_id) const;
@@ -65,6 +65,8 @@ public:
     bool player_exists(int player_id);
 
 private:
+    GameState(const GameState& st);
+
     Map* map_;
     rules::Players_sptr players_;
     std::map<int, rules::Player_sptr> player_ids_;

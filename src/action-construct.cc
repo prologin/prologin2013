@@ -11,10 +11,10 @@ ActionConstruct::ActionConstruct()
     : btype_(BATEAU_ERREUR), pos_({-1, -1}), player_id_(-1)
 {}
 
-int ActionConstruct::check(const GameState* st) const
+int ActionConstruct::check(const GameState& st) const
 {
     Cell* island;
-    if (!(island = st->get_map()->get_cell(pos_)))
+    if (!(island = st.get_map()->get_cell(pos_)))
         return POSITION_INVALIDE;
     if (island->get_type() != TERRAIN_ILE)
         return ILE_INVALIDE;
@@ -26,7 +26,7 @@ int ActionConstruct::check(const GameState* st) const
     if (island->get_gold() < cost || btype_ == BATEAU_ERREUR)
         return OR_INSUFFISANT;
 
-    if (st->get_nb_boats(player_id_) >= LIMITE_BATEAUX)
+    if (st.get_nb_boats(player_id_) >= LIMITE_BATEAUX)
         return LIMITE_ATTEINTE;
 
     return OK;
