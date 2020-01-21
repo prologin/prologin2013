@@ -34,7 +34,7 @@ public:
     virtual rules::Actions* get_actions();
 
     // Apply an action to the game state
-    virtual void apply_action(const rules::IAction_sptr& action);
+    virtual void apply_action(const rules::IAction& action);
 
     // Player's turn: call the champion within a sandbox
     virtual void player_turn();

@@ -42,24 +42,23 @@ Rules::Rules(const rules::Options opt) : TurnBasedRules(opt), sandbox_(opt.time)
     }
 
     api_->actions()->register_action(
-        ID_ACTION_ACK, []() -> rules::IAction* { return new ActionAck(); });
-    api_->actions()->register_action(ID_ACTION_CHARGE, []() -> rules::IAction* {
-        return new ActionCharge();
+        ID_ACTION_ACK, []() { return std::make_unique<ActionAck>(); });
+    api_->actions()->register_action(
+        ID_ACTION_CHARGE, []() { return std::make_unique<ActionCharge>(); });
+    api_->actions()->register_action(ID_ACTION_COLONIZE, []() {
+        return std::make_unique<ActionColonize>();
+    });
+    api_->actions()->register_action(ID_ACTION_CONSTRUCT, []() {
+        return std::make_unique<ActionConstruct>();
+    });
+    api_->actions()->register_action(ID_ACTION_DISCHARGE, []() {
+        return std::make_unique<ActionDischarge>();
     });
     api_->actions()->register_action(
-        ID_ACTION_COLONIZE,
-        []() -> rules::IAction* { return new ActionColonize(); });
-    api_->actions()->register_action(
-        ID_ACTION_CONSTRUCT,
-        []() -> rules::IAction* { return new ActionConstruct(); });
-    api_->actions()->register_action(
-        ID_ACTION_DISCHARGE,
-        []() -> rules::IAction* { return new ActionDischarge(); });
-    api_->actions()->register_action(
-        ID_ACTION_MOVE, []() -> rules::IAction* { return new ActionMove(); });
-    api_->actions()->register_action(
-        ID_ACTION_TRANSFER,
-        []() -> rules::IAction* { return new ActionTransfer(); });
+        ID_ACTION_MOVE, []() { return std::make_unique<ActionMove>(); });
+    api_->actions()->register_action(ID_ACTION_TRANSFER, []() {
+        return std::make_unique<ActionTransfer>();
+    });
 }
 
 void Rules::at_start()
@@ -97,7 +96,7 @@ rules::Actions* Rules::get_actions()
     return api_->actions();
 }
 
-void Rules::apply_action(const rules::IAction_sptr& action)
+void Rules::apply_action(const rules::IAction& action)
 {
     // When receiving an action, the API should have already checked that it
     // is valid. We recheck that for the current gamestate here to avoid weird
@@ -107,7 +106,7 @@ void Rules::apply_action(const rules::IAction_sptr& action)
     if (err)
         FATAL("Synchronization error: received action %d from player %d, but "
               "check() on current gamestate returned %d.",
-              action->id(), action->player_id(), err);
+              action.id(), action.player_id(), err);
 
     api_->game_state_apply(action);
 }
@@ -120,8 +119,7 @@ void Rules::player_turn()
 void Rules::spectator_turn()
 {
     champion_jouer_tour();
-    api_->actions()->add(
-        rules::IAction_sptr(new ActionAck(api_->player()->id)));
+    api_->actions()->add(std::make_unique<ActionAck>(api_->player()->id));
 }
 
 void Rules::end_of_player_turn(uint32_t player_id)
