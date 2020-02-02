@@ -8,18 +8,18 @@
 #include "game.hh"
 #include "map.hh"
 
-GameState::GameState(Map* map, rules::Players_sptr players)
+GameState::GameState(Map* map, const rules::Players& players)
     : rules::GameState()
     , map_(map)
     , players_(players)
     , current_round_(0)
     , boat_next_id_(0)
 {
-    for (auto& p : players_->players)
-        if (p->type == rules::PLAYER)
+    for (auto& player : players_)
+        if (player->type == rules::PLAYER)
         {
-            player_ids_[p->id] = p;
-            nb_boats_[p->id] = 0;
+            player_ids_[player->id] = player;
+            nb_boats_[player->id] = 0;
         }
 
     int i = 0;
@@ -78,9 +78,9 @@ int GameState::get_score(int player_id) const
 
 int GameState::get_opponent(int player_id) const
 {
-    for (auto i : players_->players)
-        if ((int)i->id != player_id)
-            return i->id;
+    for (const auto& player : players_)
+        if (static_cast<int>(player->id) != player_id)
+            return player->id;
     return -1;
 }
 
@@ -242,7 +242,7 @@ void GameState::resolve_score(position pos)
 
 void GameState::resolve_all_scores()
 {
-    for (auto& i : players_->players)
+    for (const auto& i : players_)
         i->score = 0;
     for (int x = 0; x < TAILLE_TERRAIN; x++)
         for (int y = 0; y < TAILLE_TERRAIN; y++)

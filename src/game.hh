@@ -24,7 +24,7 @@ enum action_id
 class GameState : public rules::GameState
 {
 public:
-    GameState(Map* map, rules::Players_sptr players);
+    GameState(Map* map, const rules::Players& players);
     GameState* copy() const;
     ~GameState();
 
@@ -58,7 +58,7 @@ public:
     void update_boats();
 
     /* Accessors used by the dumper. */
-    rules::Players_sptr get_players() const { return players_; }
+    const rules::Players get_players() const { return players_; }
 
     const std::map<int, bateau>& get_boats() const { return boats_; }
 
@@ -68,8 +68,8 @@ private:
     GameState(const GameState& st);
 
     Map* map_;
-    rules::Players_sptr players_;
-    std::map<int, rules::Player_sptr> player_ids_;
+    rules::Players players_;
+    std::map<int, std::shared_ptr<rules::Player>> player_ids_;
     int current_round_;
 
     int boat_next_id_;

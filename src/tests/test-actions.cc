@@ -61,11 +61,9 @@ protected:
         if (map_->load(f))
             FAIL() << "Map::load() failed";
 
-        rules::Players_sptr players(
-            new rules::Players{std::vector<rules::Player_sptr>{
-                rules::Player_sptr(new rules::Player(0, 0)),
-                rules::Player_sptr(new rules::Player(1, 0)),
-            }});
+        rules::Players players;
+        players.add(std::make_shared<rules::Player>(0, rules::PLAYER));
+        players.add(std::make_shared<rules::Player>(1, rules::PLAYER));
 
         st = new GameState(map_, players);
         st->init();

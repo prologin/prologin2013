@@ -16,7 +16,7 @@ class Rules final : public rules::TurnBasedRules
 {
 public:
     explicit Rules(const rules::Options opt);
-    Rules(rules::Players_sptr players, Api* api);
+    Rules(const rules::Players& players, Api* api);
 
     // Function executed at the start of the game
     virtual void at_start();
