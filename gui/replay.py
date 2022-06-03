@@ -1,4 +1,4 @@
-#! /usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import gzip
@@ -17,6 +17,7 @@ try:
     filename = settings.args[0]
 except IndexError:
     logs.write('Error: a file is needed.')
+    sys.exit(1)
 
 if filename.endswith('.gz'):
     dump_file = gzip.open(filename, 'r')

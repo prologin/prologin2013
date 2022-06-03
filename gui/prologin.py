@@ -6,12 +6,11 @@
 import threading
 
 import pygame
-pygame.init()
 
 from api import *
 import settings
 import state_reader
-import window
+from window import Window
 
 try:
     import psyco
@@ -22,10 +21,14 @@ except:
 settings.load(['champion.so'])
 
 state_reader = state_reader.StechecReader()
-window = window.Window(state_reader)
-gfx_thread = threading.Thread(target=window.run)
+
+def run_pygame():
+    pygame.init()
+    window = Window(state_reader)
+    window.run()
 
 def partie_init():
+    gfx_thread = threading.Thread(target=run_pygame)
     gfx_thread.start()
 
 def jouer_tour():

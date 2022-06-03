@@ -2,7 +2,7 @@
 
 import json
 import threading
-import Queue as queue
+import queue
 
 from api import *
 
